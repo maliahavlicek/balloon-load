@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <script data-ezscrex='false' data-cfasync='false' data-pagespeed-no-defer>var __ez = __ez || {};
+    __ez.stms = Date.now();
+    __ez.evt = {};
+    __ez.script = {};
+    __ez.ck = __ez.ck || {};
+    __ez.template = {};
+    __ez.template.isOrig = false;
+    __ez.queue = function () {
+        var e = 0, i = 0, n = [], t = !1, r = [], s = [], o = !0, a = function (e, i, t, r, s, o, a) {
+            var l = this;
+            this.name = e, this.funcName = i, this.parameters = null === t ? null : t instanceof Array ? t : [t], this.isBlock = r, this.blockedBy = s, this.deleteWhenComplete = o, this.isError = !1, this.isComplete = !1, this.isInitialized = !1, this.proceedIfError = a, this.isTimeDelay = !1, this.process = function () {
+                f("... func = " + e), l.isInitialized = !0, l.isComplete = !0, f("... func.apply: " + e);
+                var i = l.funcName.split("."), t = null;
+                i.length > 3 || (t = 3 === i.length ? window[i[0]][i[1]][i[2]] : 2 === i.length ? window[i[0]][i[1]] : window[l.funcName]), null != t && t.apply(null, this.parameters), !0 === l.deleteWhenComplete && delete n[e], !0 === l.isBlock && (f("----- F'D: " + l.name), m())
+            }
+        }, l = function (e, i, n, t, r, s, o) {
+            var a = this;
+            this.name = e, this.path = i, this.async = r, this.defer = s, this.isBlock = n, this.blockedBy = t, this.isInitialized = !1, this.isError = !1, this.isComplete = !1, this.proceedIfError = o, this.isTimeDelay = !1, this.process = function () {
+                a.isInitialized = !0, f("... file = " + e);
+                var n = document.createElement("script");
+                n.src = i, !0 === r ? n.async = !0 : !0 === s && (n.defer = !0), n.onerror = function () {
+                    f("----- ERR'D: " + a.name), a.isError = !0, !0 === a.isBlock && m()
+                }, n.onreadystatechange = n.onload = function () {
+                    var e = n.readyState;
+                    f("----- F'D: " + a.name), e && !/loaded|complete/.test(e) || (a.isComplete = !0, !0 === a.isBlock && m())
+                }, document.getElementsByTagName("head")[0].appendChild(n)
+            }
+        }, c = function (e, i) {
+            this.name = e, this.path = "", this.async = !1, this.defer = !1, this.isBlock = !1, this.blockedBy = [], this.isInitialized = !0, this.isError = !1, this.isComplete = i, this.proceedIfError = !1, this.isTimeDelay = !1, this.process = function () {
+            }
+        };
+
+        function d(e) {
+            !0 !== h(e) && 0 != o && e.process()
+        }
+
+        function h(e) {
+            if (!0 === e.isTimeDelay && !1 === t) return f(e.name + " blocked = TIME DELAY!"), !0;
+            if (e.blockedBy instanceof Array) for (var i = 0; i < e.blockedBy.length; i++) {
+                var r = e.blockedBy[i];
+                if (!1 === n.hasOwnProperty(r)) return f(e.name + " blocked = " + r), !0;
+                if (!0 === e.proceedIfError && !0 === n[r].isError) return !1;
+                if (!1 === n[r].isComplete) return f(e.name + " blocked = " + r), !0
+            }
+            return !1
+        }
+
+        function f(e) {
+            var i = window.location.href, n = new RegExp("[?&]ezq=([^&#]*)", "i").exec(i);
+            "1" === (n ? n[1] : null) && console.debug(e)
+        }
+
+        function m() {
+            ++e > 200 || (f("let's go"), u(r), u(s))
+        }
+
+        function u(e) {
+            for (var i in e) if (!1 !== e.hasOwnProperty(i)) {
+                var n = e[i];
+                !0 === n.isComplete || h(n) || !0 === n.isInitialized || !0 === n.isError ? !0 === n.isError ? f(n.name + ": error") : !0 === n.isComplete ? f(n.name + ": complete already") : !0 === n.isInitialized && f(n.name + ": initialized already") : n.process()
+            }
+        }
+
+        return window.addEventListener("load", (function () {
+            setTimeout((function () {
+                t = !0, f("TDELAY -----"), m()
+            }), 5e3)
+        }), !1), {
+            addFile: function (e, i, t, o, a, c, h, f) {
+                var m = new l(e, i, t, o, a, c, h);
+                !0 === f ? r[e] = m : s[e] = m, n[e] = m, d(m)
+            }, addDelayFile: function (e, i) {
+                var t = new l(e, i, !1, [], !1, !1, !0);
+                t.isTimeDelay = !0, f(e + " ...  FILE! TDELAY"), s[e] = t, n[e] = t, d(t)
+            }, addFunc: function (e, t, o, l, c, h, f, m, u) {
+                !0 === h && (e = e + "_" + i++);
+                var p = new a(e, t, o, l, c, f, m);
+                !0 === u ? r[e] = p : s[e] = p, n[e] = p, d(p)
+            }, addDelayFunc: function (e, i, t) {
+                var r = new a(e, i, t, !1, [], !0, !0);
+                r.isTimeDelay = !0, f(e + " ...  FUNCTION! TDELAY"), s[e] = r, n[e] = r, d(r)
+            }, items: n, processAll: m, setallowLoad: function (e) {
+                o = e
+            }, markLoaded: function (e) {
+                if (e && 0 !== e.length) {
+                    if (e in n) {
+                        var i = n[e];
+                        !0 === i.isComplete ? f(i.name + " " + e + ": error loaded duplicate") : (i.isComplete = !0, i.isInitialized = !0)
+                    } else n[e] = new c(e, !0);
+                    f("markLoaded dummyfile: " + n[e].name)
+                }
+            }, logWhatsBlocked: function () {
+                for (var e in n) !1 !== n.hasOwnProperty(e) && h(n[e])
+            }
+        }
+    }();
+    __ez.evt.add = function (e, t, n) {
+        e.addEventListener ? e.addEventListener(t, n, !1) : e.attachEvent ? e.attachEvent("on" + t, n) : e["on" + t] = n()
+    }, __ez.evt.remove = function (e, t, n) {
+        e.removeEventListener ? e.removeEventListener(t, n, !1) : e.detachEvent ? e.detachEvent("on" + t, n) : delete e["on" + t]
+    };
+    __ez.script.add = function (e) {
+        var t = document.createElement("script");
+        t.src = e, t.async = !0, t.type = "text/javascript", document.getElementsByTagName("head")[0].appendChild(t)
+    };
+    __ez.dot = {};</script>
+    <script>window.ezslots_raw = [];
+    var __sellerid = 'cffe815045881b69d77716689899ef83';
+    var __schain_domain = 'cssscript.com';
+    var __ez_nid = '1254144';
+    __advertiserRule = [''];
+    var ezasVars = {'cid': '9110299141', 'pid': 'pub-2783044520727903', 'ssid': 44};
+    window.google_reactive_ads_global_state = {
+        adCount: {},
+        floatingAdsStacking: {maxZIndexListeners: [], maxZIndexRestrictions: {}, nextRestrictionId: 0},
+        messageValidationEnabled: false,
+        reactiveTypeDisabledByPublisher: {},
+        reactiveTypeEnabledInAsfe: {},
+        sideRailAvailableSpace: [],
+        sideRailOverlappableElements: [],
+        stateForType: {},
+        tagSpecificState: {},
+        wasPlaTagProcessed: true,
+        wasReactiveAdConfigReceived: {1: true, 2: true, 8: true},
+        wasReactiveAdVisible: {},
+        wasReactiveTagRequestSent: true,
+        description: "Can't disable auto ads programmatically on the page, so here we are!"
+    };
+    !function () {
+        window.ezasvEvent = function (e, t) {
+            if (!0 === e[0].isIntersecting) {
+                var i = e[0].target.attributes[0].value.substr(0, e[0].target.attributes[0].value.length - 9);
+                window.ezoSTPixelAdd(i, "viewed", 1), t.disconnect()
+            }
+        }, window.ezaslEvent = function (e, t) {
+            if (void 0 !== e[0].target.attributes["data-ad-status"]) {
+                var i = e[0].target.attributes["data-ad-status"].value,
+                    o = e[0].target.attributes[0].value.substr(0, e[0].target.attributes[0].value.length - 9);
+                "filled" == i && (window.ezoSTPixelAdd(o, "loaded", 1), new IntersectionObserver(window.ezasvEvent, {threshold: [1]}).observe(document.getElementById(o + "-asloaded"))), "unfilled" == i && setTimeout((function () {
+                    window.ezoAdBackFill(e)
+                }), 2e3), t.disconnect()
+            }
+        }, window.ezoAdBackFill = function (e) {
+            var t = e[0].target, i = t.parentElement;
+            t.style.display = "none !important";
+            var o, n = ezoGetSlotNum(i.id);
+            if (o = void 0 !== __ez.fads ? __ez.fads.initslots[i.id] : __ez_fad_initslot[i.id], void 0 === n && "function" == typeof o && (n = o(6)), void 0 !== n) var d = window[n];
+            if (void 0 !== d) {
+                d.setTargeting("compid", "0"), d.setTargeting("bkfl", "1"), d.setTargeting("reft", "t");
+                var a = d.getTargeting("br2")[0];
+                void 0 !== window.ezobfh && void 0 !== window.ezobfh[a] && (d.setTargeting("br1", a), d.setTargeting("eb_br", window.ezobfh[a])), googletag.display(d), setTimeout((function () {
+                    googletag.pubads().refresh([d])
+                }), 500)
+            }
+        }, window.ezoSTPixels = [];
+        var e = setInterval((function () {
+            "undefined" != typeof __ez && "undefined" != typeof __ezDotData && "undefined" != typeof ezslots && window.ezslots_raw.length > 0 && (window.ezoSTPixelFire(), clearInterval(e))
+        }), 250);
+        window.ezoSTPixelAdd = function (e, t, i) {
+            window.ezoSTPixels.push({id: e, name: t, value: i}), window.ezoSTPixelFire()
+        }, window.ezoGetSlotById = function (e) {
+            var t = e.split("div-gpt-ad-")[1].split("-", 3).join("-");
+            for (s in window.ezslots_raw) if (window.ezslots_raw[s].tap.includes(t)) return window.ezslots_raw[s]
+        }, window.ezoGetSlotNum = function (e) {
+            if (void 0 !== window.ezslots && 0 != window.ezslots) for (var t = 0; t < window.ezslots.length; t++) {
+                var i = window[ezslots[t]];
+                if (void 0 !== i) {
+                    var o = i.getSlotElementId();
+                    if (void 0 !== o && o == e) return ezslots[t]
+                }
+            }
+        }, window.ezoSTPixelFire = function () {
+            if ("undefined" != typeof __ez && "undefined" != typeof __ezDotData && "undefined" != typeof ezslots && window.ezslots_raw.length > 0) for (; window.ezoSTPixels.length > 0;) {
+                var e = window.ezoSTPixels.shift(), t = window.ezoGetSlotById(e.id);
+                if (void 0 === t) return void window.ezoSTPixels.push(e);
+                var i = [{
+                    type: "impression",
+                    impression_id: t.eid,
+                    domain_id: window.did.toString(),
+                    unit: e.id,
+                    t_epoch: __ez.dot.getEpoch(0),
+                    ad_position: parseInt(t.ap),
+                    country_code: __ez.dot.getCC(),
+                    pageview_id: __ez.dot.getPageviewId(),
+                    comp_id: 1,
+                    data: __ez.dot.dataToStr([new __ezDotData(e.name, e.value.toString())]),
+                    is_orig: 0
+                }], o = __ez.dot.getURL("/porpoiseant/army.gif") + "?orig=0&sts=" + btoa(JSON.stringify(i));
+                __ez.dot.Fire(o)
+            }
+        }
+    }();</script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" crossorigin="anonymous"></script>
+    <script>window.ezhbopt = true;</script>
+    <script>window.ezpbCache = true;</script>
+    <link href="//ad.doubleclick.net" rel="dns-prefetch">
+    <link href="//pagead2.googlesyndication.com" rel="dns-prefetch">
+    <link href="//googleads.g.doubleclick.net" rel="dns-prefetch">
+    <link href="//tpc.googlesyndication.com" rel="dns-prefetch">
+    <link href="//adservice.google.com" rel="dns-prefetch">
+    <link href="//secureads.g.doubleclick.net" rel="dns-prefetch">
+    <link href="//www.googletagservices.com" rel="dns-prefetch">
+    <link rel='preload' as='script' href='//securepubads.g.doubleclick.net/tag/js/gpt.js'>
+    <link rel='preload' as='script'
+          href='//go.ezodn.com/hb/dall.js?b=amx,criteo,ix,medianet,onemobile,onetag,pubmatic,pulsepoint,rubicon&cb=195-0-45'
+          onerror="window.ezDallErr=true">
+    <script type="text/javascript">
+        var __banger_pmp_deals = function () {
+            var d = {
+                17: {"DealId": 17, "Floor": 160},
+                18: {"DealId": 18, "Floor": 25},
+                19: {"DealId": 19, "Floor": 100},
+                20: {"DealId": 20, "Floor": 300},
+                1428: {"DealId": 1428, "Floor": 25},
+                2310: {"DealId": 2310, "Floor": 400},
+                2339: {"DealId": 2339, "Floor": 800},
+                2351: {"DealId": 2351, "Floor": 155},
+                2526: {"DealId": 2526, "Floor": 300},
+                2527: {"DealId": 2527, "Floor": 300},
+                2610: {"DealId": 2610, "Floor": 125},
+                2688: {"DealId": 2688, "Floor": 100},
+                2693: {"DealId": 2693, "Floor": 50},
+                2761: {"DealId": 2761, "Floor": 200},
+                2763: {"DealId": 2763, "Floor": 250},
+                2764: {"DealId": 2764, "Floor": 325},
+                2765: {"DealId": 2765, "Floor": 400},
+                3044: {"DealId": 3044, "Floor": 175},
+                3045: {"DealId": 3045, "Floor": 75},
+                3052: {"DealId": 3052, "Floor": 20},
+                3053: {"DealId": 3053, "Floor": 37},
+                3054: {"DealId": 3054, "Floor": 555},
+                3154: {"DealId": 3154, "Floor": 275},
+                3455: {"DealId": 3455, "Floor": 475},
+                3456: {"DealId": 3456, "Floor": 525},
+                3457: {"DealId": 3457, "Floor": 600},
+                3682: {"DealId": 3682, "Floor": 650},
+                3683: {"DealId": 3683, "Floor": 1000},
+                3684: {"DealId": 3684, "Floor": 375},
+                3856: {"DealId": 3856, "Floor": 15},
+                7: {"DealId": 7, "Floor": 150},
+                8: {"DealId": 8, "Floor": 200},
+                9: {"DealId": 9, "Floor": 300},
+                10: {"DealId": 10, "Floor": 400},
+                11: {"DealId": 11, "Floor": 500},
+                12: {"DealId": 12, "Floor": 600},
+                13: {"DealId": 13, "Floor": 700},
+                14: {"DealId": 14, "Floor": 800},
+                15: {"DealId": 15, "Floor": 1000},
+                916: {"DealId": 916, "Floor": 95},
+                915: {"DealId": 915, "Floor": 150},
+                874: {"DealId": 874, "Floor": 200},
+                835: {"DealId": 835, "Floor": 200},
+                21: {"DealId": 21, "Floor": 2000},
+                22: {"DealId": 22, "Floor": 2500},
+                23: {"DealId": 23, "Floor": 3000},
+                3458: {"DealId": 3458, "Floor": 1500},
+                3460: {"DealId": 3460, "Floor": 2500},
+                16: {"DealId": 16, "Floor": 1500}
+            };
+            return [{
+                "SlotName": "/1254144,22674802697/cssscript_com-box-3",
+                "Deals": [d[17], d[18], d[19], d[20], d[1428], d[2310], d[2339], d[2351], d[2526], d[2527], d[2610], d[2688], d[2693], d[2761], d[2763], d[2764], d[2765], d[3044], d[3045], d[3052], d[3053], d[3054], d[3154], d[3455], d[3456], d[3457], d[3682], d[3683], d[3684], d[3856], d[7], d[8], d[9], d[10], d[11], d[12], d[13], d[14], d[15], d[916], d[915], d[874], d[835]]
+            }, {
+                "SlotName": "/1254144,22674802697/cssscript_com-medrectangle-3",
+                "Deals": [d[17], d[18], d[19], d[20], d[21], d[22], d[23], d[1428], d[2310], d[2339], d[2351], d[2526], d[2527], d[2610], d[2688], d[2693], d[2761], d[2763], d[2764], d[2765], d[3044], d[3045], d[3052], d[3053], d[3054], d[3154], d[3455], d[3456], d[3457], d[3458], d[3460], d[3682], d[3683], d[3684], d[3856], d[7], d[8], d[9], d[10], d[11], d[12], d[13], d[14], d[15], d[16], d[916], d[915], d[874], d[835]]
+            }]
+        }();
+    </script>
+    <script type='text/javascript'>_ebcids = [138231308856, 138231308940, 138231308949, 138231387842, 138231421744, 138231421759, 138231421774, 138231421783, 138231421789, 138231421792, 138242067587, 138242067590, 138242067602, 138242067605, 138242067608, 138242067614, 138242229406, 138242229415, 138242229421, 138242229430];</script>
+    <script data-ezscrex="false" data-cfasync="false" data-pagespeed-no-defer
+            type='text/javascript'>ezobv = 153;</script>
+    <script data-ezscrex="false" data-cfasync="false" data-pagespeed-no-defer
+            type='text/javascript'>function ez_isclean(data) {
+        if (typeof data === 'undefined') {
+            data = document.URL;
+        }
+        var re = /(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))(@|%2540|%40)((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/;
+        var isClean = !re.test(data);
+        return isClean;
+    }
+
+    var ezSlotKVStore = {};
+
+    function ezSetSlotTargeting(divid, key, value) {
+        var slot = ezGetSlotById(divid);
+        if (slot) {
+            slot.setTargeting(key, value);
+        } else {
+            if (typeof ezSlotKVStore[divid] == 'undefined') {
+                ezSlotKVStore[divid] = {};
+            }
+            ezSlotKVStore[divid][key] = value;
+        }
+    }
+
+    function ezGetSlotById(id) {
+        if (typeof window.ezslots === 'undefined' || window.ezslots == 0) {
+            return;
+        }
+        for (var i = 0; i < window.ezslots.length; i++) {
+            var slot = window[ezslots[i]];
+            if (typeof slot === 'undefined') {
+                continue;
+            }
+            var slotId = slot.getSlotElementId();
+            if (typeof slotId !== 'undefined' && slotId == id) {
+                return slot;
+            }
+        }
+    }
+
+    function ezSetTargetingFromMap(slot, obj) {
+        if (typeof slot === 'undefined') {
+            return;
+        }
+        for (var key in obj) {
+            if (!obj.hasOwnProperty(key)) {
+                continue;
+            }
+            slot.setTargeting(key, obj[key]);
+        }
+    }
+
+    var ez_queue = new Array();
+
+    function sort_queue(a, b) {
+        if (a.priority < b.priority) return -1; else if (a.priority == b.priority) return 0; else return 1;
+    }
+
+    function execute_ez_queue() {
+        ez_queue.sort(sort_queue);
+        for (var i in ez_queue) {
+            if (typeof ez_queue[i].method != "undefined") {
+                try {
+                    ez_queue[i].method.call(null);
+                } catch (err) {
+                }
+            }
+        }
+    }
+
+    window.ez_ad_units = new Array();
+    window.ezslots = new Array();
+    window.ezsrqt = {};
+
+    function ez_write_tag(d) {
+        if (ez_isclean() && d instanceof Array) {
+            if (typeof ezstandalone !== 'undefined' && typeof ezstandalone.selectedPlaceholders !== 'undefined' && ezstandalone.selectedPlaceholders[d[3]] === true) {
+                return "1+1";
+            }
+            if (typeof ezstandaloneForAll !== 'undefined' && typeof ezstandaloneForAll.selectedPlaceholders !== 'undefined' && ezstandaloneForAll.selectedPlaceholders[d[3]] === true) {
+                return "1+1";
+            }
+            ez_ad_units[ez_ad_units.length] = d;
+            var dve = "";
+            if (typeof d[5] != 'undefined' && d[5] > 0) {
+                dve = '_' + d[5];
+            }
+            var ezcmd = "googletag.cmd.push(function() {var divid = 'div-gpt-ad-" + d[1] + "-" + d[4] + "" + dve + "';if(typeof ezlrarn == 'function'){ezlrarn(divid);}googletag.display(divid);var to = 0;if(" + d[2] + ".getTargeting('ga')[0] == '0'){to = 500;}if((window.ezDisableInitialLoad==true || googletag.pubads().isInitialLoadDisabled()) && window.ezoll != true){setTimeout(function(){if(typeof window.adjustHbValues == 'function'){window.adjustHbValues(" + d[2] + ");}if(typeof window.ezasBuild == 'function' && window.ezasBuild(" + d[2] + ")){return;}googletag.pubads().refresh([" + d[2] + "])},to);}});";
+            return ezcmd;
+        }
+        return "1+1";
+    }
+
+    function in_array(needle, haystack) {
+        var length = haystack.length;
+        for (var i = 0; i < length; i++) {
+            if (haystack[i] == needle) return true;
+        }
+        return false;
+    }
+
+    var ezrpos = new Array();
+    var ez_current_interval;
+    var ez_current_load = 0;
+
+    function __ez_fad_load(n, r, force) {
+        if (!force && (!__ez_fad_csnt() || !__ez_fad_rdy() || ezslit_run[n] === true || typeof __ez_fad_divs[n] === 'undefined' || __ez_fad_divs[n].length === 0)) {
+            return;
+        }
+        ezslit_run[n] = true;
+        __ez_fad_gpt();
+        if (n > 0 && n !== 5) {
+            __ez_fad_pb();
+        }
+        googletag.cmd.push(function () {
+            var s = [];
+            for (var i = 0; i < __ez_fad_divs[n].length; i++) {
+                if (__ez_fad_divsd.indexOf(__ez_fad_divs[n][i]) == -1) {
+                    __ez_fad_divsd.push(__ez_fad_divs[n][i]);
+                    s.push(__ez_fad_initslot[__ez_fad_divs[n][i]](r));
+                    googletag.display(__ez_fad_divs[n][i]);
+                }
+            }
+            var ws = [];
+            for (i3 = 0; i3 < s.length; i3++) {
+                var slot = window[s[i3]];
+                if (typeof window.ezasBuild === 'function') {
+                    if (window.ezasBuild(slot)) {
+                        continue;
+                    }
+                }
+                if (typeof window.adjustHbValues === 'function') {
+                    window.adjustHbValues(slot);
+                }
+                ws.push(slot);
+            }
+            if (ws.length > 0) {
+                googletag.pubads().refresh(ws);
+            }
+            setTimeout(__ez_fad_floatshow, 0);
+        });
+        if (n === 0) {
+            if (document.readyState === "complete") {
+                googletag.cmd.push(function () {
+                    __ez_fad_load(5, null);
+                });
+                setTimeout(function () {
+                    __ez_fad_load(1, null);
+                    __ez_fad_load(5, null);
+                }, 5500);
+                return;
+            }
+            document.addEventListener('DOMContentLoaded', function (evt) {
+                googletag.cmd.push(function () {
+                    __ez_fad_load(5, null);
+                });
+                setTimeout(function () {
+                    __ez_fad_load(1, null);
+                    __ez_fad_load(5, null);
+                }, 5500);
+            }, false);
+        }
+    }
+
+    var __ez_fad_floatshowd = false;
+
+    function __ez_fad_floatshow(d) {
+        if (__ez_fad_floatshowd === true || typeof __ez_fad_floating === 'undefined') {
+            return;
+        }
+        __ez_fad_floatshowd = true;
+        var e = document.getElementById('ezmobfooter');
+        if (e != null) {
+            e.classList.add('ezmobtrans');
+        } else {
+            head = document.head || document.getElementsByTagName('head')[0], style = document.createElement('style');
+            head.appendChild(style);
+            var css = "body > #ezmobfooter{bottom:0px;visibility:visible;}";
+            style.type = 'text/css';
+            if (style.styleSheet) {
+                style.styleSheet.cssText = css;
+            } else {
+                style.appendChild(document.createTextNode(css));
+            }
+        }
+        googletag.cmd.push(function () {
+            for (var i = 0; i < __ez_fad_floating.length; i++) {
+                var s = __ez_fad_initslot[__ez_fad_floating[i]](null);
+                googletag.display(__ez_fad_floating[i]);
+                if (typeof window.adjustHbValues === 'function') {
+                    window.adjustHbValues(window[s]);
+                }
+                googletag.pubads().refresh([window[s]]);
+            }
+        });
+    }
+
+    var __ez_fad_initslot = {};
+    var __ez_fad_fastd = [];
+    var __ez_fad_fastdiv = [];
+    var __ez_fad_fastslots = [];
+    var __ez_fad_viewslots = [];
+    var __ez_fad_instaslots = [];
+    var ezslit_run = [];
+    var __ez_fad_divs = [[], [], [], [], [], [], []];
+    __ez_fad_divpos = {};
+    var __ez_fad_divsd = [];
+    var __ez_fad_vw = window.screen.width;
+    var __ez_fad_vh = window.screen.height;
+    var __ez_fad_count = 0;
+
+    function __ez_fad_invisible(e) {
+        !!(e.offsetWidth || e.offsetHeight || e.getClientRects().length)
+    }
+
+    function __ez_fad_position(id) {
+        var did = document.getElementById(id);
+        if (did === null) {
+            return;
+        }
+        var rect = did.getBoundingClientRect();
+        var vs = window.scrollY || document.body.scrollTop || document.documentElement.scrollTop;
+        var vh = vs + __ez_fad_vh;
+        _ez_fad_vw = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        __ez_fad_vh = window.innerHeight || Math.max(document.documentElement.clientHeight, document.body.clientHeight);
+        var height_adjust = 800;
+        if (__ez_fad_vw < 1200) {
+            height_adjust = __ez_fad_vh * 1.25;
+            vh += 0;
+        }
+        if (__ez_fad_floating.indexOf(id) !== -1) {
+            __ez_fad_load(6, null, true);
+            return;
+        }
+        __ez_fad_divpos[id] = rect.top;
+        if (__ez_fad_invisible(did) && isFloat != true) {
+            __ez_fad_add(4, id);
+        } else if (rect.top < vh && (ezslit_run[0] != true || ezslit_run[5] != true)) {
+            if (ezslit_run[0] != true) {
+                __ez_fad_gpt();
+                __ez_fad_add(0, id);
+            } else {
+                __ez_fad_add(5, id);
+            }
+        } else if (rect.top < (vh + height_adjust) && ezslit_run[1] != true) {
+            if (ezslit_run[0] != true) {
+                __ez_fad_load(0, 0);
+            }
+            ;__ez_fad_add(1, id);
+        } else if (rect.top < (vh + height_adjust + (__ez_fad_vh)) && ezslit_run[2] != true) {
+            if (ezslit_run[0] != true) {
+                __ez_fad_load(0, 0);
+            }
+            __ez_fad_add(2, id);
+        } else {
+            if (ezslit_run[0] != true) {
+                __ez_fad_load(0, 0);
+            }
+            __ez_fad_add(3, id);
+        }
+        __ez_fad_count++;
+    }
+
+    function __ez_fad_add(d, id) {
+        __ez_fad_divs[d].push(id);
+        if (ezslit_run[d] === true) {
+            ezslit_run[d] = false;
+        }
+        if (typeof __ez_fad_scrollmond !== 'undefined' && __ez_fad_scrollmond === true) {
+            __ez_fad_scrollmond = false;
+            setTimeout(__ez_fad_scrollmon, 500);
+        }
+    }
+
+    function __ez_fad_fast(s, f, m) {
+        if (__ez_fad_fastd.indexOf(s) == -1) {
+            __ez_fad_fastd.push(s);
+            var ebbr2 = 'empty';
+            var br2 = 0;
+            if (typeof ezoibfh[f] != 'undefined') {
+                ebbr2 = ezoibfh[f];
+                br2 = f;
+            }
+            if (typeof window['ezslot_' + s] != 'undefined') {
+                var br1 = parseInt(window['ezslot_' + s].getTargeting('br1')[0]);
+                if (isNaN(br1) || br2 < br1) {
+                    window['ezslot_' + s].setTargeting('br1', br2).setTargeting('eb_br', ebbr2);
+                    if (m != null) {
+                        window['ezslot_' + s].setTargeting('bvr', m);
+                    }
+                } else {
+                }
+            } else {
+            }
+        }
+    }
+
+    function __ez_fad_csnt() {
+        return document.cookie.indexOf('ezCMPCookieConsent') !== -1 || typeof __ez_conestreq == 'undefined';
+    }
+
+    var __ez_fad_haspo = false;
+    if (typeof PerformanceObserver != 'undefined' && typeof PerformanceObserver.supportedEntryTypes != 'undefined') {
+        if (PerformanceObserver.supportedEntryTypes.indexOf('largest-contentful-paint') > -1) {
+            __ez_fad_haspo = true;
+        }
+    }
+
+    function __ez_fad_rdy() {
+        if (document.body !== null && (__ez_fad_haspo == false && __ez_fad_doc_ht > __ez_fad_vp_ht || __ez_fad_hascp) || document.readyState === "complete") {
+            return true;
+        } else {
+            __ez_fad_doc_ht = __ez_fad_docht();
+            __ez_fad_vp_ht = __ez_fad_vpht();
+        }
+        return false;
+    }
+
+    function __ez_fad_docht() {
+        if (typeof document.body != 'undefined' && document.body != null) {
+            return Math.max(document.body.scrollHeight, document.body.offsetHeight);
+        } else if (typeof document.documentElement != 'undefined') {
+            return Math.max(document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
+        } else {
+            return 0;
+        }
+    }
+
+    function __ez_fad_vpht() {
+        if (typeof window.innerHeight != 'undefined') {
+            return window.innerHeight;
+        } else if (typeof document.body != 'undefined' && document.body != null) {
+            return document.body.clientHeight;
+        } else if (typeof document.documentElement != 'undefined') {
+            return document.documentElement.clientHeight;
+        } else {
+            return 0;
+        }
+    }
+
+    function __ez_close_anchor() {
+        googletag.cmd.push(function (slot) {
+            for (var i = 0; i < window.ezslots.length; i++) {
+                var slot = window[ezslots[i]];
+                if (typeof slot === 'undefined') {
+                    continue;
+                }
+                var alS = slot.getTargeting('al')[0] % 1000;
+                if (alS == 5) {
+                    googletag.destroySlots([slot]);
+                }
+            }
+            if (typeof (__ez_set_outstream_floor) !== 'undefined') {
+                __ez_set_outstream_floor(0);
+            }
+            var anchor = document.getElementById('ezmobfooter');
+            if (!anchor) {
+                return;
+            }
+            anchor.innerHTML = '';
+            var styleElement = document.getElementById('ezoicCSS');
+            if (!styleElement) {
+                return;
+            }
+            var cert = document.getElementById('ezoic-certification-fixed');
+            if (cert) {
+                cert.style.bottom = '15px';
+            }
+            var styles = styleElement.sheet ? styleElement.sheet : styleElement.styleSheet;
+            for (var i = 0; i < styles.cssRules.length; i++) {
+                var rules = styles.cssRules[i];
+                if (rules.selectorText === 'body' && rules.style.height === 'auto' && (rules.style.paddingTop !== '' || rules.style.paddingBottom !== '')) {
+                    styles.deleteRule(i);
+                }
+            }
+        });
+    }
+
+    var __ez_fad_doc_ht = __ez_fad_docht();
+    var __ez_fad_vp_ht = __ez_fad_vpht();
+    var __ez_fad_hascp = false;
+    try {
+        const __ez__fad_po = new PerformanceObserver((entryList) => {
+            __ez_fad_hascp = true;
+        });
+        __ez__fad_po.observe({type: 'largest-contentful-paint', buffered: true});
+    } catch (e) {
+    }</script>
+    <script type='text/javascript' data-ezscrex="false">var ezorbf = []; </script>
+    <script data-ezscrex="false" data-cfasync="false" data-pagespeed-no-defer
+            type='text/javascript'>window.isEZABL = false;
+    window.ezmadspc = 300;
+    window.ezoViewCheck = false;</script>
+    <script data-ezscrex="false" data-cfasync="false" data-pagespeed-no-defer
+            type='text/javascript'>window.ezDisableInitialLoad = false;</script>
+    <script data-ezscrex="false" data-cfasync="false" data-pagespeed-no-defer
+            type='text/javascript'>window.googletag = window.googletag || {};
+    googletag.cmd = googletag.cmd || [];</script>
+    <script data-ezscrex="false" data-cfasync="false" data-pagespeed-no-defer
+            type='text/javascript'>window.ezogetbrkey = function (s) {
+        var k = 'br1';
+        var k2 = 'eb_br';
+        if (window.ezogtk == "") {
+            k = 'br1u';
+            k2 = 'eb_bru';
+        } else if (window.ezogtk != "NT") {
+            k = 'br1t';
+            k2 = 'eb_brt';
+        }
+        s.setTargeting('br1', s.getTargeting(k));
+        s.setTargeting('eb_br', s.getTargeting(k2));
+    };
+    googletag.cmd.push(function () {
+        ezslot_interstitial = googletag.defineOutOfPageSlot('/1254144,22674802697/cssscript_com-pixel1', googletag.enums.OutOfPageFormat.INTERSTITIAL);
+        if (ezslot_interstitial != null) {
+            ezslot_interstitial.addService(googletag.pubads()).setTargeting('ga', '2497208').setTargeting('tap', 'cssscript_com-pixel1-5943124276902088').setTargeting('ic', 1).setTargeting('ezoic', '1').setTargeting('bvr', '0').setTargeting('eb_br', '116f73d8738ced0c5546d5313109581e').setTargeting('br1', '5000').setTargeting('ap', '9999').setTargeting('iid1', '5943124276902088').setTargeting('bra', 'mod86');
+        }
+        googletag.pubads().enableSingleRequest();
+        googletag.pubads().addEventListener('slotRenderEnded', function (event) {
+            __ez.queue.addFunc("ezbanger", "ezbanger", event, false, ['banger.js'], true, true, false, true);
+        });
+        googletag.pubads().addEventListener('impressionViewable', function (event) {
+            __ez.queue.addFunc("ezvb", "ezvb", event, false, ['banger.js'], true, true, false, true);
+        });
+        googletag.pubads().addEventListener('slotResponseReceived', function (event) {
+            __ez.queue.addFunc("ezsr", "ezsr", event, false, ['banger.js'], true, true, false, true);
+        });
+        googletag.pubads().addEventListener('slotRequested', function (e) {
+            window.ezsrqt[e.slot.getSlotElementId()] = Date.now();
+        });
+        googletag.pubads().disableInitialLoad();
+        googletag.pubads().enableLazyLoad({fetchMarginPercent: 400, renderMarginPercent: 225, mobileScaling: 2.0});
+        googletag.enableServices();
+    });
+    window.ezoll = false;
+    window.ezoadxnc = '1254144';
+    window.ezoadhb = '0';
+    var ezaxmns = {};
+    var ezaucmns = {};
+
+    var __ez_fad_floating = [];
+    var __ez_fad_gptd = __ez_fad_gptd || false;
+    var __ez_fad_ezpbinitd = false;
+    var __ez_fad_pbt = setTimeout(function () {
+        __ez_fad_pb();
+    }, 5000);
+
+    function __ez_fad_gpt() {
+        if (__ez_fad_gptd == false) {
+            __ez_fad_gptd = true;
+            !function () {
+                var t = document.createElement("script");
+                t.async = !0, t.type = "text/javascript";
+                var e = "https:" == document.location.protocol;
+                t.src = (e ? "https:" : "http:") + "//securepubads.g.doubleclick.net/tag/js/gpt.js";
+                var c = document.getElementsByTagName("script")[0];
+                c.parentNode.insertBefore(t, c)
+            }();
+        }
+    }
+
+    function __ez_fad_pb() {
+        if (__ez_fad_ezpbinitd == false && typeof __ez_fad_ezpbinit == 'function') {
+            __ez_fad_ezpbinitd = true;
+            __ez_fad_ezpbinit()
+        }
+    };
+
+    function __ez_init_slot(bvr, did, slotNum, defineFunc) {
+        googletag.cmd.push(function () {
+            defineFunc();
+            ezrpos[slotNum] = slotNum;
+            ezslots.push("ezslot_" + slotNum);
+            if (bvr != null) {
+                if (typeof __ez_fad_fastslots[did] == 'function') {
+                    __ez_fad_fastslots[did]();
+                }
+            }
+            if (typeof ezSlotKVStore != 'undefined' && typeof ezSlotKVStore[did] != 'undefined') {
+                for (var name in ezSlotKVStore[did]) {
+                    if (!ezSlotKVStore.hasOwnProperty(name)) {
+                        ezSetSlotTargeting(did, name, ezSlotKVStore[did][name]);
+                    }
+                }
+                ezSlotKVStore[did] = {};
+            }
+        });
+        return "ezslot_" + slotNum;
+    }
+
+    __ez_fad_initslot['div-gpt-ad-cssscript_com-medrectangle-3-0'] = function (bvr) {
+        var defScript = function () {
+            ezslot_0 = googletag.defineSlot('/1254144,22674802697/cssscript_com-medrectangle-3', [500, 300], 'div-gpt-ad-cssscript_com-medrectangle-3-0').addService(googletag.pubads()).setCollapseEmptyDiv(false);
+            var ezslot_0_raw = {
+                'a': '1',
+                'iid1': '327854378884946',
+                'eid': '327854378884946',
+                't': '134',
+                'd': '14476',
+                't1': '134',
+                'pvc': '20',
+                'ap': '1021',
+                'sap': '1320',
+                'a': '|0|',
+                'as': 'revenue',
+                'plat': '1',
+                'bra': 'mod86',
+                'ic': '1',
+                'at': 'mbf',
+                'adr': '399',
+                'ezosn': '0',
+                'reft': 'tf',
+                'refs': '30',
+                'ga': '2497208',
+                'gala': '',
+                'rid': '99998',
+                'pt': '21',
+                'al': '1021',
+                'compid': '1',
+                'tap': 'cssscript_com-medrectangle-3-327854378884946',
+                'eb_br': '60474211daf1dfd4d90000ea01f56c30',
+                'eba': '1',
+                'ebss': [10082, 10061, 10063, 11307],
+                'asau': '7723412890',
+                'bv': '5',
+                'bvm': '0',
+                'bvr': '5',
+                'shp': '1',
+                'ftsn': '12',
+                'ftsng': '12',
+                'br1': '0',
+                'br2': '1800',
+                'ezoic': '1',
+                'nmau': '0',
+                'mau': '0',
+                'stl': [63, 14, 28, 4, 51, 0, 88, 0, 71, 30, 0, 31, 901, 902, 903],
+                'deal1': [24, 25, 26, 27, 815, 817, 899, 903, 919, 1794, 3430, 3676],
+                'ax_ssid': '10082'
+            };
+            window.ezslots_raw.push(ezslot_0_raw);
+            ezSetTargetingFromMap(ezslot_0, ezslot_0_raw);
+        };
+        return __ez_init_slot(bvr, 'div-gpt-ad-cssscript_com-medrectangle-3-0', 0, defScript);
+    };
+    __ez_fad_initslot['div-gpt-ad-cssscript_com-box-3-0'] = function (bvr) {
+        var defScript = function () {
+            ezslot_1 = googletag.defineSlot('/1254144,22674802697/cssscript_com-box-3', [468, 60], 'div-gpt-ad-cssscript_com-box-3-0').addService(googletag.pubads()).setCollapseEmptyDiv(false);
+            var ezslot_1_raw = {
+                'a': '1',
+                'iid1': '3719425354861495',
+                'eid': '3719425354861495',
+                't': '134',
+                'd': '14476',
+                't1': '134',
+                'pvc': '20',
+                'ap': '1141',
+                'sap': '1141',
+                'a': '|0|',
+                'as': 'revenue',
+                'plat': '1',
+                'bra': 'mod86',
+                'ic': '1',
+                'at': 'mbf',
+                'adr': '399',
+                'ezosn': '1',
+                'reft': 'tf',
+                'refs': '30',
+                'ga': '2497208',
+                'gala': '',
+                'rid': '99998',
+                'pt': '2',
+                'al': '1002',
+                'compid': '1',
+                'tap': 'cssscript_com-box-3-3719425354861495',
+                'eb_br': '60474211daf1dfd4d90000ea01f56c30',
+                'eba': '1',
+                'ebss': [10082, 10061, 10063, 11307],
+                'asau': '7723412890',
+                'bv': '1',
+                'bvm': '2',
+                'bvr': '6',
+                'shp': '1',
+                'ftsn': '12',
+                'ftsng': '12',
+                'br1': '0',
+                'br2': '600',
+                'ezoic': '1',
+                'nmau': '0',
+                'mau': '0',
+                'stl': [157, 193, 0, 4, 0, 193, 196, 20, 26, 30, 192, 31, 902, 903, 901, 902, 903],
+                'deal1': [21, 22, 23, 24, 25, 26, 27, 815, 899, 919, 1794, 3430, 3458, 3460, 3676, 16],
+                'ax_ssid': '10082'
+            };
+            window.ezslots_raw.push(ezslot_1_raw);
+            ezSetTargetingFromMap(ezslot_1, ezslot_1_raw);
+        };
+        return __ez_init_slot(bvr, 'div-gpt-ad-cssscript_com-box-3-0', 1, defScript);
+    };</script>
+    <script type="text/javascript">(function () {
+        function storageAvailable(type) {
+            var storage;
+            try {
+                storage = window[type];
+                var x = '__storage_test__';
+                storage.setItem(x, x);
+                storage.removeItem(x);
+                return true;
+            } catch (e) {
+                return e instanceof DOMException && (e.code === 22 || e.code === 1014 || e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED') && (storage && storage.length !== 0);
+            }
+        }
+
+        function remove_ama_config() {
+            if (storageAvailable('localStorage')) {
+                localStorage.removeItem("google_ama_config");
+            }
+        }
+
+        remove_ama_config()
+    })()</script>
+    <script type="text/javascript">var ezoicTestActive = true</script>
+    <script data-ezscrex="false" type="text/javascript" data-cfasync="false">var _ezaq = {
+        "ad_cache_level": 2,
+        "ad_count_adjustment": 1,
+        "ad_lazyload_version": 103,
+        "ad_load_version": 1,
+        "ad_location_ids": "6,21,2,95",
+        "ad_transform_level": 0,
+        "adx_ad_count": 0,
+        "bidder_method": 1,
+        "bidder_version": 3,
+        "city": "San Luis Obispo",
+        "country": "US",
+        "days_since_last_visit": -1,
+        "display_ad_count": 2,
+        "domain_id": 14476,
+        "domain_test_group": 20230807,
+        "ds_adsize_opt_id": -1,
+        "engaged_time_visit": 166,
+        "ezcache_level": 2,
+        "ezcache_skip_code": 0,
+        "form_factor_id": 1,
+        "framework_id": 1,
+        "has_bad_image": 0,
+        "has_bad_words": 0,
+        "iab_category": "",
+        "is_from_recommended_pages": false,
+        "is_return_visitor": false,
+        "is_sitespeed": 0,
+        "last_page_load": "1662651685672",
+        "last_pageview_id": "c2421e45-f4f8-413a-660b-65ffd98c8318",
+        "lt_cache_level": 0,
+        "max_ads": 2,
+        "metro_code": 855,
+        "optimization_version": 1,
+        "page_ad_positions": "1006,1021,1136,1141",
+        "page_view_count": 20,
+        "page_view_id": "5dcd5750-8255-4cb8-781d-627ecfc7527e",
+        "position_selection_id": 46,
+        "postal_code": "93401",
+        "pv_event_count": 0,
+        "response_size_orig": 6862,
+        "response_time_orig": 3,
+        "serverid": "35.92.211.16:27996",
+        "state": "CA",
+        "sub_page_ad_positions": "1006,1136,1141,1320",
+        "t_epoch": 1662651702,
+        "template_id": 134,
+        "time_on_site_visit": 3238,
+        "url": "https://www.cssscript.com/demo/drag-drop-sortablejs/",
+        "user_id": 0,
+        "weather_precipitation": 0,
+        "weather_summary": "",
+        "weather_temperature": 0,
+        "word_count": 111,
+        "worst_bad_word_level": 0
+    };
+    var _ezim_d = {
+        "cssscript_com-box-3": {
+            "adsense_stat_source_id": 5,
+            "adx_ad_count": 0,
+            "adx_stat_source_id": 35,
+            "full_id": "cssscript_com-box-3/2022-09-08/3719425354861495",
+            "height": "60",
+            "position_id": 1141,
+            "sub_position_id": 1141,
+            "width": "468"
+        },
+        "cssscript_com-medrectangle-3": {
+            "adsense_stat_source_id": 5,
+            "adx_ad_count": 0,
+            "adx_stat_source_id": 35,
+            "full_id": "cssscript_com-medrectangle-3/2022-09-08/327854378884946",
+            "height": "400",
+            "position_id": 1021,
+            "sub_position_id": 1320,
+            "width": "580"
+        },
+        "cssscript_com-nativedouble-1": {
+            "adsense_stat_source_id": 5,
+            "adx_ad_count": 0,
+            "adx_stat_source_id": 35,
+            "full_id": "cssscript_com-nativedouble-1/2022-09-08/8387777920856633",
+            "height": "480",
+            "position_id": 1136,
+            "sub_position_id": 1136,
+            "width": "100"
+        },
+        "cssscript_com-pixel1": {
+            "adsense_stat_source_id": 5,
+            "adx_ad_count": 0,
+            "adx_stat_source_id": 35,
+            "full_id": "cssscript_com-pixel1/2022-09-08/5943124276902088",
+            "height": "3",
+            "position_id": 1006,
+            "sub_position_id": 1006,
+            "width": "3"
+        }
+    };
+    var _ezat = {
+        "domain_id": 14476,
+        "form_factor_id": 1,
+        "framework_id": 1,
+        "pageview_date": "2022-09-08",
+        "pageview_id": "5dcd5750-8255-4cb8-781d-627ecfc7527e",
+        "template_id": 134,
+        "url": "https://www.cssscript.com/demo/drag-drop-sortablejs/",
+        "visit_uuid": "2098f312-98b2-43f6-6138-5098651f1030"
+    };</script>
+    <script data-ezscrex="false" data-pagespeed-no-defer data-cfasync="false"
+            type="text/javascript">__ez.queue.addFile('banger.js', '/porpoiseant/banger.js?cb=195-0&bv=153&v=62&PageSpeed=off', true, [], true, false, false, true);</script>
+    <script data-ezscrex='false' data-cfasync='false' data-pagespeed-no-defer>!function () {
+        var e;
+        __ez.vep = (e = [], {
+            Add: function (i, t) {
+                __ez.dot.isDefined(i) && __ez.dot.isValid(t) && e.push({
+                    type: "video",
+                    video_impression_id: i,
+                    domain_id: __ez.dot.getDID(),
+                    t_epoch: __ez.dot.getEpoch(0),
+                    data: __ez.dot.dataToStr(t)
+                })
+            }, Fire: function () {
+                if (void 0 === document.visibilityState || "prerender" !== document.visibilityState) {
+                    if (__ez.dot.isDefined(e) && e.length > 0) for (; e.length > 0;) {
+                        var i = 5;
+                        i > e.length && (i = e.length);
+                        var t = e.splice(0, i),
+                            o = __ez.dot.getURL("/detroitchicago/grapefruit.gif") + "?orig=" + (!0 === __ez.template.isOrig ? 1 : 0) + "&v=" + btoa(JSON.stringify(t));
+                        __ez.dot.Fire(o)
+                    }
+                    e = []
+                }
+            }
+        })
+    }();</script>
+    <script data-ezscrex='false' data-cfasync='false' data-pagespeed-no-defer></script>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <title>Sortable JS Drag&#39;n&#39;drop Sorting Library Examples</title>
+    <link href="https://www.cssscript.com/demo/sticky.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.6.0/materia/bootstrap.min.css"/>
+    <style>
+        .container {
+            margin: 150px auto;
+        }
+
+        h2 {
+            margin: 2rem auto;
+        }
+
+        .grid-square {
+            width: 100px;
+            height: 100px;
+            display: inline-block;
+            background-color: #fff;
+            border: solid 1px rgb(0, 0, 0, 0.2);
+            padding: 10px;
+            margin: 12px;
+        }
+
+        .nested-sortable, .nested-1, .nested-2, .nested-3 {
+            margin-top: 5px;
+        }
+
+        .nested-1 {
+            background-color: #e6e6e6;
+        }
+
+        .nested-2 {
+            background-color: #cccccc;
+        }
+
+        .nested-3 {
+            background-color: #b3b3b3;
+        }
+    </style>
+    <style id='ezoicCSS'>.ezoic-at-0 {
+        margin-bottom: 15px !important;
+        margin-left: auto !important;
+        float: none !important;
+        padding: 0;
+        line-height: 0px;
+        text-align: center !important;
+        margin-right: auto !important;
+        margin-top: 15px !important;
+        display: block !important;
+        max-width: 100% !important;
+    }
+
+    .ezoic-ad.box-3141 {
+        min-width: 468px;
+        min-height: 60px;
+    }
+
+    .ezoic-ad.medrectangle-3320 {
+        width: 100%;
+        min-width: 580px;
+        min-height: 400px;
+    }
+
+    .ezoic-ad {
+        display: inline-block;
+        border: 0px;
+    }
+
+    .ezoic-ad > div > iframe {
+        margin: 0px !important;
+        padding: 0px !important;
+    }
+
+    .ezoic-floating-bottom {
+        display: none !important;
+    }</style>
+    <link rel='canonical' href='https://www.cssscript.com/demo/drag-drop-sortablejs/'/>
+    <script type="text/javascript">var ezouid = "1";</script>
+    <base href="https://www.cssscript.com/demo/drag-drop-sortablejs/">
+    <script type='text/javascript'>
+        var ezoTemplate = 'pub_site';
+        if (typeof ezouid == 'undefined') {
+            var ezouid = 'none';
+        }
+        var ezoFormfactor = '1';
+        var ezo_elements_to_check = Array();
+    </script>
+
+    <!-- START EZHEAD -->
+    <script data-ezscrex="false" type='text/javascript'>
+        var soc_app_id = '0';
+        var did = 14476;
+        var ezdomain = 'cssscript.com';
+        var ezoicSearchable = 0;
+    </script>
+    <!--{jquery}-->
+    <!-- END EZHEAD -->
+
+    <script data-ezscrex='false' data-pagespeed-no-defer data-cfasync='false'>
+        function create_ezolpl(pvID, rv) {
+            var d = new Date();
+            d.setTime(d.getTime() + (365 * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toUTCString();
+            __ez.ck.setByCat("ezux_lpl_14476=" + new Date().getTime() + "|" + pvID + "|" + rv + "; " + expires, 3);
+        }
+
+        function attach_ezolpl(pvID, rv) {
+            if (document.readyState === "complete") {
+                create_ezolpl(pvID, rv);
+            }
+            if (window.attachEvent) {
+                window.attachEvent("onload", create_ezolpl, pvID, rv);
+            } else {
+                if (window.onload) {
+                    var curronload = window.onload;
+                    var newonload = function (evt) {
+                        curronload(evt);
+                        create_ezolpl(pvID, rv);
+                    };
+                    window.onload = newonload;
+                } else {
+                    window.onload = create_ezolpl.bind(null, pvID, rv);
+                }
+            }
+        }
+
+        __ez.queue.addFunc("attach_ezolpl", "attach_ezolpl", ["5dcd5750-8255-4cb8-781d-627ecfc7527e", "false"], false, ['/detroitchicago/boise.js'], true, false, false, false);
+    </script>
+    <script type="text/javascript">var _audins_dom = "cssscript_com", _audins_did = 14476;
+    __ez.queue.addFile('/detroitchicago/cmbv2.js', '/detroitchicago/cmbv2.js?gcb=195-0&cb=04-3y02-8y06-13y07-2y0b-6y0d-21y13-4y17-5y1f-5y21-3y2f-4y57-2&cmbcb=108&sj=x04x02x06x07x0bx0dx13x17x1fx21x2fx57&abt=DoubleBidFloor', true, [], true, false, true, false);</script>
+    <script type="text/javascript"
+            defer>__ez.queue.addFile('/detroitchicago/cmbdv2.js', '/detroitchicago/cmbdv2.js?gcb=195-0&cb=03-8y0c-6y18-5&cmbcb=108&sj=x03x0cx18&abt=DoubleBidFloor', true, ['/detroitchicago/cmbv2.js'], true, false, true, false);</script>
+</head>
+
+<body>
+<div id="css-script-menu">
+    <div class="css-script-center">
+        <ul>
+            <li>
+                <a href="https://www.cssscript.com/lightweight-js-sorting-library-with-native-html5-drag-and-drop-sortable/">Download</a>
+            </li>
+            <li><a href="https://www.cssscript.com/">Back To CSS Script</a></li>
+        </ul>
+        <div class="css-script-ads">
+            <div id="carbon-block"></div>
+        </div>
+        <div class="css-script-clear"></div>
+    </div>
+</div>
+<div class="container">
+    <h1>SortableJS: </h1>
+    <p class="lead">Sortable JS Drag&#39;n&#39;drop Sorting Library Examples</p>
+
+
+
+    <h2>Nested Lists</h2>
+    <div id="nestedDemo" class="list-group col nested-sortable">
+        <div class="list-group-item nested-1">Item 1.1
+            <div class="list-group nested-sortable">
+                <div class="list-group-item nested-2">Item 2.1</div>
+                <span id="ezoic-pub-ad-placeholder-136" class="ezoic-adpicker-ad"></span><span
+                    class="ezoic-ad ezoic-at-2 nativedouble-1 nativedouble-1136 adtester-container adtester-container-136"
+                    data-ez-name="cssscript_com-nativedouble-1"><div class="OUTBRAIN"
+                                                                     data-ob-contenturl="https://www.cssscript.com/demo/drag-drop-sortablejs/"
+                                                                     data-ob-installation-key="EZOICL9MFJN21JB32NFBE7ODP"
+                                                                     data-external-id="14476_1_136_100x480"
+                                                                     data-widget-id="AR_1"></div>
+<div data-expand="100" class="ezlazyload" data-script="//widgets.outbrain.com/outbrain.js"></div></span>
+                <div class="list-group-item nested-2">Item 2.2
+                    <div class="list-group nested-sortable">
+                        <div class="list-group-item nested-3">Item 3.1</div>
+                        <div class="list-group-item nested-3">Item 3.2</div>
+                        <div class="list-group-item nested-3">Item 3.3</div>
+                        <div class="list-group-item nested-3">Item 3.4</div>
+                    </div>
+                </div>
+                <div class="list-group-item nested-2">Item 2.3</div>
+                <div class="list-group-item nested-2">Item 2.4</div>
+            </div>
+        </div>
+        <div class="list-group-item nested-1">Item 1.2</div>
+        <div class="list-group-item nested-1">Item 1.3</div>
+        <div class="list-group-item nested-1">Item 1.4
+            <div class="list-group nested-sortable">
+                <div class="list-group-item nested-2">Item 2.1</div>
+                <span class="ezoic-autoinsert-ad ezoic-under_first_paragraph"></span><span
+                    style="clear:both; display:block" id="ez-clearholder-medrectangle-3"></span><span
+                    class="ezoic-ad ezoic-at-0 medrectangle-3 medrectangle-3320 adtester-container adtester-container-320"
+                    data-ez-name="cssscript_com-medrectangle-3"><span id="div-gpt-ad-cssscript_com-medrectangle-3-0"
+                                                                      ezaw="580" ezah="400"
+                                                                      style="position:relative;z-index:0;display:inline-block;padding:0;min-height:400px;min-width:580px;"
+                                                                      class="ezoic-ad"><script data-ezscrex="false"
+                                                                                               data-cfasync="false"
+                                                                                               type="text/javascript"
+                                                                                               style="display:none;">
+	var cid = '9110299141';
+    var pid = 'ca-pub-2783044520727903';
+    var slotId = 'div-gpt-ad-cssscript_com-medrectangle-3-0';
+    var ffid = 1;
+    var alS = 1021 % 1000;
+
+    var container = document.getElementById(slotId);
+    container.style.width = '100%';
+
+    var ins = document.createElement('ins');
+    ins.id = slotId + '-asloaded';
+    ins.className = 'adsbygoogle ezasloaded';
+    ins.dataset.adClient = pid;
+
+    ins.dataset.adChannel = cid;
+
+    if (ffid == 2) {
+        ins.dataset.fullWidthResponsive = 'true';
+    }
+
+    ins.style.display = 'block';
+    ins.style.minWidth = container.attributes.ezaw.value + 'px';
+    ins.style.width = '100%';
+
+    ins.style.height = container.attributes.ezah.value + 'px';
+
+    container.appendChild(ins);
+
+    (adsbygoogle = window.adsbygoogle || []).push({});
+
+    window.ezoSTPixelAdd(slotId, 'stat_source_id', 44);
+    window.ezoSTPixelAdd(slotId, 'adsensetype', 1);
+
+    var lo = new MutationObserver(window.ezaslEvent);
+    lo.observe(document.getElementById(slotId + '-asloaded'), {attributes: true});
+	</script></span></span>
+                <div class="list-group-item nested-2">Item 2.2</div>
+                <div class="list-group-item nested-2">Item 2.3</div>
+                <div class="list-group-item nested-2">Item 2.4</div>
+            </div>
+        </div>
+        <div class="list-group-item nested-1">Item 1.5</div>
+    </div>
+</div>
+<script src="Sortable.js"></script>
+<script>
+    // Nested demo
+    var nestedSortables = [].slice.call(document.querySelectorAll('.nested-sortable'));
+
+    // Loop through each nested sortable element
+    for (var i = 0; i < nestedSortables.length; i++) {
+        new Sortable(nestedSortables[i], {
+            group: 'nested',
+            animation: 150,
+            fallbackOnBody: true,
+            swapThreshold: 0.65
+        });
+    }
+    new Sortable(document.getElementById('gridDemo'), {
+        animation: 150,
+        ghostClass: 'blue-background-class'
+    });
+    new Sortable(document.getElementById('customhandle'), {
+        handle: '.handle', // handle's class
+        animation: 150
+    });
+</script>
+<script>
+    try {
+        fetch(new Request("https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js", {
+            method: 'HEAD',
+            mode: 'no-cors'
+        })).then(function (response) {
+            return true;
+        }).catch(function (e) {
+            var carbonScript = document.createElement("script");
+            carbonScript.src = "//cdn.carbonads.com/carbon.js?serve=CE7DC2JW&placement=wwwcssscriptcom";
+            carbonScript.id = "_carbonads_js";
+            document.getElementById("carbon-block").appendChild(carbonScript);
+        });
+    } catch (error) {
+        console.log(error);
+    }
+</script>
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', 'UA-46156385-1', 'cssscript.com');
+    ga('send', 'pageview');
+
+</script>
+
+
+<div id="CCPA_opt_out" style="position: absolute;width: 100%;z-index:200000000001;background-color:#ffffff;">
+    <div style="float: right;text-align: right;">
+        <button onclick="submitCCPAPost('consent')"
+                style="border: 0px; cursor: pointer; font-size:20px; background-color: transparent;color: #000000">
+            &times;
+        </button>
+    </div>
+    <div style="width:100%;border-top: 3px solid #5fa624; padding: 3px;font-size: 10px;color: #000000 !important;text-align: center;font-size:11px !important; font-family: Arial, Helvetica, sans-serif !important;">
+        We and our partners share information on your use of this website to help improve your experience.
+        <button onclick="submitCCPAPost('nonconsent')"
+                style="margin-top: 4px;border: 1px solid #5fa624; color: #000000; background: transparent!important;padding: 2px 4px !important;cursor: pointer;">
+            Do not sell my info
+        </button>
+        <button onclick="submitCCPAPost('consent')"
+                style="margin-top: 4px;border: 1px solid #5fa624; background: #5fa624!important;margin-left: 5px; padding: 2px 10px !important;cursor: pointer;">
+            Ok
+        </button>
+    </div>
+</div>
+<script type="text/javascript">
+    function submitCCPAPost(value) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("POST", '/ezoicUserDataProtection/consent', true);
+        xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhttp.onreadystatechange = function () {
+            if (this.readyState === 4 && this.status === 200) {
+                if (value === "nonconsent") {
+                    var language = "en";
+                    if (language == "fr") {
+                        alert("Nous traitons votre demande de retrait. Merci!");
+                    } else if (language == "de") {
+                        alert("Ihre Anfrage bezüglich Opt Out wird von uns durchgeführt. Vielen Dank!");
+                    } else {
+                        alert("We are processing your request to opt out. Thank you!");
+                    }
+                }
+                // Clean up the footer
+                var footer_element = document.getElementById("CCPA_opt_out");
+                footer_element.parentNode.removeChild(footer_element);
+            }
+        }
+        xhttp.send("selected=" + value);
+    }
+</script>
+<script type="text/javascript">
+    var __inScopeForCCPA = true;
+
+    function __uspapi(command, version, callback) {
+        var response = null;
+        var successs = false;
+        if (command === "getUSPData" && version === 1) {
+            var uspString = "1"; // Version
+            if (__inScopeForCCPA) {
+                uspString += "Y"; // Has Explicit Notice for Opt Out been provided (ex footer or minor consent modal)
+                var result;
+                var consentCookie = (result = new RegExp('(?:^|; )ezoccpaconsent=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
+                if (consentCookie === "nonconsent") {
+                    uspString += "Y";
+                } else {
+                    uspString += "N";
+                }
+                uspString += "N" // Is pub a signatory to the IAB Limited Service Provider Agreement (http://www.iabprivacy.com/)
+            } else {
+                uspString += "---";
+            }
+            response = {
+                uspString: uspString,
+                version: 1
+            };
+            success = true;
+        }
+        return callback(response, success);
+    };
+
+    function __receiveUspapiMessage(event) {
+        if (event.data.hasOwnProperty('__uspapiCall')) {
+            __uspapi('getUSPData', 1, function (uspData, success) {
+                event.source.postMessage({
+                        __uspapiReturn: {
+                            returnValue: uspData,
+                            success: success,
+                            callId: event.data.__uspapiCall.callId
+                        }
+                    },
+                    event.origin);
+            });
+        }
+        return null;
+    };
+    window.addEventListener("message", __receiveUspapiMessage, false);
+</script>
+<script>function __ez_fad_ezpbinit() {
+    var s = document.createElement('script');
+    s.setAttribute('src', '//go.ezodn.com/hb/dall.js?b=amx,criteo,ix,medianet,onemobile,onetag,pubmatic,pulsepoint,rubicon&cb=195-0-45');
+    s.onerror = function () {
+        window.ezDallErr = true
+    };
+    document.body.appendChild(s);
+}
+
+var ezjsps = function (obj) {
+    return JSON.parse(JSON.stringify(obj));
+};
+var epbjs = epbjs || {};
+epbjs.que = epbjs.que || [];
+epbjs.bidderTimeout = 2500;
+epbjs.useAdj = true;
+epbjs.SS = {
+    "amx": 11290,
+    "criteo": 10050,
+    "ix": 10082,
+    "medianet": 11307,
+    "onemobile": 11293,
+    "onetag": 11291,
+    "pubmatic": 10061,
+    "pulsepoint": 11301,
+    "rubicon": 10063
+};
+epbjs.bidders = ['amx,criteo,ix,medianet,onemobile,onetag,pubmatic,pulsepoint,rubicon'];
+epbjs.que.push(function () {
+});
+epbjs.bidderSettings = {};
+epbjs.gadj = 1.000000;
+var __enableAnalytics = false;
+var __s2sbidders = ['ix', 'medianet'];
+var __s2sinstreambidders = ['ix', 'medianet', 'rubicon', 'pubmatic', 'vidoomy', 'viewdeosDX'];
+var __allBidders = ['onemobile', 'criteo', 'pubmatic', 'onetag', 'rubicon', 'pulsepoint', 'amx', 'ix', 'medianet'];
+__ez.queue.addFile('/detroitchicago/houston.js', '/detroitchicago/houston.js?gcb=0&cb=25', false, [], true, false, true, false);
+__ez.queue.addFunc("epbjsRequestAdUnits", "epbjsRequestAdUnits", [[]], false, ['/detroitchicago/houston.js'], true, true, true, true);
+var __pd = 'MTA9NDAwOTAxMjY2NDA5MGIwMzQxZTU5MmZiOTA4YTkzZjc2M2Y3ZWFmMDBhNjk5NTZjNGEzYmI1N2RhYTAyMzJlYSYxMj1Nb3ppbGxhJTJGNS4wKyUyOE1hY2ludG9zaCUzQitJbnRlbCtNYWMrT1MrWCsxMF8xNV83JTI5K0FwcGxlV2ViS2l0JTJGNTM3LjM2KyUyOEtIVE1MJTJDK2xpa2UrR2Vja28lMjkrQ2hyb21lJTJGMTA1LjAuMC4wK1NhZmFyaSUyRjUzNy4zNg==';</script>
+<script>var __ez_tkn_evnt = function () {
+    if (typeof (_ezaq) != 'undefined') {
+        if (typeof window.ezogtk !== "undefined" && window.ezogtk !== "") {
+            __ez.bit.AddAndFire(_ezaq.page_view_id, [new __ezDotData("ext_user_hash", window.ezogtk)]);
+        }
+    }
+};
+document.addEventListener("DOMContentLoaded", __ez.queue.addFunc("__ez_tkn_evnt", "__ez_tkn_evnt", event, false, ['/detroitchicago/minneapolis.js', '/detroitchicago/memphis.js'], true, true, false, true));</script>
+<script src="/detroitchicago/augusta.js?cb=24" async data-ezscrex="false"></script>
+<script async data-ezscrex="false">__ez_fad_load(0, 0);
+__ez_fad_doc_ht = __ez_fad_docht();
+__ez_fad_vp_ht = __ez_fad_vpht();
+
+function __ez_fad_scroll() {
+    return window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop
+}
+
+var __ez_fad_init_scroll = __ez_fad_scroll();
+var __ez_fad_scroll_delta = 0;
+var __ez_fad_check_scroll_override = function () {
+    var currScroll = __ez_fad_scroll();
+    if (__ez_fad_scroll_delta > __ez_fad_vp_ht) {
+        if (currScroll === __ez_fad_init_scroll) {
+            for (var i = 0; i < __ez_fad_divs.length; i++)
+                if (ezslit_run[i] !== true) {
+                    __ez_fad_load(i, null);
+                }
+        }
+        document.removeEventListener('wheel', __ez_fad_wheel_check);
+        document.removeEventListener('touchstart', __ez_fad_touch_check);
+    }
+};
+var __ez_fad_wheel_check = function (e) {
+    __ez_fad_scroll_delta += e.deltaY;
+    __ez_fad_check_scroll_override();
+};
+var __ez_fad_touch_check = function (e) {
+    var delta = 0;
+    var startY = e.touches[0].pageY;
+    var handleTouchMove = function (e) {
+        var currY = e.touches[0].pageY;
+        delta += startY - currY;
+        startY = currY;
+    };
+    var handleTouchEnd = function (e) {
+        document.removeEventListener('touchmove', handleTouchMove);
+        document.removeEventListener('touchend', handleTouchEnd);
+        __ez_fad_scroll_delta += delta;
+        __ez_fad_check_scroll_override();
+    };
+    document.addEventListener('touchmove', handleTouchMove);
+    document.addEventListener('touchend', handleTouchEnd);
+};
+document.addEventListener('wheel', __ez_fad_wheel_check);
+document.addEventListener('touchstart', __ez_fad_touch_check);
+var __ez_fad_scrollmond = false;
+var __ez_fad_scrollmon = function () {
+    var sy = __ez_fad_scroll();
+    var isShortPage = __ez_fad_doc_ht <= (__ez_fad_vh + 100);
+    var bot = (__ez_fad_vp_ht + sy);
+    var botThresh = bot + __ez_fad_vp_ht;
+    for (var divid in __ez_fad_divpos) {
+        if (__ez_fad_fastdiv.indexOf(divid) != -1) {
+            continue;
+        }
+        var divPos = __ez_fad_divpos[divid];
+        if (divPos > 0 && divPos > sy && divPos < (sy + __ez_fad_vp_ht * .5)) {
+            if (typeof __ez_fad_instaslots[divid] == 'function') {
+                __ez_fad_instaslots[divid]();
+            }
+        } else if (divPos > 0 && divPos > sy && divPos < (sy + __ez_fad_vp_ht)) {
+            if (typeof __ez_fad_viewslots[divid] == 'function') {
+                __ez_fad_viewslots[divid]();
+            }
+        }
+    }
+    __ez_fad_chkpos();
+    if (ezslit_run[0] !== true) {
+        __ez_fad_load(0, 0);
+    }
+    if ((sy > 0 || isShortPage) && ezslit_run[1] != true) {
+        __ez_fad_load(1, null);
+        __ez_fad_load(5, null);
+    }
+    if ((sy > 100 || isShortPage) && ezslit_run[2] != true) {
+        __ez_fad_load(2, null);
+    }
+    if (sy > (__ez_fad_vp_ht * .75) && ezslit_run[3] != true) {
+        __ez_fad_load(3, null);
+    }
+    if (document.readyState === "complete" && !__ez_fad_floatshowd && typeof __ez_fad_floating !== 'undefined' && __ez_fad_floating.length > 0 && __ez_fad_count === 0) {
+        setTimeout(googletag.cmd.push(function () {
+            __ez_fad_floatshow()
+        }), 500);
+    }
+    if ((ezslit_run[1] == true && ezslit_run[2] == true && ezslit_run[3] == true) || __ez_fad_count === __ez_fad_divsd.length) {
+        __ez_fad_scrollmond = true;
+    } else {
+        setTimeout(__ez_fad_scrollmon, 500);
+    }
+};
+__ez_fad_scrollmon();
+
+function __ez_fad_chkpos() {
+    if (typeof __ez_fad_divs[4] != 'undefined') {
+        for (var i = 0; i < __ez_fad_divs[4].length; i++) {
+            var id = __ez_fad_divs[4][i];
+            __ez_fad_divs[4][i] = null;
+            __ez_fad_position([id]);
+        }
+    }
+}</script>
+
+<script>setTimeout(function () {
+    googletag.cmd.push(function () {
+        if (typeof ezslot_interstitial === "undefined") {
+            return;
+        }
+        googletag.display(ezslot_interstitial);
+        googletag.pubads().refresh([ezslot_interstitial]);
+    });
+}, 1000);</script>
+<script type="text/javascript" data-cfasync="false"></script>
+<script type="text/javascript" style='display:none;'>var __ez_dims = (function () {
+    var setCookie = function (name, content, expiry) {
+        return document.cookie = name + '=' + content + ((expiry) ? ';expires=' + (new Date(Math.floor(new Date().getTime() + expiry * 1000)).toUTCString()) : '') + ';path=/';
+    };
+    var ffid = 1;
+    var oh = window.screen.height;
+    var ow = window.screen.width;
+    var h = ffid === 1 ? oh : (oh > ow) ? oh : ow;
+    var w = ffid === 1 ? ow : (oh > ow) ? ow : oh;
+    var uh = window.innerHeight || document.documentElement.clientHeight || document.getElementsByTagName('body')[0].clientHeight;
+    var uw = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+    setCookie('ezds', encodeURIComponent('ffid=' + ffid + ',w=' + w + ',h=' + h), (31536e3 * 7));
+    setCookie('ezohw', encodeURIComponent('w=' + uw + ',h=' + uh), (31536e3 * 7));
+})();</script>
+<script type='text/javascript' style='display:none;' async>
+</script>
+</body>
+</html>

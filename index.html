@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+</head>
+<body>
+<div class="upload">
+    <h1>
+        BALLOON LOAD CALCULATOR
+    </h1>
+    <label for="file">Choose a data file to upload:</label>
+    <input type="file" id="selectFiles" value="Import" accept="application/JSON"/>
+    <button id="import">Import</button>
+    <div class="error"></div>
+
+</div>
+
+<section class="main hide">
+    <div class="row">
+        <div class="column flights">
+            <h2>Flight 1</h2>
+            <div id="flight-1" class="flight row">
+                <div class="left column">
+                    <h3>Left</h3>
+
+                    <div id="f1-left" class="drop-targets">
+
+                    </div>
+
+                </div>
+                <div class="right column">
+
+                    <h3>Right</h3>
+                    <div id="f1-right" class="drop-targets">
+
+                    </div>
+
+                </div>
+            </div>
+            <h2>Flight 2</h2>
+            <div id="flight-2" class="flight row">
+                <div class="left column">
+                    <h3>Left</h3>
+                    <div id="f2-left" class="drop-targets">
+
+                    </div>
+
+                </div>
+                <div class="right column">
+                    <h3>Right</h3>
+                    <div id="f2-right" class="drop-targets">
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <aside class="column">
+            <h2>Names</h2>
+            <div id="names" class="names">
+                <div class="group group-1" id="g1" data-weight="600" draggable="true">
+                    <div>
+                        <div class="group-name" data-group-name="Group 1">Group 1</div>
+                        <div class="weight">600</div>
+                    </div>
+                    <div class="details">
+                        <div class="person group group-1" id="g1-p1" data-weight="200" draggable="true">
+                            <div class="weight">200</div>
+                            <div class="first-name">George</div>
+                            <div class="last-name">Washington</div>
+                        </div>
+                        <div class="person group group-1" id="g1-p2" data-weight="120" draggable="true">
+                            <div class="weight">120</div>
+                            <div class="first-name">Martha</div>
+                            <div class="last-name">Washington</div>
+                        </div>
+                        <div class="person group group-1" id="g1-p3" data-weight="180" draggable="true">
+                            <div class="weight">180</div>
+                            <div class="first-name">John Parke</div>
+                            <div class="last-name">Washington</div>
+                        </div>
+                        <div class="person group group-1" id="g1-p4" data-weight="100" draggable="true">
+                            <div class="weight">100</div>
+                            <div class="first-name">Martha Parke</div>
+                            <div class="last-name">Washington</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="group group-2" id="g2" data-weight="300" draggable="true">
+                    <div>
+                        <div class="group-name" data-group-name="Group 2">Group 2</div>
+                        <div class="weight">300</div>
+                    </div>
+                    <div class="details">
+                        <div class="person group group-2" id="g2-p1" data-weight="192" draggable="true">
+                            <div class="weight">192</div>
+                            <div class="first-name">Homer</div>
+                            <div class="last-name">Simpson</div>
+                        </div>
+                        <div class="person group group-2" id="g2-p2" data-weight="108" draggable="true">
+                            <div class="weight">108</div>
+                            <div class="first-name">Marge</div>
+                            <div class="last-name">Simpson</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </aside>
+    </div>
+    <div class="row">
+        <div class="column">
+            <button id="load">Load Another File</button>
+        </div>
+    </div>
+</section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/nested-sort@5.1.0/dist/nested-sort.umd.min.js"
+        integrity="sha256-U0ndM2WA8dFLmzDtbzZfHC12zmLBJbEyI8xdWv4B5l4=" crossorigin="anonymous"></script>
+
+<script src="assets/javascript/script.js"></script>
+</body>
+</html>
+
