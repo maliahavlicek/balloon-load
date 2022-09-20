@@ -299,6 +299,7 @@ onTouchLeave('.drop-target', function (el, e) {
 document.onreadystatechange = function () {
   let state = document.readyState;
   if (state == 'complete') {
+      document.querySelector('.names-empty').classList.add('hide');
       switchView();
       document.getElementById('load').classList.add('hide');
       applyGroupHandlers();
