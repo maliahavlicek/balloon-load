@@ -44,7 +44,7 @@ function dragLeave() {
 }
 
 const touchMove = e => {
-
+    e.preventDefault();
     //only 1 finger action detected
     if (e.targetTouches.length == 1) {
         const progressX = startX - e.touches[0].clientX
@@ -113,7 +113,10 @@ const touchStart = e => {
         moving_element.classList.add('hold');
         moving_element.removeEventListener('touchmove', touchMove);
         moving_element.removeEventListener('touchend', touchEnd);
-        moving_element.addEventListener('touchmove', touchMove);
+        moving_element.addEventListener('touchmove', function(e) {
+            e.preventDefault();
+            touchMove(e);
+        }, {passive:false});
         moving_element.addEventListener('touchend', touchEnd);
 
     }
