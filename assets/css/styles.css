@@ -84,7 +84,7 @@ h1, h2, h3 {
 }
 
 .drop-targets [class*='group-']:not(.person) {
-    margin: 0;
+    margin: 0 -0.4rem -1px;
     padding: 0;
     border: none;
 }
@@ -100,7 +100,7 @@ h1, h2, h3 {
 }
 
 .drop-targets .details .group {
-    margin: 0;
+    margin: 0 -1px 0 0;
 }
 
 .group-0 {
@@ -137,7 +137,8 @@ h1, h2, h3 {
     }
 
     .flights {
-        width: 80%
+        width: 80vw;
+        max-width: 80vw;
     }
 
     .flight {
@@ -151,8 +152,9 @@ h1, h2, h3 {
         margin: 2rem;
     }
 
-    .aside.column {
+    aside.column {
         max-width: 35vw;
+        width: 35vw;
     }
 
 }
