@@ -1,6 +1,8 @@
+/* basic touch process https://jh3y.medium.com/implementing-touch-support-in-javascript-b8e43f267a16 */
+
 const upload = document.querySelector('.upload');
 const main = document.querySelector('.main');
-const names_block = document.getElementById('names');
+
 const colors = ['#eae4e9ff', '#fff1e6ff', '#fde2e4ff', '#fad2e1ff', '#e2ece9ff', '#bee1e6ff', '#f0efebff',
     '#dfe7fdff', '#cddafdff', '#dfd7fcff', '#f8b4c4ff', '#ffedc2ff', '#60fbd2ff', '#7cd5f3ff', '#8fdbf5ff', '#3dccc7ff'
 ];
@@ -9,33 +11,7 @@ let group_elements = [];
 let moving_element = '';
 let startX, startY;
 const flight_elements = document.querySelectorAll('.drop-targets');
-let lastTouchLeave;
-let lastTouchEnter;
-let onFlightTouchLeaveEvents = [];
-let onFlightTouchEnterEvents = [];
-
-const onTouchEnter = function (selector, fn) {
-    onFlightTouchEnterEvents.push([selector, fn]);
-    return function () {
-        onFlightTouchEnterEvents.slice().map(function (e, i) {
-            if (e[0] === selector && e[1] === fn) {
-                onFlightTouchEnterEvents.splice(1, i);
-            }
-        });
-    };
-};
-
-const onTouchLeave = function (selector, fn) {
-    onFlightTouchLeaveEvents.push([selector, fn]);
-    return function () {
-        onFlightTouchLeaveEvents.slice().map(function (e, i) {
-            if (e[0] === selector && e[1] === fn) {
-                onFlightTouchLeaveEvents.splice(1, i);
-            }
-        });
-    };
-};
-
+let hovered_flight;
 
 // flight drag functions
 
@@ -68,7 +44,7 @@ function dragLeave() {
 }
 
 const touchMove = e => {
-    e.stopPropagation();
+
     //only 1 finger action detected
     if (e.targetTouches.length == 1) {
         const progressX = startX - e.touches[0].clientX
@@ -81,32 +57,26 @@ const touchMove = e => {
             progressY > 0
                 ? parseInt(-Math.abs(progressY))
                 : parseInt(Math.abs(progressY))
+
+        let els = document.elementsFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+        for (const el of els) {
+            if (el.classList.contains('drop-targets')) {
+                if(typeof hovered_flight == 'undefined'){
+                    el.classList.add('hovered');
+                    hovered_flight = el;
+                }
+                if (hovered_flight && hovered_flight != el){
+                    hovered_flight.classList.remove('hovered');
+                    el.classList.add('hovered');
+                    hovered_flight = el;
+                }
+
+            }
+        }
+
         moving_element.style.setProperty('--translateX', translationX);
         moving_element.style.setProperty('--translateY', translationY);
-        let el = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
-        if (el) {
-            onFlightTouchLeaveEvents.map((event) => {
-                if (el != lastTouchEnter && lastTouchEnter && lastTouchEnter.matches(event[0])) {
 
-
-                    if (lastTouchEnter !== lastTouchLeave) {
-                        event[1](lastTouchEnter, e);
-                        lastTouchLeave = lastTouchEnter;
-                        lastTouchEnter = null
-                    }
-
-                }
-            });
-
-            onFlightTouchEnterEvents.map((event) => {
-                if (el.matches(event[0]) && el !== lastTouchEnter) {
-                    lastTouchEnter = el;
-                    lastTouchLeave = null;
-                    event[1](el, e);
-                }
-            });
-
-        }
 
     }
 }
@@ -118,6 +88,8 @@ const touchEnd = e => {
     moving_element.classList.remove('hold');
     moving_element.style.setProperty('--translateX', '0');
     moving_element.style.setProperty('--translateY', '0');
+    hovered_flight.classList.remove('hovered');
+    hovered_flight = undefined;
 
 
     const destination_element = document.elementFromPoint(finishingTouch.clientX, finishingTouch.clientY);
@@ -156,7 +128,6 @@ function dragDrop(e) {
     afterTheDrop();
 
 
-
 }
 
 function afterTheDrop() {
@@ -170,13 +141,13 @@ function afterTheDrop() {
     // check if group in  names is empty and hide it
     const groups_in_names = document.querySelectorAll('#names .group .details');
     for (const group_element of groups_in_names) {
-       if(group_element.childElementCount ===0){
+        if (group_element.childElementCount === 0) {
             group_element.parentElement.classList.add('hide');
         }
     }
 
     // calculate the left/right flight totals
-    for (const flight of flight_elements){
+    for (const flight of flight_elements) {
         let total = 0;
         for (const person of flight.querySelectorAll('.person')) {
             total += parseInt(person.dataset.weight);
@@ -187,18 +158,19 @@ function afterTheDrop() {
 
     // calculate the flight totals
     let total = 0;
-    for (const side of document.querySelectorAll('#flight-1 .total-weight')){
+    for (const side of document.querySelectorAll('#flight-1 .total-weight')) {
         total += parseInt(side.dataset.weight);
     }
     document.querySelector('.flight-weight-1').innerHTML = total.toString();
     total = 0;
-    for (const side of document.querySelectorAll('#flight-2 .total-weight')){
+    for (const side of document.querySelectorAll('#flight-2 .total-weight')) {
         total += parseInt(side.dataset.weight);
     }
     document.querySelector('.flight-weight-2').innerHTML = total.toString();
 
 
 }
+
 
 // flight listeners
 for (const flight_element of flight_elements) {
@@ -275,7 +247,6 @@ document.getElementById('import').addEventListener('click', (e) => {
         });
         console.log(sorted)
 
-
         applyGroupHandlers();
     }
 
@@ -283,25 +254,13 @@ document.getElementById('import').addEventListener('click', (e) => {
 });
 
 
-//
-// fetch('./Data.json')
-//   .then(response => response.json())
-//   .then(data => console.log(data))
-//   .catch(error => console.log(error));
-
-onTouchEnter('.drop-target', function (el, e) {
-    el.classList.add('hovered')
-})
-onTouchLeave('.drop-target', function (el, e) {
-    el.classList.remove('hovered')
-})
-
 document.onreadystatechange = function () {
-  let state = document.readyState;
-  if (state == 'complete') {
-      document.querySelector('.names-empty').classList.add('hide');
-      switchView();
-      document.getElementById('load').classList.add('hide');
-      applyGroupHandlers();
-  }
+    let state = document.readyState;
+    if (state == 'complete') {
+        document.querySelector('.names-empty').classList.add('hide');
+        switchView();
+        document.getElementById('load').classList.add('hide');
+        applyGroupHandlers();
+
+    }
 }
