@@ -160,11 +160,6 @@ function dragDrop(e) {
 }
 
 function afterTheDrop() {
-    //TODO RECALCULATE
-    /*
-    1.
-    3. when group or person put into a flight, recalc balances
-     */
 
     // when names is empty, show the names-empty div
     if (document.querySelectorAll('#names .person').length == 0) {
