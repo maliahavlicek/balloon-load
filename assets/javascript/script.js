@@ -7,8 +7,34 @@ const colors = ['#eae4e9ff', '#fff1e6ff', '#fde2e4ff', '#fad2e1ff', '#e2ece9ff',
 
 let group_elements = [];
 let moving_element = '';
-let start_swipe;
+let startX, startY;
 const flight_elements = document.querySelectorAll('.drop-targets');
+let lastTouchLeave;
+let lastTouchEnter;
+let onFlightTouchLeaveEvents = [];
+let onFlightTouchEnterEvents = [];
+
+const onTouchEnter = function (selector, fn) {
+    onFlightTouchEnterEvents.push([selector, fn]);
+    return function () {
+        onFlightTouchEnterEvents.slice().map(function (e, i) {
+            if (e[0] === selector && e[1] === fn) {
+                onFlightTouchEnterEvents.splice(1, i);
+            }
+        });
+    };
+};
+
+const onTouchLeave = function (selector, fn) {
+    onFlightTouchLeaveEvents.push([selector, fn]);
+    return function () {
+        onFlightTouchLeaveEvents.slice().map(function (e, i) {
+            if (e[0] === selector && e[1] === fn) {
+                onFlightTouchLeaveEvents.splice(1, i);
+            }
+        });
+    };
+};
 
 
 // flight drag functions
@@ -42,49 +68,61 @@ function dragLeave() {
 }
 
 const touchMove = e => {
-
+    e.stopPropagation();
     //only 1 finger action detected
     if (e.targetTouches.length == 1) {
         const progressX = startX - e.touches[0].clientX
-        const translation =
+        const progressY = startY - e.touches[0].clientY
+        const translationX =
             progressX > 0
                 ? parseInt(-Math.abs(progressX))
                 : parseInt(Math.abs(progressX))
-        moving_element.style.setProperty('--translate', translation)
+        const translationY =
+            progressY > 0
+                ? parseInt(-Math.abs(progressY))
+                : parseInt(Math.abs(progressY))
+        moving_element.style.setProperty('--translateX', translationX);
+        moving_element.style.setProperty('--translateY', translationY);
+        let el = document.elementFromPoint(e.touches[0].clientX, e.touches[0].clientY);
+        if (el) {
+            onFlightTouchLeaveEvents.map((event) => {
+                if (el != lastTouchEnter && lastTouchEnter && lastTouchEnter.matches(event[0])) {
 
-        let touch = e.targetTouches[0];
-        const destination_element = document.elementFromPoint(touch.clientX, touch.clientY);
-        if (destination_element && destination_element.classList.contains('drop-targets')) {
-            destination_element.classList.add('hovered');
-        } else {
-            const hovered_elements = document.querySelectorAll('.hovered.drop-targets');
-            try {
-                if (hovered_elements && hovered_elements.length > 0) {
-                    for (const flight_element in hovered_elements) {
-                        flight_element.classList.remove('hovered');
+
+                    if (lastTouchEnter !== lastTouchLeave) {
+                        event[1](lastTouchEnter, e);
+                        lastTouchLeave = lastTouchEnter;
+                        lastTouchEnter = null
                     }
+
                 }
-            }
-            catch(err){
-            // do nothing, probably have a race condition
-            }
+            });
+
+            onFlightTouchEnterEvents.map((event) => {
+                if (el.matches(event[0]) && el !== lastTouchEnter) {
+                    lastTouchEnter = el;
+                    lastTouchLeave = null;
+                    event[1](el, e);
+                }
+            });
+
         }
 
     }
 }
 
 const touchEnd = e => {
-
-    const finishingTouch = e.changedTouches[0]
+    e.stopPropagation();
+    const finishingTouch = e.changedTouches[0];
 
     moving_element.classList.remove('hold');
+    moving_element.style.setProperty('--translateX', '0');
+    moving_element.style.setProperty('--translateY', '0');
+
 
     const destination_element = document.elementFromPoint(finishingTouch.clientX, finishingTouch.clientY);
     if (destination_element && destination_element.classList.contains('drop-targets')) {
         destination_element.append(moving_element);
-        destination_element.classList.remove('hovered');
-        // need to remove original element
-
     }
 
 }
@@ -97,6 +135,7 @@ const touchStart = e => {
     if (touches && touches.length === 1) {
         const touch = touches[0]
         startX = touch.clientX;
+        startY = touch.clientY;
         moving_element = e.currentTarget;
         moving_element.classList.add('hold');
         moving_element.removeEventListener('touchmove', touchMove);
@@ -219,3 +258,10 @@ document.getElementById('import').addEventListener('click', (e) => {
 //   .then(response => response.json())
 //   .then(data => console.log(data))
 //   .catch(error => console.log(error));
+
+onTouchEnter('.drop-target',function(el,e){
+  el.classList.add('hovered')
+})
+onTouchLeave('.drop-target',function(el,e){
+  el.classList.remove('hovered')
+})
