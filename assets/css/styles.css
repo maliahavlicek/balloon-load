@@ -1,8 +1,16 @@
 /* Grid */
-
 .column {
     flex-basis: 100%;
 }
+
+h1, h2, h3 {
+    text-align: center;
+}
+
+.flights {
+    padding: 0.8rem;
+}
+
 .drop-targets {
     min-height: 100px;
     border: 1px solid black;
@@ -10,20 +18,23 @@
     margin: 0.8rem;
 }
 
-.hold {
-  border: solid 5px #ccc;
-}
-.hovered {
-  background: #f4f4f4;
-  border-style: dashed;
+.group.hold {
+    border: solid 5px #ccc;
+    opacity: 0.75;
 }
 
-.group-name{
+.hovered {
+    background: #f4f4f4;
+    border-style: dashed;
+}
+
+.group-name {
     font-size: 24px;
     margin: 1.2rem 0;
     text-align: center;
 
 }
+
 .group .weight {
     width: 100px;
     height: 100px;
@@ -52,9 +63,13 @@
     padding: 0.8rem;
 }
 
-.details .group{
+.details .group {
     margin: 0 1.2rem -1px 1.2rem;
 
+}
+
+.group-0 {
+    background: #ffffff;
 }
 
 .group-2 {
@@ -93,12 +108,12 @@
     .flight {
         border: 1px solid black;
         text-align: center;
+        background-color: #e6e6e6;
     }
 
     .names {
-        border: 1px solid black;
         text-align: left;
-        margin-left: 2.4rem;
+        margin: 2rem;
     }
 
 }
