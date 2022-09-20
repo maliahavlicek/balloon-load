@@ -295,3 +295,12 @@ onTouchEnter('.drop-target', function (el, e) {
 onTouchLeave('.drop-target', function (el, e) {
     el.classList.remove('hovered')
 })
+
+document.onreadystatechange = function () {
+  let state = document.readyState;
+  if (state == 'complete') {
+      switchView();
+      document.getElementById('load').classList.add('hide');
+      applyGroupHandlers();
+  }
+}
