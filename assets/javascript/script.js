@@ -123,6 +123,7 @@ const touchEnd = e => {
     const destination_element = document.elementFromPoint(finishingTouch.clientX, finishingTouch.clientY);
     if (destination_element && destination_element.classList.contains('drop-targets')) {
         destination_element.append(moving_element);
+        afterTheDrop();
     }
 
 }
@@ -152,23 +153,57 @@ function dragDrop(e) {
     console.log(e);
     this.append(moving_element.target);
 
+    afterTheDrop();
 
+
+
+}
+
+function afterTheDrop() {
     //TODO RECALCULATE
     /*
-    1. check if group in names column is empty, if yes, remove it
-    2. if person is moved out of group, re cal group weight
+    1.
     3. when group or person put into a flight, recalc balances
      */
 
     // when names is empty, show the names-empty div
     if (document.querySelectorAll('#names .person').length == 0) {
-        document.querySelector('.names-empty').classList.toggle('hide');
+        document.querySelector('.names-empty').classList.remove('hide');
         document.getElementById('names').classList.add('hide');
     }
 
+    // check if group in  names is empty and hide it
+    const groups_in_names = document.querySelectorAll('#names .group .details');
+    for (const group_element of groups_in_names) {
+       if(group_element.childElementCount ===0){
+            group_element.parentElement.classList.add('hide');
+        }
+    }
+
+    // calculate the left/right flight totals
+    for (const flight of flight_elements){
+        let total = 0;
+        for (const person of flight.querySelectorAll('.person')) {
+            total += parseInt(person.dataset.weight);
+        }
+        flight.parentElement.querySelector('.total-weight').innerHTML = total.toString();
+        flight.parentElement.querySelector('.total-weight').dataset.weight = total.toString();
+    }
+
+    // calculate the flight totals
+    let total = 0;
+    for (const side of document.querySelectorAll('#flight-1 .total-weight')){
+        total += parseInt(side.dataset.weight);
+    }
+    document.querySelector('.flight-weight-1').innerHTML = total.toString();
+    total = 0;
+    for (const side of document.querySelectorAll('#flight-2 .total-weight')){
+        total += parseInt(side.dataset.weight);
+    }
+    document.querySelector('.flight-weight-2').innerHTML = total.toString();
+
 
 }
-
 
 // flight listeners
 for (const flight_element of flight_elements) {
