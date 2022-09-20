@@ -259,9 +259,9 @@ document.getElementById('import').addEventListener('click', (e) => {
 //   .then(data => console.log(data))
 //   .catch(error => console.log(error));
 
-onTouchEnter('.drop-target',function(el,e){
-  el.classList.add('hovered')
+onTouchEnter('.drop-target', function (el, e) {
+    el.classList.add('hovered')
 })
-onTouchLeave('.drop-target',function(el,e){
-  el.classList.remove('hovered')
+onTouchLeave('.drop-target', function (el, e) {
+    el.classList.remove('hovered')
 })
