@@ -122,7 +122,6 @@ const touchStart = e => {
 
 function dragDrop(e) {
     this.classList.toggle('hovered');
-    console.log(e);
     this.append(moving_element.target);
 
     afterTheDrop();
@@ -245,7 +244,7 @@ document.getElementById('import').addEventListener('click', (e) => {
                 return a.group < b.group ? -1 : 1
             }
         });
-        console.log(sorted)
+        //console.log(sorted)
 
         applyGroupHandlers();
     }
