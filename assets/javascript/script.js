@@ -145,12 +145,14 @@ function afterTheDrop() {
 
     // calculate the left/right flight totals
     for (const flight of flight_elements) {
-        let total = 0;
-        for (const person of flight.querySelectorAll('.person')) {
-            total += parseInt(person.dataset.weight);
+        if(!flight.classList.contains('names')) {
+            let total = 0;
+            for (const person of flight.querySelectorAll('.person')) {
+                total += parseInt(person.dataset.weight);
+            }
+            flight.parentElement.querySelector('.total-weight').innerHTML = total.toString();
+            flight.parentElement.querySelector('.total-weight').dataset.weight = total.toString();
         }
-        flight.parentElement.querySelector('.total-weight').innerHTML = total.toString();
-        flight.parentElement.querySelector('.total-weight').dataset.weight = total.toString();
     }
 
     // calculate the flight totals
