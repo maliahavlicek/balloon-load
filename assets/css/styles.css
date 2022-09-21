@@ -10,27 +10,34 @@ h1, h2, h3 {
 .flights {
     order: 2;
 }
-#flight-1{
+
+#flight-1 {
     background: #ffffd2;
 }
-#flight-2{
+
+#flight-2 {
     background: #f0ffff;
 }
-.flight-label{
+
+.flight-label {
     position: relative;
     top: -2.4rem;
+    text-align: left;
 }
+
 .flight {
     display: grid;
     grid-template-columns: repeat(2, minmax(4rem, 1fr));
     grid-auto-rows: minmax(30px, auto);
 }
+
 .flight-summary {
     display: grid;
     grid-template-columns:repeat(4, minmax(4rem, 1fr));
     grid-auto-rows: minmax(30px, auto);
 }
-.flight-summary:before{
+
+.flight-summary:before {
     content: 'WEIGHT';
     background: #3f3737;
     color: white;
@@ -170,6 +177,22 @@ aside {
 
 
 @media screen and (min-width: 992px) {
+    .fs-1 {
+        font-size: 34px !important;
+    }
+    .fs-3{
+        font-size: 26px!important;
+    }
+
+    .my-2 {
+        margin-top: 0.5rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    .px-2 {
+        padding-right: 0.5rem !important;
+        padding-left: 0.5rem !important;
+    }
 
     .flights {
         order: 1;
@@ -179,6 +202,9 @@ aside {
         border: 1px solid black;
         text-align: center;
         background-color: #e6e6e6;
+    }
+    .flight-label{
+        top: -0.8rem;
     }
 
     .names {
@@ -200,5 +226,5 @@ aside {
 
 
 .hide {
-    display: none!important;
+    display: none !important;
 }
