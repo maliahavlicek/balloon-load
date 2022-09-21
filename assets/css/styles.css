@@ -67,10 +67,6 @@ aside {
     background: #efe7f6;
 }
 
-.group.hold {
-    border: solid 5px #ccc;
-    opacity: 0.75;
-}
 
 .hovered {
     background: #f4f4f4;
@@ -152,6 +148,12 @@ aside {
 
 .details .group:last-child {
     border-bottom: 1px solid black;
+}
+
+.group.hold {
+    border: solid 5px #ccc;
+    opacity: 0.75;
+    overflow:visible!important;
 }
 
 .group-0 {

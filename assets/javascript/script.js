@@ -90,6 +90,10 @@ const touchEnd = e => {
     moving_element.style.setProperty('--translateY', '0');
     try {
         hovered_flight.classList.remove('hovered');
+
+        if (moving_element.parentElement.parentElement.classList.contains('group')) {
+            moving_element.parentElement.parentElement.style.setProperty('overflow', 'hidden');
+        }
     } catch {
         //do nothing timing issue might not realize hover is already off
     }
@@ -115,6 +119,9 @@ const touchStart = e => {
         startY = touch.clientY;
         moving_element = e.currentTarget;
         moving_element.classList.add('hold');
+        if (moving_element.parentElement.parentElement.classList.contains('group')) {
+            moving_element.parentElement.parentElement.style.setProperty('overflow', 'visible');
+        }
         moving_element.removeEventListener('touchmove', touchMove);
         moving_element.removeEventListener('touchend', touchEnd);
         moving_element.addEventListener('touchmove', function(e) {
