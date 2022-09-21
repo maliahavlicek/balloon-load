@@ -10,7 +10,7 @@ const colors = ['#eae4e9ff', '#fff1e6ff', '#fde2e4ff', '#fad2e1ff', '#e2ece9ff',
 let group_elements = [];
 let moving_element = '';
 let startX, startY;
-const flight_elements = document.querySelectorAll('.drop-targets');
+const flight_elements = document.querySelectorAll('.drop-targets:not(.names)');
 let hovered_flight;
 
 // flight drag functions
@@ -88,7 +88,11 @@ const touchEnd = e => {
     moving_element.classList.remove('hold');
     moving_element.style.setProperty('--translateX', '0');
     moving_element.style.setProperty('--translateY', '0');
-    hovered_flight.classList.remove('hovered');
+    try {
+        hovered_flight.classList.remove('hovered');
+    } catch {
+        //do nothing timing issue might not realize hover is already off
+    }
     hovered_flight = undefined;
 
 
@@ -134,38 +138,47 @@ function dragDrop(e) {
 
 function afterTheDrop() {
 
-
-    // check if group  is empty and hide it
     const groups_parents = document.querySelectorAll('.group .details');
+
     for (const group_element of groups_parents) {
+        // check if group  is empty and hide it
         if (group_element.childElementCount === 0) {
             group_element.parentElement.classList.add('hide');
         }
+        // recalculate group weight
+        let group_total = 0;
+        for (const person of group_element.querySelectorAll('.person')) {
+                group_total += parseInt(person.dataset.weight);
+            }
+        group_element.parentElement.querySelector('.group-weight').innerHTML = group_total.toString();
+        group_element.parentElement.dataset.weight=group_total.toString();
     }
 
-    // calculate the left/right flight totals
+
+    // update left-right weights
     for (const flight of flight_elements) {
-        if(!flight.classList.contains('names')) {
+
             let total = 0;
             for (const person of flight.querySelectorAll('.person')) {
                 total += parseInt(person.dataset.weight);
             }
-            flight.parentElement.querySelector('.total-weight').innerHTML = total.toString();
-            flight.parentElement.querySelector('.total-weight').dataset.weight = total.toString();
-        }
+            let weight_elm = document.querySelector(flight.dataset.weight_elm);
+            weight_elm.innerHTML = total.toString();
+            flight.dataset.weight=total.toString();
+
     }
 
-    // calculate the flight totals
-    let total = 0;
-    for (const side of document.querySelectorAll('#flight-1 .total-weight')) {
-        total += parseInt(side.dataset.weight);
+    // update total weights
+    for (const flight of document.querySelectorAll('.flight')) {
+        let total = 0;
+        for (const side of flight.querySelectorAll('.drop-targets')) {
+                total += parseInt(side.dataset.weight);
+            }
+        flight.querySelector('.total-weight').innerHTML = total.toString();
+
     }
-    document.querySelector('.flight-weight-1').innerHTML = total.toString();
-    total = 0;
-    for (const side of document.querySelectorAll('#flight-2 .total-weight')) {
-        total += parseInt(side.dataset.weight);
-    }
-    document.querySelector('.flight-weight-2').innerHTML = total.toString();
+
+
 
 
 }

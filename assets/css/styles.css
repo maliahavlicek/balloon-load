@@ -3,24 +3,50 @@
     --translateY: 0;
 }
 
-/* Grid */
-.column {
-    flex-basis: 100%;
-}
-
-.row {
-    display: flex;
-    flex-direction: column;
-}
-
-
 h1, h2, h3 {
     text-align: center;
 }
 
 .flights {
-    padding: 0.8rem;
     order: 2;
+}
+#flight-1{
+    background: #ffffd2;
+}
+#flight-2{
+    background: #f0ffff;
+}
+.flight-label{
+    position: relative;
+    top: -2.4rem;
+}
+.flight {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(4rem, 1fr));
+    grid-auto-rows: minmax(30px, auto);
+}
+.flight-summary {
+    display: grid;
+    grid-template-columns:repeat(4, minmax(4rem, 1fr));
+    grid-auto-rows: minmax(30px, auto);
+}
+.flight-summary:before{
+    content: 'WEIGHTS';
+    background: #3f3737;
+    color: white;
+    text-align: center;
+    margin: 0;
+    padding: 0.3rem;
+    font-size: 20px;
+    letter-spacing: .1rem;
+    border: none;
+    /* line-height: 36px; */
+    height: 100%;
+}
+
+.full-row {
+    grid-column-start: 1;
+    grid-column-end: 4;
 }
 
 aside {
@@ -32,7 +58,7 @@ aside {
     border: 1px solid black;
     margin: 0.8rem;
     padding: 3rem 0.8rem;
-    background: #8926eb21;
+    background: #efe7f6;
 }
 
 .group.hold {
@@ -40,47 +66,63 @@ aside {
     opacity: 0.75;
 }
 
-.hovered{
+.hovered {
     background: #f4f4f4;
     border-style: dashed;
 }
 
 .person-item {
     padding-left: 0.4rem;
-    align-self: center;
+    display: block;
 }
+
+.weight + .person-item {
+    padding-left: 0.8rem;
+}
+
 
 .group-name {
     font-size: 24px;
-    margin: 1.2rem 0;
+    margin: 0.2rem auto;
     text-align: center;
+    display: block;
+}
 
+.flight .group-name {
+    width: max-content;
+    text-align: center;
 }
 
 .group .weight {
-    width: 100px;
-    height: 100px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    font-size: 50px;
+    font-size: 30px;
     color: #fff;
-    line-height: 100px;
+    line-height: 60px;
     text-align: center;
     background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.person .weight {
-    width: 30px;
-    height: 30px;
+.group.person .weight {
+    display: flex;
+    min-width: 55px;
+    width: max-content;
+    height: auto;
     font-size: 18px;
-    line-height: 30px;
+    line-height: 20px;
     background: #052A90FF;
-    margin: 0 0.8rem 0 0;
     border-radius: 0;
     margin: -0.4rem;
     padding: 0.2rem;
     border: 1px solid white;
+    align-text: center;
+    justify-content: center;
+    align-items: center;
 }
-
 
 .group {
     display: flex;
@@ -90,10 +132,20 @@ aside {
     transform: translate(calc(var(--translateX) * 1px), calc(var(--translateY) * 1px));
 }
 
+.details {
+    overflow-x: hidden;
+}
 
 .details .group {
     margin: 0 1.2rem;
     border-bottom: none;
+    overflow: hidden;
+    width: calc(100% - 1.2rem);
+    height: 35px;
+}
+
+.group-details .weight {
+    align-self: center;
 }
 
 .details .group:last-child {
@@ -121,25 +173,10 @@ aside {
 ];
 } */
 
-#names {
-    min-height: 100px;
-    padding: 1.2rem;
-}
 
 @media screen and (min-width: 992px) {
-    .row {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-    }
-
-    .column {
-        flex: 1;
-    }
 
     .flights {
-        width: 80vw;
-        max-width: 80vw;
         order: 1;
     }
 
@@ -168,5 +205,5 @@ aside {
 
 
 .hide {
-    display: none;
+    display: none!important;
 }
