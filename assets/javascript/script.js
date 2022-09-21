@@ -1,4 +1,5 @@
-/* basic touch process https://jh3y.medium.com/implementing-touch-support-in-javascript-b8e43f267a16 */
+// Default SortableJS
+
 
 const upload = document.querySelector('.upload');
 const main = document.querySelector('.main');
@@ -7,130 +8,52 @@ const colors = ['#eae4e9ff', '#fff1e6ff', '#fde2e4ff', '#fad2e1ff', '#e2ece9ff',
     '#dfe7fdff', '#cddafdff', '#dfd7fcff', '#f8b4c4ff', '#ffedc2ff', '#60fbd2ff', '#7cd5f3ff', '#8fdbf5ff', '#3dccc7ff'
 ];
 
-let group_elements = [];
-let moving_element = '';
-let startX, startY;
 const flight_elements = document.querySelectorAll('.drop-targets');
-let hovered_flight;
-
-// flight drag functions
-
-function dragStart(e) {
-    //don't want to hide to propagate up to group parent
-    e.stopPropagation();
-    this.classList.toggle('hold');
-    setTimeout(() => (this.classList.toggle('hide')), 0);
-    moving_element = e;
-}
-
-function dragEnd(e) {
-    // don't want to hold/hide to propagate up to group parent
-    e.stopPropagation()
-    this.classList.toggle('hold');
-    this.classList.toggle('hide');
-}
-
-function dragOver(e) {
-    e.preventDefault();
-}
-
-function dragEnter(e) {
-    e.preventDefault();
-    this.classList.toggle('hovered');
-}
-
-function dragLeave() {
-    this.classList.toggle('hovered');
-}
-
-const touchMove = e => {
-    e.preventDefault();
-    //only 1 finger action detected
-    if (e.targetTouches.length == 1) {
-        const progressX = startX - e.touches[0].clientX
-        const progressY = startY - e.touches[0].clientY
-        const translationX =
-            progressX > 0
-                ? parseInt(-Math.abs(progressX))
-                : parseInt(Math.abs(progressX))
-        const translationY =
-            progressY > 0
-                ? parseInt(-Math.abs(progressY))
-                : parseInt(Math.abs(progressY))
-
-        let els = document.elementsFromPoint(e.touches[0].clientX, e.touches[0].clientY);
-        for (const el of els) {
-            if (el.classList.contains('drop-targets')) {
-                if(typeof hovered_flight == 'undefined'){
-                    el.classList.add('hovered');
-                    hovered_flight = el;
-                }
-                if (hovered_flight && hovered_flight != el){
-                    hovered_flight.classList.remove('hovered');
-                    el.classList.add('hovered');
-                    hovered_flight = el;
-                }
-
-            }
-        }
-
-        moving_element.style.setProperty('--translateX', translationX);
-        moving_element.style.setProperty('--translateY', translationY);
 
 
+// drop drag functions
+const flightOneRight = document.getElementById('f1-right');
+const flightOneLeft = document.getElementById('f1-left');
+const flightTwoRight = document.getElementById('f2-right');
+const flightTwoLeft = document.getElementById('f2-left');
+const names = document.getElementById('names');
+
+
+function applyGroupHandlers() {
+    new Sortable(flightOneRight, {
+        group: 'shared', // all drop areas to same group to allow access across elements
+        animation: 150
+    });
+
+    new Sortable(flightOneLeft, {
+        group: 'shared', // all drop areas to same group to allow access across elements
+        animation: 150
+    });
+    new Sortable(flightTwoRight, {
+        group: 'shared', // all drop areas to same group to allow access across elements
+        animation: 150
+    });
+    new Sortable(flightTwoLeft, {
+        group: 'shared', // all drop areas to same group to allow access across elements
+        animation: 150
+    });
+    new Sortable(names, {
+        group: 'shared', // all drop areas to same group to allow access across elements
+        animation: 150
+    });
+
+    let nestedSortables = [].slice.call(document.querySelectorAll('.nested-sortable'));
+    // Loop through each nested sortable element
+    for (let i = 0; i < nestedSortables.length; i++) {
+        new Sortable(nestedSortables[i], {
+            group: 'nested',
+            animation: 150,
+            fallbackOnBody: true,
+            swapThreshold: 0.65
+        });
     }
 }
 
-const touchEnd = e => {
-    e.stopPropagation();
-    const finishingTouch = e.changedTouches[0];
-
-    moving_element.classList.remove('hold');
-    moving_element.style.setProperty('--translateX', '0');
-    moving_element.style.setProperty('--translateY', '0');
-    hovered_flight.classList.remove('hovered');
-    hovered_flight = undefined;
-
-
-    const destination_element = document.elementFromPoint(finishingTouch.clientX, finishingTouch.clientY);
-    if (destination_element && destination_element.classList.contains('drop-targets')) {
-        destination_element.append(moving_element);
-        afterTheDrop();
-    }
-
-}
-
-const touchStart = e => {
-
-    e.stopPropagation();
-    const {touches} = e
-    // only 1 finger touch is actionable
-    if (touches && touches.length === 1) {
-        const touch = touches[0]
-        startX = touch.clientX;
-        startY = touch.clientY;
-        moving_element = e.currentTarget;
-        moving_element.classList.add('hold');
-        moving_element.removeEventListener('touchmove', touchMove);
-        moving_element.removeEventListener('touchend', touchEnd);
-        moving_element.addEventListener('touchmove', function(e) {
-            e.preventDefault();
-            touchMove(e);
-        }, {passive:false});
-        moving_element.addEventListener('touchend', touchEnd);
-
-    }
-}
-
-
-function dragDrop(e) {
-    this.classList.toggle('hovered');
-    this.append(moving_element.target);
-
-    afterTheDrop();
-
-
-}
 
 function afterTheDrop() {
 
@@ -174,36 +97,11 @@ function afterTheDrop() {
 }
 
 
-// flight listeners
-for (const flight_element of flight_elements) {
-    flight_element.addEventListener('dragover', dragOver);
-    flight_element.addEventListener('dragenter', dragEnter);
-    flight_element.addEventListener('dragleave', dragLeave);
-    flight_element.addEventListener('drop', dragDrop);
-}
-
 function switchView() {
     upload.classList.toggle('hide');
     main.classList.toggle('hide');
 }
 
-function applyGroupHandlers() {
-    group_elements = document.querySelectorAll('.group');
-
-    //drop any existing group/name listeners
-    for (const group_element of group_elements) {
-        group_element.removeEventListener('dragstart', dragStart);
-        group_element.removeEventListener('dragend', dragEnd);
-        group_element.removeEventListener('touchstart', touchStart);
-    }
-
-    // apply  group/name listeners
-    for (const group_element of group_elements) {
-        group_element.addEventListener('dragstart', dragStart);
-        group_element.addEventListener('dragend', dragEnd);
-        group_element.addEventListener('touchstart', touchStart);
-    }
-}
 
 document.getElementById('load').addEventListener('click', () => {
     switchView();

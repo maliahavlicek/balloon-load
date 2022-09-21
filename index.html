@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <title>Balloon Loading Calculator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+
     <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+    <!-- jsDelivr :: Sortable :: Latest (https://www.jsdelivr.com/package/npm/sortablejs) -->
+    <!--    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>-->
 </head>
 <body>
 <div class="upload">
@@ -24,9 +29,10 @@
             <h2>Flight 1 - <span class="flight-weight-1">0</span></h2>
             <div id="flight-1" class="flight row">
                 <div class="left column">
-                    <h3>Left - <span  class="total-weight">0</span></h3>
+                    <h3>Left - <span class="total-weight">0</span></h3>
 
-                    <div id="f1-left" class="drop-targets">
+                    <div id="f1-left" class="drop-targets nested-sortable">
+
 
                     </div>
 
@@ -34,24 +40,29 @@
                 <div class="right column">
 
                     <h3>Right - <span class="total-weight">0</span></h3>
-                    <div id="f1-right" class="drop-targets">
+                    <div id="f1-right" class="drop-targets nested-sortable">
+
 
                     </div>
 
                 </div>
             </div>
-            <h2>Flight 2  - <span class="flight-weight-2">0</span></h2>
+            <h2>Flight 2 - <span class="flight-weight-2">0</span></h2>
             <div id="flight-2" class="flight row">
                 <div class="left column">
                     <h3>Left - <span class="total-weight">0</span></h3>
-                    <div id="f2-left" class="drop-targets">
+                    <div id="f2-left" class="drop-targets nested-sortable">
+
 
                     </div>
 
                 </div>
                 <div class="right column">
                     <h3>Right - <span class="total-weight">0</span></h3>
-                    <div id="f2-right" class="drop-targets">
+                    <div id="f2-right" class="drop-targets nested-sortable">
+
+
+
 
                     </div>
 
@@ -65,68 +76,87 @@
                 <p>No more names</p>
 
             </div>
-            <div id="names" class="names">
-                <div class="group group-1" id="g1" data-weight="600" draggable="true"
-                     style="--translateX:0;--translateY:0;">
-                    <div class="group-details">
-                        <div class="group-name" data-group-name="Group 1">Group 1</div>
-                        <div class="weight group-weight">600</div>
-                    </div>
-                    <div class="details">
-                        <div class="person group group-1" id="g1-p1" data-weight="200" draggable="true"
-                             style="--translateX:0;--translateY:0;">
-                            <div class="weight">200</div>
-                            <div class="person-item">1</div>
-                            <div class="person-item">George</div>
-                            <div class="person-item">Washington</div>
-                        </div>
-                        <div class="person group group-1" id="g1-p2" data-weight="120" draggable="true"
-                             style="--translateX:0;--translateY:0;">
-                            <div class="weight">120</div>
-                            <div class="person-item">1</div>
-                            <div class="person-item">Martha</div>
-                            <div class="person-item">Washington</div>
-
-                        </div>
-                        <div class="person group group-1" id="g1-p3" data-weight="180" draggable="true"
-                             style="--translateX:0;--translateY:0;">
-                            <div class="weight">180</div>
-                            <div class="person-item">1</div>
-                            <div class="person-item">John Parke</div>
-                            <div class="person-item">Washington</div>
-                        </div>
-                        <div class="person group group-1" id="g1-p4" data-weight="100" draggable="true"
-                             style="--translateX:0;--translateY:0;">
-                            <div class="weight">100</div>
-                            <div class="person-item">1</div>
-                            <div class="person-item">Martha Parke</div>
-                            <div class="person-item">Washington</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="group group-2" id="g2" data-weight="300" draggable="true"
-                     style="--translateX:0;--translateY:0;">
-                    <div class="group-details">
-                        <div class="group-name" data-group-name="Group 2">Group 2</div>
-                        <div class="weight group-weight">300</div>
-                    </div>
-                    <div class="details">
-                        <div class="person group group-2" id="g2-p1" data-weight="192" draggable="true"
-                             style="--translateX:0;--translateY:0;">
-                            <div class="weight">192</div>
-                            <div class="person-item">2</div>
-                            <div class="person-item">Homer</div>
-                            <div class="person-item">Simpson</div>
-                        </div>
-                        <div class="person group group-2" id="g2-p2" data-weight="108" draggable="true"
-                             style="--translateX:0;--translateY:0;">
-                            <div class="weight">108</div>
-                            <div class="person-item">2</div>
-                            <div class="person-item">Marge</div>
-                            <div class="person-item">Simpson</div>
-                        </div>
-                    </div>
-                </div>
+            <div id="names" class="names nested-sortable">
+                                <div class="nested-1 group group-1" id="g1" data-weight="600">
+                                    <div class="group-details">
+                                        <div class="group-name" data-group-name="Group 1">Group 1</div>
+                                        <div class="weight group-weight">600</div>
+                                    </div>
+                                    <div class="details nested-sortable">
+                                        <div class="nested-2 person group group-1" id="g1-p1" data-weight="200">
+                                            <div class="weight">200</div>
+                                            <div class="person-item">1</div>
+                                            <div class="person-item">George</div>
+                                            <div class="person-item">Washington</div>
+                                        </div>
+                                        <div class="nested-2 person group group-1" id="g1-p2" data-weight="120">
+                                            <div class="weight">120</div>
+                                            <div class="person-item">1</div>
+                                            <div class="person-item">Martha</div>
+                                            <div class="person-item">Washington</div>
+                                        </div>
+                                        <div class="nested-2 person group group-1" id="g1-p3" data-weight="180">
+                                            <div class="weight">180</div>
+                                            <div class="person-item">1</div>
+                                            <div class="person-item">John Parke</div>
+                                            <div class="person-item">Washington</div>
+                                        </div>
+                                        <div class="nested-2 person group group-1" id="g1-p4" data-weight="100">
+                                            <div class="weight">100</div>
+                                            <div class="person-item">1</div>
+                                            <div class="person-item">Martha Parke</div>
+                                            <div class="person-item">Washington</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="nested-1 group group-2" id="g2" data-weight="300">
+                                    <div class="group-details">
+                                        <div class="group-name" data-group-name="Group 2">Group 2</div>
+                                        <div class="weight group-weight">300</div>
+                                    </div>
+                                    <div class="details nested-sortable">
+                                        <div class="nested-2 person group group-2" id="g2-p1" data-weight="192">
+                                            <div class="weight">192</div>
+                                            <div class="person-item">2</div>
+                                            <div class="person-item">Homer</div>
+                                            <div class="person-item">Simpson</div>
+                                        </div>
+                                        <div class="nested-2 person group group-2" id="g2-p2" data-weight="108">
+                                            <div class="weight">108</div>
+                                            <div class="person-item">2</div>
+                                            <div class="person-item">Marge</div>
+                                            <div class="person-item">Simpson</div>
+                                        </div>
+                                    </div>
+                                </div>
+<!--                <div id="nestedDemo" class="list-group col nested-sortable">-->
+<!--                    <div class="list-group-item nested-1">Item 1.1-->
+<!--                        <div class="list-group nested-sortable">-->
+<!--                            <div class="list-group-item nested-2">Item 2.1</div>-->
+<!--                            <div class="list-group-item nested-2">Item 2.2-->
+<!--                                <div class="list-group nested-sortable">-->
+<!--                                    <div class="list-group-item nested-3">Item 3.1</div>-->
+<!--                                    <div class="list-group-item nested-3">Item 3.2</div>-->
+<!--                                    <div class="list-group-item nested-3">Item 3.3</div>-->
+<!--                                    <div class="list-group-item nested-3">Item 3.4</div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="list-group-item nested-2">Item 2.3</div>-->
+<!--                            <div class="list-group-item nested-2">Item 2.4</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="list-group-item nested-1">Item 1.2</div>-->
+<!--                    <div class="list-group-item nested-1">Item 1.3</div>-->
+<!--                    <div class="list-group-item nested-1">Item 1.4-->
+<!--                        <div class="list-group nested-sortable">-->
+<!--                            <div class="list-group-item nested-2">Item 2.1</div>-->
+<!--                            <div class="list-group-item nested-2">Item 2.2</div>-->
+<!--                            <div class="list-group-item nested-2">Item 2.3</div>-->
+<!--                            <div class="list-group-item nested-2">Item 2.4</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="list-group-item nested-1">Item 1.5</div>-->
+<!--                </div>-->
 
             </div>
         </aside>
@@ -138,6 +168,12 @@
     </div>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+        crossorigin="anonymous"></script>
+<!-- jsDelivr :: Sortable :: Latest (https://www.jsdelivr.com/package/npm/sortablejs) -->
+<!--<script type="module" src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>-->
+<script type="module" src="assets/javascript/Sortable.js"></script>
 <script src="assets/javascript/script.js"></script>
 </body>
 </html>
