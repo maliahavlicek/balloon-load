@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Balloon Loading Calculator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
 </head>
 <body>
@@ -18,113 +20,151 @@
 
 </div>
 
-<section class="main hide">
+<section class="main hide container">
     <div class="row">
-        <div class="column flights">
-            <h2>Flight 1 - <span class="flight-weight-1">0</span></h2>
-            <div id="flight-1" class="flight row">
-                <div class="left column">
-                    <h3>Left - <span  class="total-weight">0</span></h3>
+        <div class="flights m-0 p-0">
+            <div id="flight-1" class="flight border my-2">
 
-                    <div id="f1-left" class="drop-targets">
-
-                    </div>
-
+                <div class="fs-1 full-row px-2">
+                    Flight 1
                 </div>
-                <div class="right column">
 
-                    <h3>Right - <span class="total-weight">0</span></h3>
-                    <div id="f1-right" class="drop-targets">
-
-                    </div>
-
+                <div id="f1-left" class="left drop-targets m-0" data-weight_elm="#flight-1 .left-weight">
+                    <div class="fs-3 flight-label" draggable="false">Left Patrons</div>
                 </div>
-            </div>
-            <h2>Flight 2  - <span class="flight-weight-2">0</span></h2>
-            <div id="flight-2" class="flight row">
-                <div class="left column">
-                    <h3>Left - <span class="total-weight">0</span></h3>
-                    <div id="f2-left" class="drop-targets">
-
-                    </div>
-
+                <div id="f1-right" class="right drop-targets m-0" data-weight_elm="#flight-1 .right-weight">
+                    <div class="fs-3 flight-label" draggable="false">Right Patrons</div>
                 </div>
-                <div class="right column">
-                    <h3>Right - <span class="total-weight">0</span></h3>
-                    <div id="f2-right" class="drop-targets">
 
+
+                <div class="full-row">
+                    <div class="flight-summary">
+                        <div class="d-flex flex-row border justify-content-end px-3">
+                            <div class="text-end fs-3">Right:</div>
+                            <div class="left-weight text-start mx-2 fs-3">0</div>
+                        </div>
+
+                        <div class="d-flex flex-row border justify-content-end px-3">
+                            <div class="text-end fs-3">Left:</div>
+                            <div class="right-weight text-start mx-2 fs-3">0</div>
+                        </div>
+
+                        <div class="d-block border text-center px-3">
+                            <div class="text-end fs-3 px-2 ">Total: <span class="total-weight">0</span></div>
+                        </div>
                     </div>
-
                 </div>
             </div>
+
+            <div id="flight-2" class="flight border my-2">
+
+                <div class="fs-1 full-row px-2">
+                    Flight 2
+                </div>
+
+                <div id="f2-left" class="left drop-targets m-0" data-weight_elm="#flight-2 .left-weight">
+                    <div class="fs-3 flight-label" draggable="false">Left Patrons</div>
+                </div>
+                <div id="f2-right" class="right drop-targets m-0" data-weight_elm="#flight-2 .right-weight">
+                    <div class="fs-3 flight-label" draggable="false">Right Patrons</div>
+                </div>
+
+
+                <div class="full-row">
+                    <div class="flight-summary">
+                        <div class="d-flex flex-row border justify-content-end px-3">
+                            <div class="text-end fs-3">Right:</div>
+                            <div class="left-weight text-start mx-2 fs-3">0</div>
+                        </div>
+
+                        <div class="d-flex flex-row border justify-content-end px-3">
+                            <div class="text-end fs-3">Left:</div>
+                            <div class="right-weight text-start mx-2 fs-3">0</div>
+                        </div>
+
+                        <div class="d-block border text-center px-3">
+                            <div class="text-end fs-3 px-2 ">Total: <span class="total-weight">0</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
-        <aside class="column">
-            <h2>Names</h2>
-            <div id="names" class="names drop-targets">
-                <div class="group group-1" id="g1" data-weight="600" draggable="true"
-                     style="--translateX:0;--translateY:0;">
-                    <div class="group-details">
-                        <div class="group-name" data-group-name="Group 1">Group 1</div>
-                        <div class="weight group-weight">600</div>
-                    </div>
-                    <div class="details">
-                        <div class="person group group-1" id="g1-p1" data-weight="200" draggable="true"
-                             style="--translateX:0;--translateY:0;">
-                            <div class="weight">200</div>
-                            <div class="person-item">1</div>
-                            <div class="person-item">George</div>
-                            <div class="person-item">Washington</div>
-                        </div>
-                        <div class="person group group-1" id="g1-p2" data-weight="120" draggable="true"
-                             style="--translateX:0;--translateY:0;">
-                            <div class="weight">120</div>
-                            <div class="person-item">1</div>
-                            <div class="person-item">Martha</div>
-                            <div class="person-item">Washington</div>
+    </div>
+    <div class="row mt-3">
 
-                        </div>
-                        <div class="person group group-1" id="g1-p3" data-weight="180" draggable="true"
-                             style="--translateX:0;--translateY:0;">
-                            <div class="weight">180</div>
-                            <div class="person-item">1</div>
-                            <div class="person-item">John Parke</div>
-                            <div class="person-item">Washington</div>
-                        </div>
-                        <div class="person group group-1" id="g1-p4" data-weight="100" draggable="true"
-                             style="--translateX:0;--translateY:0;">
-                            <div class="weight">100</div>
-                            <div class="person-item">1</div>
-                            <div class="person-item">Martha Parke</div>
-                            <div class="person-item">Washington</div>
-                        </div>
+
+    </div>
+
+    <aside class="row mt-3 border">
+        <div id="names" class="names drop-targets m-0">
+
+            <div class="fs-3 flight-label" draggable="false">Patrons</div>
+            <div class="group group-1 d-flex" id="g1" data-weight="600" draggable="true"
+                 style="--translateX:0;--translateY:0;">
+                <div class="group-details d-flex flex-column">
+                    <div class="group-name" data-group-name="Group 1">Group 1</div>
+                    <div class="weight group-weight">600</div>
+                </div>
+                <div class="details d-flex flex-column">
+                    <div class="person group group-1 d-flex flex-row" id="g1-p1" data-weight="200" draggable="true"
+                         style="--translateX:0;--translateY:0;">
+                        <div class="weight">200</div>
+                        <div class="person-item">1</div>
+                        <div class="person-item">George</div>
+                        <div class="person-item">Washington</div>
+                    </div>
+                    <div class="person group group-1 d-flex flex-row" id="g1-p2" data-weight="120" draggable="true"
+                         style="--translateX:0;--translateY:0;">
+                        <div class="weight">120</div>
+                        <div class="person-item">1</div>
+                        <div class="person-item">Martha</div>
+                        <div class="person-item">Washington</div>
+
+                    </div>
+                    <div class="person group group-1 d-flex flex-row" id="g1-p3" data-weight="180" draggable="true"
+                         style="--translateX:0;--translateY:0;">
+                        <div class="weight">180</div>
+                        <div class="person-item">1</div>
+                        <div class="person-item">John Parke</div>
+                        <div class="person-item">Washington</div>
+                    </div>
+                    <div class="person group group-1 d-flex flex-row" id="g1-p4" data-weight="100" draggable="true"
+                         style="--translateX:0;--translateY:0;">
+                        <div class="weight">100</div>
+                        <div class="person-item">1</div>
+                        <div class="person-item">Martha Parke</div>
+                        <div class="person-item">Washington</div>
                     </div>
                 </div>
-                <div class="group group-2" id="g2" data-weight="300" draggable="true"
-                     style="--translateX:0;--translateY:0;">
-                    <div class="group-details">
-                        <div class="group-name" data-group-name="Group 2">Group 2</div>
-                        <div class="weight group-weight">300</div>
-                    </div>
-                    <div class="details">
-                        <div class="person group group-2" id="g2-p1" data-weight="192" draggable="true"
-                             style="--translateX:0;--translateY:0;">
-                            <div class="weight">192</div>
-                            <div class="person-item">2</div>
-                            <div class="person-item">Homer</div>
-                            <div class="person-item">Simpson</div>
-                        </div>
-                        <div class="person group group-2" id="g2-p2" data-weight="108" draggable="true"
-                             style="--translateX:0;--translateY:0;">
-                            <div class="weight">108</div>
-                            <div class="person-item">2</div>
-                            <div class="person-item">Marge</div>
-                            <div class="person-item">Simpson</div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-        </aside>
+            <div class="group group-2 d-flex" id="g2" data-weight="300" draggable="true"
+                 style="--translateX:0;--translateY:0;">
+                <div class="group-details d-flex flex-column">
+                    <div class="group-name" data-group-name="Group 2">Group 2</div>
+                    <div class="weight group-weight">300</div>
+                </div>
+                <div class="details d-block">
+                    <div class="person group group-2 d-flex flex-row" id="g2-p1" data-weight="192" draggable="true"
+                         style="--translateX:0;--translateY:0;">
+                        <div class="weight">192</div>
+                        <div class="person-item">2</div>
+                        <div class="person-item">Homer</div>
+                        <div class="person-item">Simpson</div>
+                    </div>
+                    <div class="person group group-2 d-flex flex-row" id="g2-p2" data-weight="108" draggable="true"
+                         style="--translateX:0;--translateY:0;">
+                        <div class="weight">108</div>
+                        <div class="person-item">2</div>
+                        <div class="person-item">Marge</div>
+                        <div class="person-item">Simpson</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </aside>
     </div>
     <div class="row">
         <div class="column">
