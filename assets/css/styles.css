@@ -32,6 +32,7 @@ aside {
     border: 1px solid black;
     margin: 0.8rem;
     padding: 3rem 0.8rem;
+    background: #8926eb21;
 }
 
 .group.hold {
@@ -39,7 +40,7 @@ aside {
     opacity: 0.75;
 }
 
-.hovered {
+.hovered{
     background: #f4f4f4;
     border-style: dashed;
 }
@@ -74,7 +75,12 @@ aside {
     line-height: 30px;
     background: #052A90FF;
     margin: 0 0.8rem 0 0;
+    border-radius: 0;
+    margin: -0.4rem;
+    padding: 0.2rem;
+    border: 1px solid white;
 }
+
 
 .group {
     display: flex;
@@ -85,8 +91,13 @@ aside {
 }
 
 
-.names .details .group, .drop-targets .details .group {
-    margin: 0 1.2rem -1px 1.2rem;
+.details .group {
+    margin: 0 1.2rem;
+    border-bottom: none;
+}
+
+.details .group:last-child {
+    border-bottom: 1px solid black;
 }
 
 .group-0 {
@@ -112,7 +123,6 @@ aside {
 
 #names {
     min-height: 100px;
-    border: 1px solid black;
     padding: 1.2rem;
 }
 
