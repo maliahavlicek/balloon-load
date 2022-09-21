@@ -134,15 +134,10 @@ function dragDrop(e) {
 
 function afterTheDrop() {
 
-    // when names is empty, show the names-empty div
-    if (document.querySelectorAll('#names .person').length == 0) {
-        document.querySelector('.names-empty').classList.remove('hide');
-        document.getElementById('names').classList.add('hide');
-    }
 
-    // check if group in  names is empty and hide it
-    const groups_in_names = document.querySelectorAll('#names .group .details');
-    for (const group_element of groups_in_names) {
+    // check if group  is empty and hide it
+    const groups_parents = document.querySelectorAll('.group .details');
+    for (const group_element of groups_parents) {
         if (group_element.childElementCount === 0) {
             group_element.parentElement.classList.add('hide');
         }
@@ -218,7 +213,6 @@ document.getElementById('import').addEventListener('click', (e) => {
 
     let fr = new FileReader();
 
-    document.querySelector('.names-empty').classList.add('hide');
     document.getElementById('names').classList.remove('hide');
 
     fr.onload = function (e) {
@@ -259,7 +253,7 @@ document.getElementById('import').addEventListener('click', (e) => {
 document.onreadystatechange = function () {
     let state = document.readyState;
     if (state == 'complete') {
-        document.querySelector('.names-empty').classList.add('hide');
+
         switchView();
         document.getElementById('load').classList.add('hide');
         applyGroupHandlers();
