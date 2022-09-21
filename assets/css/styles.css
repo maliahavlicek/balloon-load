@@ -31,17 +31,16 @@ h1, h2, h3 {
     grid-auto-rows: minmax(30px, auto);
 }
 .flight-summary:before{
-    content: 'WEIGHTS';
+    content: 'WEIGHT';
     background: #3f3737;
     color: white;
-    text-align: center;
-    margin: 0;
-    padding: 0.3rem;
     font-size: 20px;
     letter-spacing: .1rem;
     border: none;
-    /* line-height: 36px; */
     height: 100%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
 }
 
 .full-row {
@@ -130,16 +129,12 @@ aside {
     border: 1px solid black;
     padding: 0.4rem;
     transform: translate(calc(var(--translateX) * 1px), calc(var(--translateY) * 1px));
-}
-
-.details {
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 .details .group {
     margin: 0 1.2rem;
     border-bottom: none;
-    overflow: hidden;
     width: calc(100% - 1.2rem);
     height: 35px;
 }
