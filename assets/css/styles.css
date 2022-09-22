@@ -41,7 +41,7 @@ h1, h2, h3 {
     content: 'WEIGHT';
     background: #3f3737;
     color: white;
-    font-size: 20px;
+    font-size: 18px;
     letter-spacing: .1rem;
     border: none;
     height: 100%;
@@ -76,6 +76,7 @@ aside {
 .person-item {
     padding-left: 0.4rem;
     display: block;
+    height: 24px;
 }
 
 .weight + .person-item {
@@ -133,13 +134,14 @@ aside {
     padding: 0.4rem;
     transform: translate(calc(var(--translateX) * 1px), calc(var(--translateY) * 1px));
     overflow: hidden;
+    -webkit-transform-style:preserve-3d;
+    position: relative;
 }
 
 .details .group {
     margin: 0 1.2rem;
     border-bottom: none;
     width: calc(100% - 1.2rem);
-    height: 35px;
 }
 
 .group-details .weight {
@@ -153,7 +155,6 @@ aside {
 .group.hold {
     border: solid 5px #ccc;
     opacity: 0.75;
-    overflow:visible!important;
 }
 
 .group-0 {
