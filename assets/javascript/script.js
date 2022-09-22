@@ -348,3 +348,25 @@ document.onreadystatechange = function () {
 
     }
 }
+
+
+// THINGS TO TRY:
+/*
+1. touch scroll issue: https://stackoverflow.com/questions/36596562/detect-touch-scroll-up-or-down
+2. number keypad for number input vs text
+3. drop person into group
+4. add people count to bigger group display
+4. balancing logic: hill algorithm:
+ - https://www.geeksforgeeks.org/introduction-hill-climbing-artificial-intelligence/
+ - https://www.geeksforgeeks.org/minimum-cost-to-reach-the-top-of-the-floor-by-climbing-stairs/
+ - https://www.geeksforgeeks.org/n-queen-problem-local-search-using-hill-climbing-with-random-neighbour/
+ - https://www.educba.com/hill-climbing-algorithm/
+ - https://gist.github.com/sunetos/444396
+ 7. get info from ILLYA
+ - max weight for balloons (can hard code)
+ - max weight to reserve
+ - what exact steps does it take to balance, any hints to first picks per F1-R F1-L, F2-R, F2-L
+ - example data
+ - picture of balloon for favicon
+ - link to reservation site
+ */
