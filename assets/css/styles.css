@@ -47,9 +47,7 @@ h1, h2, h3 {
 .grand-totals {
     display: grid;
     grid-template-columns: calc(25% - 40px) auto;
-    background: darkseagreen;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
+    background: mediumturquoise;
 }
 
 .grand-totals:before {
@@ -66,7 +64,7 @@ h1, h2, h3 {
 }
 
 .grand-total-cell {
-    background: mediumaquamarine;
+    background: paleturquoise;
 }
 
 .flight-summary:before, .people-summary:before, .flights-summary:before {
@@ -109,7 +107,7 @@ aside {
     border: 1px solid black;
     margin: 0.8rem;
     padding: 3rem 0.8rem;
-    background: #cccccc;
+    background: #ffffff;
 }
 
 .names {
