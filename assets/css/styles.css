@@ -11,18 +11,18 @@ h1, h2, h3 {
     order: 2;
 }
 
-/*#flight-1 {*/
-/*    background: #ffffd2;*/
-/*}*/
-
-/*#flight-2 {*/
-/*    background: #f0ffff;*/
-/*}*/
+.border {
+    border-color: black !important;
+}
 
 .flight-label {
     position: relative;
     top: -2.4rem;
     text-align: left;
+}
+
+.flight-total-cell {
+    background: lightgoldenrodyellow;
 }
 
 .flight {
@@ -31,6 +31,7 @@ h1, h2, h3 {
     display: grid;
     grid-template-columns: repeat(2, minmax(4rem, 1fr));
     grid-auto-rows: minmax(30px, auto);
+    background: palegoldenrod;
 }
 
 .flight-summary, .people-summary, .flights-summary {
@@ -46,7 +47,9 @@ h1, h2, h3 {
 .grand-totals {
     display: grid;
     grid-template-columns: calc(25% - 40px) auto;
-    background: springgreen;
+    background: darkseagreen;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
 }
 
 .grand-totals:before {
@@ -60,6 +63,10 @@ h1, h2, h3 {
     margin: auto;
     transform: rotate(-90deg);
 
+}
+
+.grand-total-cell {
+    background: mediumaquamarine;
 }
 
 .flight-summary:before, .people-summary:before, .flights-summary:before {
@@ -105,6 +112,16 @@ aside {
     background: #cccccc;
 }
 
+.names {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 0.8rem;
+}
+
+.names .flight-label {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
 
 .hovered {
     background: #f4f4f4;
@@ -123,7 +140,7 @@ aside {
 
 
 .group-name {
-    font-size: 24px;
+    font-size: 22px;
     margin: 0.2rem auto;
     text-align: center;
     display: block;
@@ -223,6 +240,21 @@ aside {
         font-size: 16px;
         transform: none;
 
+    }
+
+}
+
+@media screen and (min-width: 768px) {
+
+
+
+    .names {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .names .flight-label {
+        grid-column-start: 1;
+        grid-column-end: 4;
     }
 
 }
