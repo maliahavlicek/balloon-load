@@ -12,6 +12,7 @@ let moving_element = '';
 let startX, startY;
 const flight_elements = document.querySelectorAll('.drop-targets');
 let hovered_flight;
+let guests_added = 0;
 
 // flight drag functions
 
@@ -142,9 +143,7 @@ const touchStart = e => {
 function dragDrop(e) {
     this.classList.toggle('hovered');
     this.append(moving_element.target);
-
     afterTheDrop();
-
 
 }
 
@@ -304,8 +303,30 @@ document.getElementById('import').addEventListener('click', (e) => {
 const myModal = document.getElementById('add-patron-modal')
 const myInput = document.getElementById('weight')
 myModal.addEventListener('shown.bs.modal', () => {
-  myInput.focus()
+    myInput.focus()
 })
+
+// Add Patron
+function addPatron() {
+    // get the weight and name values then create a new object
+    let name = `Guest ${parseInt(guests_added) + 1}`;
+    if (document.getElementById("name").value.length > 0) {
+        name = document.getElementById("name").value;
+    }
+    guests_added++;
+
+    const weight = document.getElementById('weight').value;
+    const groups = document.querySelectorAll('.group:not(.person)').length;
+
+    let new_element = `<div class="person group group-${parseInt(groups) + parseInt(guests_added)} d-flex flex-row" id="g1-p1" data-weight="200" draggable="true" style="--translateX:0; --translateY:0;">` +
+        `<div class="weight">${weight}</div>` +
+        `<div class="person-item">${name}</div>` +
+        `<div class="person-item"></div>` +
+        `</div>`;
+    document.getElementById('names').insertAdjacentHTML('beforeend', new_element);
+    applyGroupHandlers();
+
+}
 
 document.onreadystatechange = function () {
     let state = document.readyState;
@@ -314,6 +335,12 @@ document.onreadystatechange = function () {
         switchView();
         document.getElementById('load').classList.add('hide');
         applyGroupHandlers();
+        document.getElementById('add-patron').addEventListener('submit', function (e) {
+            e.preventDefault();
+            let modal = bootstrap.Modal.getInstance(myModal)
+            modal.hide();
+            addPatron(e);
+        });
 
     }
 }
