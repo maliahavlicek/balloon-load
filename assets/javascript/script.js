@@ -301,6 +301,11 @@ document.getElementById('import').addEventListener('click', (e) => {
     fr.readAsText(files.item(0));
 });
 
+const myModal = document.getElementById('add-patron-modal')
+const myInput = document.getElementById('weight')
+myModal.addEventListener('shown.bs.modal', () => {
+  myInput.focus()
+})
 
 document.onreadystatechange = function () {
     let state = document.readyState;
