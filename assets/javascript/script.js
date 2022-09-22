@@ -61,11 +61,11 @@ const touchMove = e => {
         let els = document.elementsFromPoint(e.touches[0].clientX, e.touches[0].clientY);
         for (const el of els) {
             if (el.classList.contains('drop-targets')) {
-                if(typeof hovered_flight == 'undefined'){
+                if (typeof hovered_flight == 'undefined') {
                     el.classList.add('hovered');
                     hovered_flight = el;
                 }
-                if (hovered_flight && hovered_flight != el){
+                if (hovered_flight && hovered_flight != el) {
                     hovered_flight.classList.remove('hovered');
                     el.classList.add('hovered');
                     hovered_flight = el;
@@ -88,10 +88,11 @@ const touchEnd = e => {
     moving_element.classList.remove('hold');
     moving_element.style.setProperty('--translateX', '0');
     moving_element.style.setProperty('--translateY', '0');
+    moving_element.style.removeProperty('z-index');
     try {
         hovered_flight.classList.remove('hovered');
-
         if (moving_element.parentElement.parentElement.classList.contains('group')) {
+            moving_element.parentElement.parentElement.style.removeProperty('z-index');
             moving_element.parentElement.parentElement.style.setProperty('overflow', 'hidden');
         }
     } catch {
@@ -119,15 +120,19 @@ const touchStart = e => {
         startY = touch.clientY;
         moving_element = e.currentTarget;
         moving_element.classList.add('hold');
+
+        moving_element.style.setProperty('z-index', '200');
+
         if (moving_element.parentElement.parentElement.classList.contains('group')) {
+            moving_element.parentElement.parentElement.style.setProperty('z-index', '200');
             moving_element.parentElement.parentElement.style.setProperty('overflow', 'visible');
         }
         moving_element.removeEventListener('touchmove', touchMove);
         moving_element.removeEventListener('touchend', touchEnd);
-        moving_element.addEventListener('touchmove', function(e) {
+        moving_element.addEventListener('touchmove', function (e) {
             e.preventDefault();
             touchMove(e);
-        }, {passive:false});
+        }, {passive: false});
         moving_element.addEventListener('touchend', touchEnd);
 
     }
@@ -155,23 +160,23 @@ function afterTheDrop() {
         // recalculate group weight
         let group_total = 0;
         for (const person of group_element.querySelectorAll('.person')) {
-                group_total += parseInt(person.dataset.weight);
-            }
+            group_total += parseInt(person.dataset.weight);
+        }
         group_element.parentElement.querySelector('.group-weight').innerHTML = group_total.toString();
-        group_element.parentElement.dataset.weight=group_total.toString();
+        group_element.parentElement.dataset.weight = group_total.toString();
     }
 
 
     // update left-right weights
     for (const flight of flight_elements) {
 
-            let total = 0;
-            for (const person of flight.querySelectorAll('.person')) {
-                total += parseInt(person.dataset.weight);
-            }
-            let weight_elm = document.querySelector(flight.dataset.weight_elm);
-            weight_elm.innerHTML = total.toString();
-            flight.dataset.weight=total.toString();
+        let total = 0;
+        for (const person of flight.querySelectorAll('.person')) {
+            total += parseInt(person.dataset.weight);
+        }
+        let weight_elm = document.querySelector(flight.dataset.weight_elm);
+        weight_elm.innerHTML = total.toString();
+        flight.dataset.weight = total.toString();
 
     }
 
@@ -179,13 +184,11 @@ function afterTheDrop() {
     for (const flight of document.querySelectorAll('.flight')) {
         let total = 0;
         for (const side of flight.querySelectorAll('.drop-targets')) {
-                total += parseInt(side.dataset.weight);
-            }
+            total += parseInt(side.dataset.weight);
+        }
         flight.querySelector('.total-weight').innerHTML = total.toString();
 
     }
-
-
 
 
 }
