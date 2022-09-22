@@ -38,25 +38,27 @@ h1, h2, h3 {
     grid-template-columns:repeat(4, minmax(4rem, 1fr));
     grid-auto-rows: minmax(30px, auto);
 }
-.flights-summary{
+
+.flights-summary {
     grid-template-columns: 40px repeat(3, minmax(4rem, 1fr));
 }
 
-.grand-totals{
+.grand-totals {
     display: grid;
-    grid-template-columns: 100px 1fr;
+    grid-template-columns: calc(25% - 40px) auto;
     background: springgreen;
 }
+
 .grand-totals:before {
     content: 'GRAND TOTALS';
-    font-size: 18px;
-    letter-spacing: .1rem;
+    font-size: 16px;
     border: none;
     height: 100%;
     text-align: center;
     display: flex;
     align-items: center;
     margin: auto;
+    transform: rotate(-90deg);
 
 }
 
@@ -66,7 +68,7 @@ h1, h2, h3 {
     color: white;
     font-size: 18px;
     font-family: "Font Awesome 6 free";
-	font-weight: 900;
+    font-weight: 900;
     letter-spacing: .1rem;
     border: none;
     height: 100%;
@@ -214,6 +216,16 @@ aside {
 ];
 } */
 
+@media screen and (min-width: 576px) {
+
+    .grand-totals:before {
+        content: 'GRAND TOTALS';
+        font-size: 16px;
+        transform: none;
+
+    }
+
+}
 
 @media screen and (min-width: 992px) {
     .fs-1 {
