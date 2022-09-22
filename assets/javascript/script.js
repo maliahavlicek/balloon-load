@@ -93,7 +93,7 @@ const touchEnd = e => {
         hovered_flight.classList.remove('hovered');
         if (moving_element.parentElement.parentElement.classList.contains('group')) {
             moving_element.parentElement.parentElement.style.removeProperty('z-index');
-            moving_element.parentElement.parentElement.style.setProperty('overflow', 'hidden');
+            moving_element.parentElement.parentElement.style.removeProperty('overflow');
         }
     } catch {
         //do nothing timing issue might not realize hover is already off
@@ -167,30 +167,55 @@ function afterTheDrop() {
     }
 
 
-    // update left-right weights
+    // update left-right weights & counts
     for (const flight of flight_elements) {
-        if (!flight.classList.contains('.names')) {
+        if (!flight.classList.contains('names')) {
 
             let total = 0;
+            let count = 0;
             for (const person of flight.querySelectorAll('.person')) {
                 total += parseInt(person.dataset.weight);
+                count++;
             }
             let weight_elm = document.querySelector(flight.dataset.weight_elm);
             weight_elm.innerHTML = total.toString();
             flight.dataset.weight = total.toString();
+            let count_elm = document.querySelector(flight.dataset.count_elm);
+            count_elm.innerHTML = count.toString();
+            flight.dataset.count = count.toString();
         }
 
     }
 
-    // update total weights
+    // update total weights & counts
+    let grand_total = 0;
+    let grand_count = 0;
     for (const flight of document.querySelectorAll('.flight')) {
         let total = 0;
+        let count = 0;
         for (const side of flight.querySelectorAll('.drop-targets')) {
             total += parseInt(side.dataset.weight);
+            count += parseInt(side.dataset.count);
         }
         flight.querySelector('.total-weight').innerHTML = total.toString();
+        flight.querySelector('.total-count').innerHTML = count.toString();
+        if (flight.getAttribute('id') === "flight-1") {
+            document.querySelector('.first-weight').innerHTML = total.toString();
+            document.querySelector('.first-count').innerHTML = count.toString();
+        } else {
+            document.querySelector('.second-weight').innerHTML = total.toString();
+            document.querySelector('.second-count').innerHTML = count.toString();
+
+        }
+
+        grand_total += total;
+        grand_count += count;
 
     }
+
+    //update grand totals
+    document.querySelector('.grand-total-weight').innerHTML = grand_total.toString();
+    document.querySelector('.grand-total-count').innerHTML = grand_count.toString();
 
 
 }
