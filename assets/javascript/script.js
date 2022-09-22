@@ -10,7 +10,7 @@ const colors = ['#eae4e9ff', '#fff1e6ff', '#fde2e4ff', '#fad2e1ff', '#e2ece9ff',
 let group_elements = [];
 let moving_element = '';
 let startX, startY;
-const flight_elements = document.querySelectorAll('.drop-targets:not(.names)');
+const flight_elements = document.querySelectorAll('.drop-targets');
 let hovered_flight;
 
 // flight drag functions
@@ -169,14 +169,16 @@ function afterTheDrop() {
 
     // update left-right weights
     for (const flight of flight_elements) {
+        if (!flight.classList.contains('.names')) {
 
-        let total = 0;
-        for (const person of flight.querySelectorAll('.person')) {
-            total += parseInt(person.dataset.weight);
+            let total = 0;
+            for (const person of flight.querySelectorAll('.person')) {
+                total += parseInt(person.dataset.weight);
+            }
+            let weight_elm = document.querySelector(flight.dataset.weight_elm);
+            weight_elm.innerHTML = total.toString();
+            flight.dataset.weight = total.toString();
         }
-        let weight_elm = document.querySelector(flight.dataset.weight_elm);
-        weight_elm.innerHTML = total.toString();
-        flight.dataset.weight = total.toString();
 
     }
 
