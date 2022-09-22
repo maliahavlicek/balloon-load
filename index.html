@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+    <script src="https://kit.fontawesome.com/e5fb00b6b9.js" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="upload">
@@ -29,32 +30,51 @@
                     Flight 1
                 </div>
 
-                <div id="f1-left" class="left drop-targets m-0" data-weight_elm="#flight-1 .left-weight">
+                <div id="f1-left" class="left drop-targets m-0" data-weight_elm="#flight-1 .left-weight"  data-count_elm="#flight-1 .left-count">
                     <div class="fs-3 flight-label" draggable="false">Left Patrons</div>
                 </div>
-                <div id="f1-right" class="right drop-targets m-0" data-weight_elm="#flight-1 .right-weight">
+                <div id="f1-right" class="right drop-targets m-0" data-weight_elm="#flight-1 .right-weight"  data-count_elm="#flight-1 .right-count">
                     <div class="fs-3 flight-label" draggable="false">Right Patrons</div>
                 </div>
 
 
                 <div class="full-row">
                     <div class="flight-summary">
-                        <div class="d-flex flex-column flex-sm-row border justify-content-center px-3">
-                            <div class="fs-3">Left</div>
+                        <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
+                            <div class="fs-3">L</div>
                             <div class="left-weight mx-2 fs-3">0</div>
                         </div>
 
-                        <div class="d-flex flex-column flex-sm-row border justify-content-center px-3">
-                            <div class="fs-3">Right</div>
+                        <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
+                            <div class="fs-3">R</div>
                             <div class="right-weight mx-2 fs-3">0</div>
                         </div>
 
-                        <div class="d-flex flex-column flex-sm-row border justify-content-center px-3">
+                        <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
                             <div class="fs-3">Total</div>
                             <div class="fs-3 mx-2 total-weight">0</div>
                         </div>
                     </div>
                 </div>
+                <div class="full-row">
+                    <div class="people-summary">
+                        <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
+                            <div class="fs-3">L</div>
+                            <div class="left-count mx-2 fs-3">0</div>
+                        </div>
+
+                        <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
+                            <div class="fs-3">R</div>
+                            <div class="right-count mx-2 fs-3">0</div>
+                        </div>
+
+                        <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
+                            <div class="fs-3">Total</div>
+                            <div class=" mx-2 fs-3 total-count">0</div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <div id="flight-2" class="flight border my-2">
@@ -63,36 +83,92 @@
                     Flight 2
                 </div>
 
-                <div id="f2-left" class="left drop-targets m-0" data-weight_elm="#flight-2 .left-weight">
+                <div id="f2-left" class="left drop-targets m-0" data-weight_elm="#flight-2 .left-weight" data-count_elm="#flight-2 .left-count">
                     <div class="fs-3 flight-label" draggable="false">Left Patrons</div>
                 </div>
-                <div id="f2-right" class="right drop-targets m-0" data-weight_elm="#flight-2 .right-weight">
+                <div id="f2-right" class="right drop-targets m-0" data-weight_elm="#flight-2 .right-weight" data-count_elm="#flight-2 .right-count">
                     <div class="fs-3 flight-label" draggable="false">Right Patrons</div>
                 </div>
 
 
                 <div class="full-row">
                     <div class="flight-summary">
-                        <div class="d-flex flex-column flex-sm-row border justify-content-center px-3">
-                            <div class="fs-3">Left</div>
+                        <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
+                            <div class="fs-3">L</div>
                             <div class="left-weight mx-2 fs-3">0</div>
                         </div>
 
-                        <div class="d-flex flex-column flex-sm-row border justify-content-center px-3">
-                            <div class="fs-3">Right</div>
+                        <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
+                            <div class="fs-3">R</div>
                             <div class="right-weight mx-2 fs-3">0</div>
                         </div>
 
-                        <div class="d-flex flex-column flex-sm-row border justify-content-center px-3">
+                        <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
                             <div class="fs-3">Total</div>
                             <div class=" mx-2 fs-3 total-weight">0</div>
                         </div>
                     </div>
                 </div>
+                <div class="full-row">
+                    <div class="people-summary">
+                        <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
+                            <div class="fs-3">L</div>
+                            <div class="left-count mx-2 fs-3">0</div>
+                        </div>
+
+                        <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
+                            <div class="fs-3">R</div>
+                            <div class="right-count mx-2 fs-3">0</div>
+                        </div>
+
+                        <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
+                            <div class="fs-3">Total</div>
+                            <div class=" mx-2 fs-3 total-count">0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grand-totals">
+                <div>
+                <div class="flights-summary weights">
+                    <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
+                        <div class="fs-3">F-1</div>
+                        <div class="first-weight mx-2 fs-3">0</div>
+                    </div>
+
+                    <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
+                        <div class="fs-3">F-2</div>
+                        <div class="second-weight mx-2 fs-3">0</div>
+                    </div>
+
+                    <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
+                        <div class="fs-3">Total</div>
+                        <div class=" mx-2 fs-3 grand-total-weight">0</div>
+                    </div>
+                </div>
+
+                <div class="flights-summary counts">
+                    <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
+                        <div class="fs-3">F-1</div>
+                        <div class="first-count mx-2 fs-3">0</div>
+                    </div>
+
+                    <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
+                        <div class="fs-3">F-2</div>
+                        <div class="second-count mx-2 fs-3">0</div>
+                    </div>
+
+                    <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
+                        <div class="fs-3">Total</div>
+                        <div class=" mx-2 fs-3 grand-total-count">0</div>
+                    </div>
+                </div>
+                    </div>
             </div>
 
-
         </div>
+    </div>
+
     </div>
     <div class="row mt-3">
 
@@ -113,14 +189,12 @@
                     <div class="person group group-1 d-flex flex-row" id="g1-p1" data-weight="200" draggable="true"
                          style="--translateX:0;--translateY:0;">
                         <div class="weight">200</div>
-                        <div class="person-item">1</div>
                         <div class="person-item">George</div>
                         <div class="person-item">Washington</div>
                     </div>
                     <div class="person group group-1 d-flex flex-row" id="g1-p2" data-weight="120" draggable="true"
                          style="--translateX:0;--translateY:0;">
                         <div class="weight">120</div>
-                        <div class="person-item">1</div>
                         <div class="person-item">Martha</div>
                         <div class="person-item">Washington</div>
 
@@ -128,14 +202,12 @@
                     <div class="person group group-1 d-flex flex-row" id="g1-p3" data-weight="180" draggable="true"
                          style="--translateX:0;--translateY:0;">
                         <div class="weight">180</div>
-                        <div class="person-item">1</div>
                         <div class="person-item">John Parke</div>
                         <div class="person-item">Washington</div>
                     </div>
                     <div class="person group group-1 d-flex flex-row" id="g1-p4" data-weight="100" draggable="true"
                          style="--translateX:0;--translateY:0;">
                         <div class="weight">100</div>
-                        <div class="person-item">1</div>
                         <div class="person-item">Martha Parke</div>
                         <div class="person-item">Washington</div>
                     </div>
@@ -151,14 +223,12 @@
                     <div class="person group group-2 d-flex flex-row" id="g2-p1" data-weight="192" draggable="true"
                          style="--translateX:0;--translateY:0;">
                         <div class="weight">192</div>
-                        <div class="person-item">2</div>
                         <div class="person-item">Homer</div>
                         <div class="person-item">Simpson</div>
                     </div>
                     <div class="person group group-2 d-flex flex-row" id="g2-p2" data-weight="108" draggable="true"
                          style="--translateX:0;--translateY:0;">
                         <div class="weight">108</div>
-                        <div class="person-item">2</div>
                         <div class="person-item">Marge</div>
                         <div class="person-item">Simpson</div>
                     </div>
