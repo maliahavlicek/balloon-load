@@ -10,64 +10,71 @@
     <script src="https://kit.fontawesome.com/e5fb00b6b9.js" crossorigin="anonymous"></script>
 </head>
 <body>
+<!-- FILE UPLOAD SECTION -->
 <div class="upload">
     <h1>
         BALLOON LOAD CALCULATOR
     </h1>
-    <label for="file">Choose a data file to upload:</label>
+    <label for="selectFiles">Choose a data file to upload:</label>
     <input type="file" id="selectFiles" value="Import" accept="application/JSON"/>
     <button id="import">Import</button>
     <div class="error"></div>
 
 </div>
 
+<!-- FLIGHTS BALANCING CONTAINER -->
 <section class="main hide container">
     <div class="row">
         <div class="flights m-0 p-0">
+            <!-- FLIGHT 1-->
             <div id="flight-1" class="flight border my-0">
-
                 <div class="fs-1 full-row px-2">
                     Flight 1
                 </div>
-
+                <!-- LEFT SIDE -->
                 <div id="f1-left" class="left drop-targets m-0" data-weight_elm="#flight-1 .left-weight"
                      data-count_elm="#flight-1 .left-count">
                     <div class="fs-3 flight-label" draggable="false">Left Patrons</div>
                 </div>
+                <!-- RIGHT SIDE -->
                 <div id="f1-right" class="right drop-targets m-0" data-weight_elm="#flight-1 .right-weight"
                      data-count_elm="#flight-1 .right-count">
                     <div class="fs-3 flight-label" draggable="false">Right Patrons</div>
                 </div>
+                <!-- FLIGHT 1 WEIGHT SUMMARY -->
                 <div class="full-row">
                     <div class="flight-summary ">
+                        <!-- LEFT WEIGHT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
                             <div class="fs-3">L</div>
                             <div class="left-weight mx-2 fs-3">0</div>
                         </div>
-
+                        <!-- RIGHT WEIGHT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
                             <div class="fs-3">R</div>
                             <div class="right-weight mx-2 fs-3">0</div>
                         </div>
-
+                        <!-- FLIGHT TOTAL -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3 flight-total-cell">
                             <div class="fs-3">Total</div>
                             <div class="fs-3 mx-2 total-weight">0</div>
                         </div>
                     </div>
                 </div>
+                <!-- FLIGHT 1 COUNT SUMMARY -->
                 <div class="full-row">
                     <div class="people-summary">
+                        <!-- LEFT COUNT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
                             <div class="fs-3">L</div>
                             <div class="left-count mx-2 fs-3">0</div>
                         </div>
-
+                        <!-- RIGHT COUNT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
                             <div class="fs-3">R</div>
                             <div class="right-count mx-2 fs-3">0</div>
                         </div>
-
+                        <!-- TOTAL COUNT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3 flight-total-cell">
                             <div class="fs-3">Total</div>
                             <div class=" mx-2 fs-3 total-count">0</div>
@@ -75,35 +82,36 @@
                     </div>
                 </div>
             </div>
-
+            <!-- FLIGHT 2 -->
             <div id="flight-2" class="flight border mt-2">
-
                 <div class="fs-1 full-row px-2">
                     Flight 2
                 </div>
-
+                <!-- LEFT SIDE -->
                 <div id="f2-left" class="left drop-targets m-0" data-weight_elm="#flight-2 .left-weight"
                      data-count_elm="#flight-2 .left-count">
                     <div class="fs-3 flight-label" draggable="false">Left Patrons</div>
                 </div>
+                <!-- RIGHT SIDE -->
                 <div id="f2-right" class="right drop-targets m-0" data-weight_elm="#flight-2 .right-weight"
                      data-count_elm="#flight-2 .right-count">
                     <div class="fs-3 flight-label" draggable="false">Right Patrons</div>
                 </div>
-
-
+                <!-- FLIGHT 2 SUMMARY -->
                 <div class="full-row">
+                        <!--WEIGHT SUMMARY -->
                     <div class="flight-summary">
+                        <!--LEFT WEIGHT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
                             <div class="fs-3">L</div>
                             <div class="left-weight mx-2 fs-3">0</div>
                         </div>
-
+                        <!-- RIGHT WEIGHT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
                             <div class="fs-3">R</div>
                             <div class="right-weight mx-2 fs-3">0</div>
                         </div>
-
+                        <!-- TOTAL WEIGHT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3 flight-total-cell">
                             <div class="fs-3">Total</div>
                             <div class=" mx-2 fs-3 total-weight">0</div>
@@ -111,17 +119,19 @@
                     </div>
                 </div>
                 <div class="full-row">
+                    <!-- COUNT SUMMARY -->
                     <div class="people-summary">
+                        <!--LEFT COUNT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
                             <div class="fs-3">L</div>
                             <div class="left-count mx-2 fs-3">0</div>
                         </div>
-
+                        <!-- RIGHT COUNT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
                             <div class="fs-3">R</div>
                             <div class="right-count mx-2 fs-3">0</div>
                         </div>
-
+                        <!-- TOTAL COUNT-->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3 flight-total-cell">
                             <div class="fs-3">Total</div>
                             <div class=" mx-2 fs-3 total-count">0</div>
@@ -129,36 +139,40 @@
                     </div>
                 </div>
             </div>
+            <!-- GRAND TOTALS -->
             <div class="grand-totals border my-2">
                 <div>
+                    <!--WEIGHT SUMMARY -->
                     <div class="flights-summary weights">
+                        <!-- FLIGHT 1 WEIGHT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
                             <div class="fs-3">F-1</div>
                             <div class="first-weight mx-2 fs-3">0</div>
                         </div>
-
+                        <!-- FLIGHT 2 WEIGHT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
                             <div class="fs-3">F-2</div>
                             <div class="second-weight mx-2 fs-3">0</div>
                         </div>
-
+                        <!-- TOTAL WEIGHT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3 grand-total-cell">
                             <div class="fs-3">Total</div>
                             <div class=" mx-2 fs-3 grand-total-weight">0</div>
                         </div>
                     </div>
-
+                    <!-- COUNT SUMMARY -->
                     <div class="flights-summary counts">
+                        <!-- FLIGHT 1 COUNT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
                             <div class="fs-3">F-1</div>
                             <div class="first-count mx-2 fs-3">0</div>
                         </div>
-
+                        <!-- FLIGHT 2 COUNT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
                             <div class="fs-3">F-2</div>
                             <div class="second-count mx-2 fs-3">0</div>
                         </div>
-
+                        <!-- TOTAL COUNT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3 grand-total-cell">
                             <div class="fs-3">Total</div>
                             <div class=" mx-2 fs-3 grand-total-count">0</div>
@@ -170,15 +184,20 @@
         </div>
     </div>
 
+    <!-- NAMES-->
     <aside class="row mt-0 border">
         <div id="names" class="names drop-targets m-0">
 
             <div class="fs-3 flight-label d-flex flew-row justify-content-between" draggable="false">
                 <div>Patrons</div>
+                <!-- ADD PATRON BUTTON -->
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-patron-modal">
                     <i class="fa-solid fa-user-plus"></i> Add Patron
                 </button>
+                <!-- TODO RESET BUTTON -->
+                <!-- TODO UPLOAD FILE BUTTON -->
             </div>
+            <!-- THIS IS WHERE ALL THE NEW GROUPS WOULD BE AUTO GENERATED -->
             <div class="group group-1 d-flex" id="g1" data-weight="600" draggable="true"
                  style="--translateX:0;--translateY:0;">
                 <div class="group-details d-flex flex-column">
@@ -197,7 +216,6 @@
                         <div class="weight">120</div>
                         <div class="person-item">Martha</div>
                         <div class="person-item">Washington</div>
-
                     </div>
                     <div class="person group group-1 d-flex flex-row" id="g1-p3" data-weight="180" draggable="true"
                          style="--translateX:0;--translateY:0;">
@@ -244,6 +262,7 @@
         </div>
     </div>
 </section>
+<!-- ADD PATRON MODAL -->
 <div id="add-patron-modal" class="modal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -252,12 +271,12 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="add-patron">
                     <div class="mb-3">
                         <label for="weight" class="form-label">Weight</label>
                         <input type="text" class="form-control" id="weight" aria-describedby="weightHelp"
-                               pattern="[0-9]+">
-                        <div id="weightHelp" class="form-text">Positive Integers only.</div>
+                               pattern="[1-9][0-9]{1,2}" required>
+                        <div id="weightHelp" class="form-text">Required. Must be a whole number between 1 and 999.</div>
                     </div>
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
@@ -270,6 +289,7 @@
         </div>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
 
 <script src="assets/javascript/script.js"></script>
