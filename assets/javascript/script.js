@@ -1,5 +1,3 @@
-
-
 const main = document.querySelector('.main');
 
 const colors = ['#eae4e9ff', '#fff1e6ff', '#fde2e4ff', '#fad2e1ff', '#e2ece9ff', '#bee1e6ff', '#f0efebff',
