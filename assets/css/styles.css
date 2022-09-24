@@ -3,9 +3,34 @@
     --translateY: 0;
 }
 
+html {
+    font-size: 10px; /* this makes it so we can do rem math easily*/
+}
+
 h1, h2, h3 {
     text-align: center;
 }
+
+.fs-1 {
+    font-size: 2.6rem !important;
+    line-height: 2.8rem!important;
+}
+
+.fs-2 {
+    font-size: 2.4rem !important;
+    line-height: 2.8rem!important;
+}
+
+.fs-3 {
+    font-size: 1.8rem !important;
+    line-height: 2.2rem!important;
+}
+
+.fs-4 {
+     font-size: 1.4rem !important;
+    line-height: 1.8rem !important;
+}
+
 
 .flights {
     order: 2;
@@ -21,7 +46,7 @@ h1, h2, h3 {
     text-align: left;
 }
 
-.flight-total-cell {
+.people-summary {
     background: lightgoldenrodyellow;
 }
 
@@ -63,14 +88,13 @@ h1, h2, h3 {
 
 }
 
-.grand-total-cell {
+.flights-summary.counts {
     background: paleturquoise;
 }
 
 .flight-summary:before, .people-summary:before, .flights-summary:before {
     content: '\f496';
-    background: #3f3737;
-    color: white;
+    color: #3f3737;
     font-size: 18px;
     font-family: "Font Awesome 6 free";
     font-weight: 900;
@@ -80,6 +104,7 @@ h1, h2, h3 {
     justify-content: center;
     display: flex;
     align-items: center;
+    border: 1px solid black;
 }
 
 .people-summary:before {
@@ -147,6 +172,19 @@ aside {
 .flight .group-name {
     width: max-content;
     text-align: center;
+}
+
+/* suppress input spinner in UI */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
 }
 
 .group .weight {
@@ -251,13 +289,6 @@ aside {
 }
 
 @media screen and (min-width: 992px) {
-    .fs-1 {
-        font-size: 34px !important;
-    }
-
-    .fs-3 {
-        font-size: 26px !important;
-    }
 
     .my-2 {
         margin-top: 0.5rem !important;

@@ -5,9 +5,9 @@
     <title>Balloon Loading Calculator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-  </head>
-    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
     <script src="https://kit.fontawesome.com/e5fb00b6b9.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/scss/globals.scss" type="text/x-scss"/>
 </head>
 <body>
 <!-- FILE UPLOAD SECTION -->
@@ -194,8 +194,10 @@
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-patron-modal">
                     <i class="fa-solid fa-user-plus"></i> Add Patron
                 </button>
-                <!-- TODO RESET BUTTON -->
-                <!-- TODO UPLOAD FILE BUTTON -->
+                <!-- TODO RESET BUTTON: will move all groups into the patrons zone -->
+                <!-- TODO UPLOAD FILE BUTTON : conditionally visible when no groups-->
+                <!-- TODO CLEAR BUTTON: will remove all patrons & make upload button visible -->
+                <!-- TODO AUTO LOAD BUTTON: will do a brute force best attempt of loading zone, only visible when no patrons in flights -->
             </div>
             <!-- THIS IS WHERE ALL THE NEW GROUPS WOULD BE AUTO GENERATED -->
             <div class="group group-1 d-flex" id="g1" data-weight="600" draggable="true"
@@ -274,7 +276,7 @@
                 <form id="add-patron">
                     <div class="mb-3">
                         <label for="weight" class="form-label">Weight</label>
-                        <input type="text" class="form-control" id="weight" aria-describedby="weightHelp"
+                        <input type="number" class="form-control" id="weight" aria-describedby="weightHelp"
                                pattern="[1-9][0-9]{1,2}" required>
                         <div id="weightHelp" class="form-text">Required. Must be a whole number between 1 and 999.</div>
                     </div>
