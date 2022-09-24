@@ -1,6 +1,5 @@
-/* basic touch process https://jh3y.medium.com/implementing-touch-support-in-javascript-b8e43f267a16 */
 
-const upload = document.querySelector('.upload');
+
 const main = document.querySelector('.main');
 
 const colors = ['#eae4e9ff', '#fff1e6ff', '#fde2e4ff', '#fad2e1ff', '#e2ece9ff', '#bee1e6ff', '#f0efebff',
@@ -12,7 +11,7 @@ let MOVING_ELEMENT = '';
 let startX, startY;
 const flight_elements = document.querySelectorAll('.drop-targets');
 let hovered_flight;
-let guests_added = 0;
+
 
 
 /**
@@ -84,7 +83,9 @@ function dragLeaveFlightElement() {
  *  2. only handle the 1 finger action as a dragging motion for group element
  *  3. Translate the x.y to stimulate moving element
  *  4. see if a valid dropzone is below object and toggle it's hovered class
- *  5. ? Should this function be debounced 
+ *  5. ? Should this function be debounced
+ *
+ *  basic touch process https://jh3y.medium.com/implementing-touch-support-in-javascript-b8e43f267a16
  */
 function groupElementTouchMove(e) {
     e.preventDefault();
@@ -317,16 +318,6 @@ function applyPatronDropZoneHandlers() {
 }
 
 /**
- * switchView: toggles between welcome/upload screen &
- * flight balancing view
- *
- */
-function switchView() {
-    upload.classList.toggle('hide');
-    main.classList.toggle('hide');
-}
-
-/**
  * applyGroupHandlers: apply handlers for groups
  *
  *  1. remove any existing handlers
@@ -351,100 +342,36 @@ function applyGroupHandlers() {
     }
 }
 
-document.getElementById('load').addEventListener('click', () => {
-    switchView();
-})
-
-document.getElementById('import').addEventListener('click', (e) => {
-    let files = document.getElementById('selectFiles').files;
-
-    if (files.length <= 0) {
-        return false;
-    }
-
-    let fr = new FileReader();
-
-    document.getElementById('names').classList.remove('hide');
-
-    fr.onload = function (e) {
-
-        let result = JSON.parse(e.target.result);
-        let formatted = JSON.stringify(result, null, 2);
-        // TODO check that file has right structure
-
-        switchView();
 
 
-        let names_html = "";
-        const groups = [];
-        result.forEach((value, index) => {
-            if (groups.indexOf(value.group) === -1) {
-                groups.push(value.group);
-            }
-        });
-
-
-        //sort incoming data by groups then by largest to smallest weight
-        const sorted = result.sort((a, b) => {
-            if (a.group == b.group) {
-                return a.weight > b.weight ? -1 : 1
-            } else {
-                return a.group < b.group ? -1 : 1
-            }
-        });
-        //console.log(sorted)
-
-        applyGroupHandlers();
-    }
-
-    fr.readAsText(files.item(0));
-});
-
-const myModal = document.getElementById('add-patron-modal')
-const myInput = document.getElementById('weight')
-myModal.addEventListener('shown.bs.modal', () => {
-    myInput.focus()
-})
-
-// Add Patron
-function addPatron() {
-    // get the weight and name values then create a new object
-    let name = `Guest ${parseInt(guests_added) + 1}`;
-    if (document.getElementById("name").value.length > 0) {
-        name = document.getElementById("name").value;
-    }
-    guests_added++;
-
-    const weight = document.getElementById('weight').value;
-    const groups = document.querySelectorAll('.group:not(.person):not(.guest)').length;
-
-    let new_element = `<div class="person group guest group-${parseInt(groups) +1 + parseInt(guests_added)} d-flex flex-row" id="g1-p1" data-weight="200" draggable="true" style="--translateX:0; --translateY:0;">` +
-        `<div class="weight">${weight}</div>` +
-        `<div class="person-item">${name}</div>` +
-        `<div class="person-item"></div>` +
-        `</div>`;
-    document.getElementById('names').insertAdjacentHTML('beforeend', new_element);
-    applyGroupHandlers();
-
-    // clean up form
-     document.getElementById("name").value = '';
-     document.getElementById('weight').value = '';
-
-}
-
+/**
+ * ReadyFunction: once DOM is complete
+ *
+ *  1. apply import handler (still needs to be hooked up to build DOM)
+ *  2. set handlers for drag start & dragend
+ *  3. set touchstart handlers for groups being moved around
+ *  4. set add patron processing
+ */
 document.onreadystatechange = function () {
     let state = document.readyState;
     if (state == 'complete') {
 
-        switchView();
-        document.getElementById('load').classList.add('hide');
+
+        // these two lines switch the view to simulate data already being loaded, would remove them eventually
+        main.classList.toggle('hide');
+         upload.classList.toggle('hide');
+
+        applyImportHandler();
         applyPatronDropZoneHandlers();
         applyGroupHandlers();
+
+        // add patron submit processing
         document.getElementById('add-patron').addEventListener('submit', function (e) {
             e.preventDefault();
             let modal = bootstrap.Modal.getInstance(myModal)
             modal.hide();
             addPatron(e);
+            applyGroupHandlers();
         });
 
     }
