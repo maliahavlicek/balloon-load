@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Balloon Loading Calculator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/e5fb00b6b9.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
     <link rel="stylesheet" href="assets/scss/globals.scss" type="text/x-scss"/>
@@ -41,6 +42,10 @@
                      data-count_elm="#flight-1 .right-count">
                     <div class="fs-3 flight-label" draggable="false">Right Patrons</div>
                 </div>
+                <!-- TOTAL -->
+                <div class="total-label border">
+                    <div class="fs-3">Total</div>
+                </div>
                 <!-- FLIGHT 1 WEIGHT SUMMARY -->
                 <div class="full-row">
                     <div class="flight-summary ">
@@ -56,7 +61,6 @@
                         </div>
                         <!-- FLIGHT TOTAL -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3 flight-total-cell">
-                            <div class="fs-3">Total</div>
                             <div class="fs-3 mx-2 total-weight">0</div>
                         </div>
                     </div>
@@ -76,7 +80,6 @@
                         </div>
                         <!-- TOTAL COUNT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3 flight-total-cell">
-                            <div class="fs-3">Total</div>
                             <div class=" mx-2 fs-3 total-count">0</div>
                         </div>
                     </div>
@@ -97,9 +100,13 @@
                      data-count_elm="#flight-2 .right-count">
                     <div class="fs-3 flight-label" draggable="false">Right Patrons</div>
                 </div>
+                <!-- TOTAL -->
+                <div class="total-label border">
+                    <div class="fs-3">Total</div>
+                </div>
                 <!-- FLIGHT 2 SUMMARY -->
                 <div class="full-row">
-                        <!--WEIGHT SUMMARY -->
+                    <!--WEIGHT SUMMARY -->
                     <div class="flight-summary">
                         <!--LEFT WEIGHT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3">
@@ -113,7 +120,6 @@
                         </div>
                         <!-- TOTAL WEIGHT -->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3 flight-total-cell">
-                            <div class="fs-3">Total</div>
                             <div class=" mx-2 fs-3 total-weight">0</div>
                         </div>
                     </div>
@@ -133,7 +139,6 @@
                         </div>
                         <!-- TOTAL COUNT-->
                         <div class="d-flex flex-column flex-sm-row border justify-content-between px-3 flight-total-cell">
-                            <div class="fs-3">Total</div>
                             <div class=" mx-2 fs-3 total-count">0</div>
                         </div>
                     </div>
@@ -185,72 +190,80 @@
     </div>
 
     <!-- NAMES-->
-    <aside class="row mt-0 border">
-        <div id="names" class="names drop-targets m-0">
+    <aside class="row mt-0 border p-2">
+        <div class="fs-3 fm-1 p-2 light-label d-flex flew-row justify-content-between" draggable="false">
+            <div>Patrons</div>
+            <!-- ADD PATRON BUTTON -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-patron-modal">
+                <i class="fa-solid fa-user-plus"></i> Add Patron
+            </button>
+            <!-- TODO RESET BUTTON: will move all groups into the patrons zone -->
+            <!-- TODO UPLOAD FILE BUTTON : conditionally visible when no groups-->
+            <!-- TODO CLEAR BUTTON: will remove all patrons & make upload button visible -->
+            <!-- TODO AUTO LOAD BUTTON: will do a brute force best attempt of loading zone, only visible when no patrons in flights -->
+        </div>
+        <div id="names" class="names border-0 drop-targets m-0">
 
-            <div class="fs-3 flight-label d-flex flew-row justify-content-between" draggable="false">
-                <div>Patrons</div>
-                <!-- ADD PATRON BUTTON -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-patron-modal">
-                    <i class="fa-solid fa-user-plus"></i> Add Patron
-                </button>
-                <!-- TODO RESET BUTTON: will move all groups into the patrons zone -->
-                <!-- TODO UPLOAD FILE BUTTON : conditionally visible when no groups-->
-                <!-- TODO CLEAR BUTTON: will remove all patrons & make upload button visible -->
-                <!-- TODO AUTO LOAD BUTTON: will do a brute force best attempt of loading zone, only visible when no patrons in flights -->
-            </div>
+
             <!-- THIS IS WHERE ALL THE NEW GROUPS WOULD BE AUTO GENERATED -->
-            <div class="group group-1 d-flex" id="g1" data-weight="600" draggable="true"
+            <div class="group group-1 d-flex flex-column" id="g1" data-weight="600" draggable="true"
                  style="--translateX:0;--translateY:0;">
-                <div class="group-details d-flex flex-column">
-                    <div class="group-name" data-group-name="Group 1">Group 1</div>
+                <div class="group-name" data-group-name="Washington">
+                    <span class="count">4</span>
+                    <span>-</span>
+                    <span class="name">Washington</span>
+                </div>
+                <div class="d-flex flex-row">
                     <div class="weight group-weight">600</div>
-                </div>
-                <div class="details d-flex flex-column">
-                    <div class="person group group-1 d-flex flex-row" id="g1-p1" data-weight="200" draggable="true"
-                         style="--translateX:0;--translateY:0;">
-                        <div class="weight">200</div>
-                        <div class="person-item">George</div>
-                        <div class="person-item">Washington</div>
-                    </div>
-                    <div class="person group group-1 d-flex flex-row" id="g1-p2" data-weight="120" draggable="true"
-                         style="--translateX:0;--translateY:0;">
-                        <div class="weight">120</div>
-                        <div class="person-item">Martha</div>
-                        <div class="person-item">Washington</div>
-                    </div>
-                    <div class="person group group-1 d-flex flex-row" id="g1-p3" data-weight="180" draggable="true"
-                         style="--translateX:0;--translateY:0;">
-                        <div class="weight">180</div>
-                        <div class="person-item">John Parke</div>
-                        <div class="person-item">Washington</div>
-                    </div>
-                    <div class="person group group-1 d-flex flex-row" id="g1-p4" data-weight="100" draggable="true"
-                         style="--translateX:0;--translateY:0;">
-                        <div class="weight">100</div>
-                        <div class="person-item">Martha Parke</div>
-                        <div class="person-item">Washington</div>
+                    <div class="details d-block">
+                        <div class="person group group-1 d-flex flex-row" id="g1-p1" data-weight="200" data-count="1"
+                             data-name="Washington" draggable="true"
+                             style="--translateX:0;--translateY:0;">
+                            <div class="weight">200
+                            </div>
+                        </div>
+                        <div class="person group group-1 d-flex flex-row" id="g1-p2" data-weight="120" data-count="1"
+                             data-name="Washington" draggable="true"
+                             style="--translateX:0;--translateY:0;">
+                            <div class="weight">120</div>
+                        </div>
+                        <div class="person group group-1 d-flex flex-row" id="g1-p3" data-weight="180" draggable="true"
+                             data-count="1" data-name="Washington"
+                             style="--translateX:0;--translateY:0;">
+                            <div class="weight">180</div>
+                        </div>
+                        <div class="person group group-1 d-flex flex-row" id="g1-p4" data-weight="100" draggable="true"
+                             data-count="1" data-name="Washington"
+                             style="--translateX:0;--translateY:0;">
+                            <div class="weight">100</div>
+                        </div>
+
                     </div>
                 </div>
+
+
             </div>
-            <div class="group group-2 d-flex" id="g2" data-weight="300" draggable="true"
+
+            <div class="group group-2 d-flex flex-column" id="g2" data-weight="300" data-count="2" draggable="true"
                  style="--translateX:0;--translateY:0;">
-                <div class="group-details d-flex flex-column">
-                    <div class="group-name" data-group-name="Group 2">Group 2</div>
-                    <div class="weight group-weight">300</div>
+                <div class="group-name" data-group-name="Simpson">
+                    <span class="count">2</span>
+                    <span>-</span>
+                    <span class="name">Simpson</span>
                 </div>
-                <div class="details d-block">
-                    <div class="person group group-2 d-flex flex-row" id="g2-p1" data-weight="192" draggable="true"
-                         style="--translateX:0;--translateY:0;">
-                        <div class="weight">192</div>
-                        <div class="person-item">Homer</div>
-                        <div class="person-item">Simpson</div>
-                    </div>
-                    <div class="person group group-2 d-flex flex-row" id="g2-p2" data-weight="108" draggable="true"
-                         style="--translateX:0;--translateY:0;">
-                        <div class="weight">108</div>
-                        <div class="person-item">Marge</div>
-                        <div class="person-item">Simpson</div>
+                <div class="d-flex flex-row">
+                    <div class="weight group-weight">300</div>
+                    <div class="details d-block">
+                        <div class="person group group-2 d-flex flex-row" id="g2-p1" data-weight="192" draggable="true"
+                             data-count="1" data-name="Simpson"
+                             style="--translateX:0;--translateY:0;">
+                            <div class="weight">192</div>
+                        </div>
+                        <div class="person group group-2 d-flex flex-row" id="g2-p2" data-weight="108" draggable="true"
+                             data-count="1" data-name="Simpson"
+                             style="--translateX:0;--translateY:0;">
+                            <div class="weight">108</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -287,10 +300,12 @@
     </div>
 </div>
 
-<script  type="text/javascript"  src="assets/javascript/modules/dataLoad.js"></script>
-<script  type="text/javascript" src="assets/javascript/modules/addPatron.js"></script>
-<script type="text/javascript"  src="assets/javascript/script.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+<script type="text/javascript" src="assets/javascript/modules/dataLoad.js"></script>
+<script type="text/javascript" src="assets/javascript/modules/addPatron.js"></script>
+<script type="text/javascript" src="assets/javascript/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
 
 </body>
 </html>
