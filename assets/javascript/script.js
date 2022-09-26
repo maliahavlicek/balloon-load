@@ -11,7 +11,6 @@ const flight_elements = document.querySelectorAll('.drop-targets');
 let hovered_flight;
 
 
-
 /**
  * dragGroupStart: Handler called when dragging a "group" element begins
  *
@@ -47,7 +46,7 @@ function dragGroupEnd(e) {
  *  1. Prevent default to allow drop into flight element
  */
 function dragOverFlightElement(e) {
-   e.preventDefault();
+    e.preventDefault();
 }
 
 /**
@@ -118,9 +117,46 @@ function groupElementTouchMove(e) {
 
         MOVING_ELEMENT.style.setProperty('--translateX', translationX);
         MOVING_ELEMENT.style.setProperty('--translateY', translationY);
-        
+
     }
 }
+
+/**
+ * decoupleChild
+ *
+ * if element being moved is a person vs a group, we need to restructure the HTML
+ * */
+function decoupleChild(moved_elem) {
+
+    if (moved_elem.classList.contains('person')) {
+        const name = moved_elem.dataset.name;
+        const weight = moved_elem.dataset.weight;
+        const group_no = document.querySelectorAll('.group:not(.person)').length + 1;
+        let new_element = `<div class="group guest group-${group_no} d-flex flex-column" draggable="true" style="--translateX:0; --translateY:0;">` +
+            `<div class="group-name" data-group-name="${name}">` +
+            `<span class="count">1</span>` +
+            `<span>-</span>` +
+            `<span class="name">${name}</span>` +
+            `</div>` +
+            `<div class="d-flex flex-row">` +
+            `<div class="weight group-weight">${weight}</div>` +
+            `<div class="details d-block">` +
+            `<div class="person group group-${group_no} d-flex flex-row" data-weight="${weight}" data-count="1" data-name="${name}" draggable="true" style="--translateX:0;--translateY:0;">` +
+            `<div class="weight">${weight}</div>` +
+            `</div></div></div></div>`;
+
+        moved_elem.dataset.weight -= parseInt(weight);
+        moved_elem.dataset.count--;
+        moved_elem.classList.add('delete-me');
+
+
+        return new_element
+
+    } else return false;
+
+
+}
+
 
 /**
  * groupElementTouchEnd: Handler called when mobile device
@@ -143,9 +179,9 @@ function groupElementTouchEnd(e) {
     MOVING_ELEMENT.style.removeProperty('z-index');
     try {
         hovered_flight.classList.remove('hovered');
-        if (MOVING_ELEMENT.parentElement.parentElement.classList.contains('group')) {
-            MOVING_ELEMENT.parentElement.parentElement.style.removeProperty('z-index');
-            MOVING_ELEMENT.parentElement.parentElement.style.removeProperty('overflow');
+        if (MOVING_ELEMENT.parentElement.classList.contains('details')) {
+            MOVING_ELEMENT.parentElement.parentElement.parentElement.style.removeProperty('z-index');
+            MOVING_ELEMENT.parentElement.parentElement.parentElement.style.removeProperty('overflow');
         }
     } catch {
         //do nothing timing issue might not realize hover is already off
@@ -154,10 +190,17 @@ function groupElementTouchEnd(e) {
 
     const destination_element = document.elementFromPoint(finishingTouch.clientX, finishingTouch.clientY);
     if (destination_element && destination_element.classList.contains('drop-targets')) {
-        destination_element.append(MOVING_ELEMENT);
-        updateWeights();
-    }
 
+        const new_elem = decoupleChild(MOVING_ELEMENT);
+        if (new_elem) {
+            destination_element.insertAdjacentHTML('beforeend', new_elem);
+        } else {
+            destination_element.append(MOVING_ELEMENT);
+        }
+
+        updateWeights();
+
+    }
 }
 
 /**
@@ -186,9 +229,9 @@ function groupElementTouchStart(e) {
 
         MOVING_ELEMENT.style.setProperty('z-index', '200');
 
-        if (MOVING_ELEMENT.parentElement.parentElement.classList.contains('group')) {
-            MOVING_ELEMENT.parentElement.parentElement.style.setProperty('z-index', '200');
-            MOVING_ELEMENT.parentElement.parentElement.style.setProperty('overflow', 'visible');
+        if (MOVING_ELEMENT.parentElement.classList.contains('details')) {
+            MOVING_ELEMENT.parentElement.parentElement.parentElement.style.setProperty('z-index', '200');
+            MOVING_ELEMENT.parentElement.parentElement.parentElement.style.setProperty('overflow', 'visible');
         }
         MOVING_ELEMENT.removeEventListener('touchmove', groupElementTouchMove);
         MOVING_ELEMENT.removeEventListener('touchend', groupElementTouchEnd);
@@ -211,7 +254,10 @@ function groupElementTouchStart(e) {
  */
 function dragDropIntoFlightElement(e) {
     this.classList.toggle('hovered');
-    this.append(MOVING_ELEMENT.target);
+    const new_elem = decoupleChild(MOVING_ELEMENT.target);
+    if (new_elem) {
+        this.insertAdjacentHTML('beforeend', new_elem);
+    } else this.append(MOVING_ELEMENT.target);
     updateWeights();
 
 }
@@ -222,9 +268,10 @@ function dragDropIntoFlightElement(e) {
  *
  *  1. hides empty parent groups
  *  2. recalculates parent group weights
- *  3. recalculates left and right counts & weights for each flight
- *  4. updates flight totals
- *  5. updates grand totals
+ *  3. updates the parent group counts
+ *  4. recalculates left and right counts & weights for each flight
+ *  5. updates flight totals
+ *  6. updates grand totals
  *
  */
 function updateWeights() {
@@ -234,8 +281,14 @@ function updateWeights() {
     for (const group_element of groups_parents) {
         // check if group  is empty and hide it
         if (group_element.childElementCount === 0) {
-            group_element.parentElement.classList.add('hide');
+            group_element.parentElement.classList.add('delete-me');
         }
+        for (el of document.querySelectorAll('.delete-me')) {
+            el.remove();
+        }
+        group_element.dataset.count = group_element.childElementCount.toString();
+        group_element.parentElement.parentElement.querySelector('span.count').innerHTML = group_element.childElementCount.toString();
+
         // recalculate group weight
         let group_total = 0;
         for (const person of group_element.querySelectorAll('.person')) {
@@ -244,7 +297,6 @@ function updateWeights() {
         group_element.parentElement.querySelector('.group-weight').innerHTML = group_total.toString();
         group_element.parentElement.dataset.weight = group_total.toString();
     }
-
 
     // update left-right weights & counts
     for (const flight of flight_elements) {
@@ -341,7 +393,6 @@ function applyGroupHandlers() {
 }
 
 
-
 /**
  * ReadyFunction: once DOM is complete
  *
@@ -357,7 +408,7 @@ document.onreadystatechange = function () {
 
         // these two lines switch the view to simulate data already being loaded, would remove them eventually
         main.classList.toggle('hide');
-         upload.classList.toggle('hide');
+        upload.classList.toggle('hide');
 
         applyImportHandler();
         applyPatronDropZoneHandlers();
