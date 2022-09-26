@@ -3,24 +3,121 @@
     --translateY: 0;
 }
 
-/* Grid */
-.column {
-    flex-basis: 100%;
+html {
+    font-size: 10px; /* this makes it so we can do rem math easily*/
 }
-
-.row {
-    display: flex;
-    flex-direction: column;
-}
-
 
 h1, h2, h3 {
     text-align: center;
 }
 
+.fs-1 {
+    font-size: 2.6rem !important;
+    line-height: 2.8rem!important;
+}
+
+.fs-2 {
+    font-size: 2.4rem !important;
+    line-height: 2.8rem!important;
+}
+
+.fs-3 {
+    font-size: 1.8rem !important;
+    line-height: 2.2rem!important;
+}
+
+.fs-4 {
+     font-size: 1.4rem !important;
+    line-height: 1.8rem !important;
+}
+
+
 .flights {
-    padding: 0.8rem;
     order: 2;
+}
+
+.border {
+    border-color: black !important;
+}
+
+.flight-label {
+    position: relative;
+    top: -2.4rem;
+    text-align: left;
+}
+
+.people-summary {
+    background: lightgoldenrodyellow;
+}
+
+.flight {
+    border: 1px solid black;
+    text-align: center;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(4rem, 1fr)) 150px;
+    grid-auto-rows: minmax(30px, auto);
+}
+
+.flight-summary, .people-summary, .flights-summary {
+    display: grid;
+    grid-template-columns:repeat(2, minmax(4rem, 1fr)) 150px;
+    grid-auto-rows: minmax(30px, auto);
+}
+
+.flight .flight-summary{
+    background: palegoldenrod;
+}
+
+.flights-summary {
+    grid-template-columns: 40px repeat(3, minmax(4rem, 1fr));
+}
+
+.grand-totals {
+    display: grid;
+    grid-template-columns: calc(25% - 40px) auto;
+    background: mediumturquoise;
+}
+
+.grand-totals:before {
+    content: 'GRAND TOTALS';
+    font-size: 16px;
+    border: none;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    margin: auto;
+    transform: rotate(-90deg);
+
+}
+
+.flights-summary.counts {
+    background: paleturquoise;
+}
+
+.flights-summary:before {
+    content: '\f496';
+    color: #3f3737;
+    font-size: 18px;
+    font-family: "Font Awesome 6 free";
+    font-weight: 900;
+    letter-spacing: .1rem;
+    border: none;
+    height: 100%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.flights-summary.counts:before {
+    content: '\f0c0';
+    border-top: 1px solid gray;
+}
+
+.full-row {
+    grid-column-start: 1;
+    grid-column-end: 4;
 }
 
 aside {
@@ -32,55 +129,90 @@ aside {
     border: 1px solid black;
     margin: 0.8rem;
     padding: 3rem 0.8rem;
-    background: #8926eb21;
+    background: #ffffff;
 }
 
-.group.hold {
-    border: solid 5px #ccc;
-    opacity: 0.75;
+.names {
+    display: grid;
+    grid-auto-columns: 150px;
+    gap: 0.8rem;
+    grid-auto-rows: minmax(100px, auto);
+    grid-auto-flow: column;
 }
 
-.hovered{
+
+.hovered {
     background: #f4f4f4;
     border-style: dashed;
 }
 
 .person-item {
     padding-left: 0.4rem;
-    align-self: center;
+    display: block;
+    height: 24px;
 }
 
-.group-name {
-    font-size: 24px;
-    margin: 1.2rem 0;
-    text-align: center;
+.weight + .person-item {
+    padding-left: 0.8rem;
+}
 
+
+.group-name {
+    font-size: 1.8rem;
+    margin: 0.2rem auto;
+    text-align: center;
+    display: block;
+}
+
+.flight .group-name {
+    width: max-content;
+    text-align: center;
+}
+
+/* suppress input spinner in UI */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
 }
 
 .group .weight {
-    width: 100px;
-    height: 100px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    font-size: 50px;
+    font-size: 22px;
     color: #fff;
-    line-height: 100px;
+    line-height: 42px;
     text-align: center;
     background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -4px;
 }
 
-.person .weight {
-    width: 30px;
-    height: 30px;
+.group.person .weight {
+    display: flex;
+    min-width: 55px;
+    width: max-content;
+    height: auto;
     font-size: 18px;
-    line-height: 30px;
+    line-height: 20px;
     background: #052A90FF;
-    margin: 0 0.8rem 0 0;
     border-radius: 0;
     margin: -0.4rem;
     padding: 0.2rem;
     border: 1px solid white;
+    align-text: center;
+    justify-content: center;
+    align-items: center;
 }
-
 
 .group {
     display: flex;
@@ -88,16 +220,28 @@ aside {
     border: 1px solid black;
     padding: 0.4rem;
     transform: translate(calc(var(--translateX) * 1px), calc(var(--translateY) * 1px));
+    overflow: hidden;
+    -webkit-transform-style: preserve-3d;
+    position: relative;
+    max-width: 150px;
 }
-
 
 .details .group {
     margin: 0 1.2rem;
     border-bottom: none;
 }
 
+.group-details .weight {
+    align-self: center;
+}
+
 .details .group:last-child {
     border-bottom: 1px solid black;
+}
+
+.group.hold {
+    border: solid 5px #ccc;
+    opacity: 0.75;
 }
 
 .group-0 {
@@ -121,32 +265,37 @@ aside {
 ];
 } */
 
-#names {
-    min-height: 100px;
-    padding: 1.2rem;
+@media screen and (min-width: 576px) {
+    .grand-totals:before {
+        content: 'GRAND TOTALS';
+        font-size: 16px;
+        transform: none;
+    }
+}
+
+@media screen and (min-width: 768px) {
+
 }
 
 @media screen and (min-width: 992px) {
-    .row {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
+
+    .my-2 {
+        margin-top: 0.5rem !important;
+        margin-bottom: 0.5rem !important;
     }
 
-    .column {
-        flex: 1;
+    .px-2 {
+        padding-right: 0.5rem !important;
+        padding-left: 0.5rem !important;
     }
 
     .flights {
-        width: 80vw;
-        max-width: 80vw;
         order: 1;
     }
 
-    .flight {
-        border: 1px solid black;
-        text-align: center;
-        background-color: #e6e6e6;
+
+    .flight-label {
+        top: -0.8rem;
     }
 
     .names {
@@ -168,5 +317,5 @@ aside {
 
 
 .hide {
-    display: none;
+    display: none !important;
 }

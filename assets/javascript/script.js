@@ -1,6 +1,3 @@
-/* basic touch process https://jh3y.medium.com/implementing-touch-support-in-javascript-b8e43f267a16 */
-
-const upload = document.querySelector('.upload');
 const main = document.querySelector('.main');
 
 const colors = ['#eae4e9ff', '#fff1e6ff', '#fde2e4ff', '#fad2e1ff', '#e2ece9ff', '#bee1e6ff', '#f0efebff',
@@ -8,42 +5,86 @@ const colors = ['#eae4e9ff', '#fff1e6ff', '#fde2e4ff', '#fad2e1ff', '#e2ece9ff',
 ];
 
 let group_elements = [];
-let moving_element = '';
+let MOVING_ELEMENT = '';
 let startX, startY;
 const flight_elements = document.querySelectorAll('.drop-targets');
 let hovered_flight;
 
-// flight drag functions
 
-function dragStart(e) {
-    //don't want to hide to propagate up to group parent
+/**
+ * dragGroupStart: Handler called when dragging a "group" element begins
+ *
+ *  1. don't allow handler to trickle to a parent group
+ *  2. add class to signify object is grabbed
+ *  3. hide the original element to avoid user confusion
+ *  4. set global for element that is being moved
+ */
+function dragGroupStart(e) {
     e.stopPropagation();
     this.classList.toggle('hold');
     setTimeout(() => (this.classList.toggle('hide')), 0);
-    moving_element = e;
+    MOVING_ELEMENT = e;
 }
 
-function dragEnd(e) {
-    // don't want to hold/hide to propagate up to group parent
-    e.stopPropagation()
+/**
+ * dragGroupEnd: Handler called when dragging a "group" element ends
+ *
+ *  1. don't allow handler to trickle to a parent group
+ *  2. remove class for holding
+ *  3. show moved element
+ */
+function dragGroupEnd(e) {
+    e.stopPropagation();
     this.classList.toggle('hold');
     this.classList.toggle('hide');
 }
 
-function dragOver(e) {
+/**
+ * dragOverFlightElement: Handler called when dragging a group
+ * over a flight Element
+ *
+ *  1. Prevent default to allow drop into flight element
+ */
+function dragOverFlightElement(e) {
     e.preventDefault();
 }
 
-function dragEnter(e) {
+/**
+ * dragEnterFlightElement: Handler called when dragging a group
+ * into a flight Element
+ *
+ *  1. Prevent default to allow drop into flight element
+ *  2. add class of hovered to potential dropzone
+ */
+function dragEnterFlightElement(e) {
     e.preventDefault();
     this.classList.toggle('hovered');
 }
 
-function dragLeave() {
+/**
+ * dragLeaveFlightElement: Handler called when dragging a group
+ * into a flight Element
+ *
+ *  1. remove class of hovered to potential dropzone
+ */
+function dragLeaveFlightElement() {
     this.classList.toggle('hovered');
 }
 
-const touchMove = e => {
+/**
+ * groupElementTouchMove: Handler called when mobile devices
+ * is moving a Group Element
+ *
+ *  1. prevent browser from continuing to process the touch event & prevent mouse
+ *  event from being delivered
+ *  2. only handle the 1 finger action as a dragging motion for group element
+ *  3. Translate the x.y to stimulate moving element
+ *  4. see if a valid dropzone is below object and toggle it's hovered class
+ *  5. ? Should this function be debounced
+ *
+ *  basic touch process https://jh3y.medium.com/implementing-touch-support-in-javascript-b8e43f267a16
+ */
+function groupElementTouchMove(e) {
     e.preventDefault();
     //only 1 finger action detected
     if (e.targetTouches.length == 1) {
@@ -61,11 +102,11 @@ const touchMove = e => {
         let els = document.elementsFromPoint(e.touches[0].clientX, e.touches[0].clientY);
         for (const el of els) {
             if (el.classList.contains('drop-targets')) {
-                if(typeof hovered_flight == 'undefined'){
+                if (typeof hovered_flight == 'undefined') {
                     el.classList.add('hovered');
                     hovered_flight = el;
                 }
-                if (hovered_flight && hovered_flight != el){
+                if (hovered_flight && hovered_flight != el) {
                     hovered_flight.classList.remove('hovered');
                     el.classList.add('hovered');
                     hovered_flight = el;
@@ -74,33 +115,108 @@ const touchMove = e => {
             }
         }
 
-        moving_element.style.setProperty('--translateX', translationX);
-        moving_element.style.setProperty('--translateY', translationY);
-
+        MOVING_ELEMENT.style.setProperty('--translateX', translationX);
+        MOVING_ELEMENT.style.setProperty('--translateY', translationY);
 
     }
 }
 
-const touchEnd = e => {
+/**
+ * decoupleChild
+ *
+ * if element being moved is a person vs a group, we need to restructure the HTML
+ * */
+function decoupleChild(moved_elem) {
+
+    if (moved_elem.classList.contains('person')) {
+        const name = moved_elem.dataset.name;
+        const weight = moved_elem.dataset.weight;
+        const group_no = moved_elem.dataset.group_number;
+        let new_element = `<div class="group group-${group_no} d-flex flex-column" draggable="true" data-group_number="${group_no}" style="--translateX:0; --translateY:0;" draggable="true" >` +
+            `<div class="group-name" data-group-name="${name}">` +
+            `<span class="count">1</span>` +
+            `<span>-</span>` +
+            `<span class="name">${name}</span>` +
+            `</div>` +
+            `<div class="d-flex flex-row">` +
+            `<div class="weight group-weight">${weight}</div>` +
+            `<div class="details d-block">` +
+            `<div class="person group group-${group_no} d-flex flex-row" data-weight="${weight}" data-group_number="${group_no}" data-count="1" data-name="${name}" style="--translateX:0;--translateY:0;">` +
+            `<div class="weight">${weight}</div>` +
+            `</div></div></div></div>`;
+
+        moved_elem.dataset.weight -= parseInt(weight);
+        moved_elem.dataset.count--;
+        moved_elem.classList.add('delete-me');
+
+
+        return new_element
+
+    } else return false;
+
+
+}
+
+
+/**
+ * groupElementTouchEnd: Handler called when mobile device
+ *  swipe to move Group Element Ends
+ *
+ *  1. prevent browser trickling up to parent group element
+ *  2. remove translation from object being moved
+ *  3. remove hovered effect from any drop zones
+ *  4. remove special classes to allow a child group object to be seen
+ *  5. append the moved group element to tne new dropzone object
+ *  6. kick off flight calculation
+ */
+function groupElementTouchEnd(e) {
     e.stopPropagation();
     const finishingTouch = e.changedTouches[0];
 
-    moving_element.classList.remove('hold');
-    moving_element.style.setProperty('--translateX', '0');
-    moving_element.style.setProperty('--translateY', '0');
-    hovered_flight.classList.remove('hovered');
+    MOVING_ELEMENT.classList.remove('hold');
+    MOVING_ELEMENT.style.setProperty('--translateX', '0');
+    MOVING_ELEMENT.style.setProperty('--translateY', '0');
+    MOVING_ELEMENT.style.removeProperty('z-index');
+    try {
+        hovered_flight.classList.remove('hovered');
+        if (MOVING_ELEMENT.parentElement.classList.contains('details')) {
+            MOVING_ELEMENT.parentElement.parentElement.parentElement.style.removeProperty('z-index');
+            MOVING_ELEMENT.parentElement.parentElement.parentElement.style.removeProperty('overflow');
+        }
+    } catch {
+        //do nothing timing issue might not realize hover is already off
+    }
     hovered_flight = undefined;
-
 
     const destination_element = document.elementFromPoint(finishingTouch.clientX, finishingTouch.clientY);
     if (destination_element && destination_element.classList.contains('drop-targets')) {
-        destination_element.append(moving_element);
-        afterTheDrop();
-    }
 
+        const new_elem = decoupleChild(MOVING_ELEMENT);
+        if (new_elem) {
+            destination_element.insertAdjacentHTML('beforeend', new_elem);
+        } else {
+            destination_element.append(MOVING_ELEMENT);
+        }
+
+        updateWeights();
+        applyGroupHandlers();
+
+    }
 }
 
-const touchStart = e => {
+/**
+ * groupElementTouchStart: Handler called when mobile device
+ *  touches a Group Element
+ *
+ *  1. prevent browser trickling up to parent group element
+ *  2. pay attention to only the moving touch
+ *  3. start adding translation to the element
+ *  4. add hold class to element
+ *  5. if it's a child override CSS so it's visible above parent & other objecst
+ *  placed on DOM after it
+ *  6. create the moving handler
+ */
+function groupElementTouchStart(e) {
 
     e.stopPropagation();
     const {touches} = e
@@ -109,156 +225,237 @@ const touchStart = e => {
         const touch = touches[0]
         startX = touch.clientX;
         startY = touch.clientY;
-        moving_element = e.currentTarget;
-        moving_element.classList.add('hold');
-        moving_element.removeEventListener('touchmove', touchMove);
-        moving_element.removeEventListener('touchend', touchEnd);
-        moving_element.addEventListener('touchmove', function(e) {
-            e.preventDefault();
-            touchMove(e);
-        }, {passive:false});
-        moving_element.addEventListener('touchend', touchEnd);
+        MOVING_ELEMENT = e.currentTarget;
+        MOVING_ELEMENT.classList.add('hold');
 
-    }
-}
+        MOVING_ELEMENT.style.setProperty('z-index', '200');
 
-
-function dragDrop(e) {
-    this.classList.toggle('hovered');
-    this.append(moving_element.target);
-
-    afterTheDrop();
-
-
-}
-
-function afterTheDrop() {
-
-
-    // check if group  is empty and hide it
-    const groups_parents = document.querySelectorAll('.group .details');
-    for (const group_element of groups_parents) {
-        if (group_element.childElementCount === 0) {
-            group_element.parentElement.classList.add('hide');
+        if (MOVING_ELEMENT.parentElement.classList.contains('details')) {
+            MOVING_ELEMENT.parentElement.parentElement.parentElement.style.setProperty('z-index', '200');
+            MOVING_ELEMENT.parentElement.parentElement.parentElement.style.setProperty('overflow', 'visible');
         }
+        MOVING_ELEMENT.removeEventListener('touchmove', groupElementTouchMove);
+        MOVING_ELEMENT.removeEventListener('touchend', groupElementTouchEnd);
+        MOVING_ELEMENT.addEventListener('touchmove', function (e) {
+            e.preventDefault();
+            groupElementTouchMove(e);
+        }, {passive: false});
+        MOVING_ELEMENT.addEventListener('touchend', groupElementTouchEnd);
+
+    }
+}
+
+/**
+ * dragDropIntoFlightElement: Handler called when mouse release
+ * dragged group into Flight Element
+ *
+ *  1. toggle the flight element's hovered state
+ *  2. append the moved element to the destination drop zone
+ *  3. kick off UX update of counts & weights
+ */
+function dragDropIntoFlightElement(e) {
+    this.classList.toggle('hovered');
+    const new_elem = decoupleChild(MOVING_ELEMENT.target);
+    if (new_elem) {
+        this.insertAdjacentHTML('beforeend', new_elem);
+    } else this.append(MOVING_ELEMENT.target);
+    updateWeights();
+    applyGroupHandlers();
+
+}
+
+/**
+ * updateWeights: called after DOM manipulation of a group is done
+ * AKA drag & drop or touch move
+ *
+ *  1. hides empty parent groups
+ *  2. recalculates parent group weights
+ *  3. updates the parent group counts
+ *  4. recalculates left and right counts & weights for each flight
+ *  5. updates flight totals
+ *  6. updates grand totals
+ *
+ */
+function updateWeights() {
+
+    const groups_parents = document.querySelectorAll('.group .details');
+
+    for (const group_element of groups_parents) {
+        // check if group  is empty and hide it
+        if (group_element.childElementCount === 0) {
+            group_element.parentElement.classList.add('delete-me');
+        }
+        //remove empty groups
+        for (el of document.querySelectorAll('.delete-me')) {
+            el.remove();
+        }
+        // don't allow child to be dragged if group count is 1
+        if(group_element.childElementCount === 1){
+            for(el of group_element.querySelectorAll('.person')) {
+                el.setAttribute('draggable', false);
+            }
+        }
+
+        // update count in data and display
+        group_element.dataset.count = group_element.childElementCount.toString();
+        group_element.parentElement.parentElement.querySelector('span.count').innerHTML = group_element.childElementCount.toString();
+
+        // recalculate group weight
+        let group_total = 0;
+        for (const person of group_element.querySelectorAll('.person')) {
+            group_total += parseInt(person.dataset.weight);
+        }
+        group_element.parentElement.querySelector('.group-weight').innerHTML = group_total.toString();
+        group_element.parentElement.dataset.weight = group_total.toString();
     }
 
-    // calculate the left/right flight totals
+    // update left-right weights & counts
     for (const flight of flight_elements) {
-        if(!flight.classList.contains('names')) {
+        if (!flight.classList.contains('names')) {
+
             let total = 0;
+            let count = 0;
             for (const person of flight.querySelectorAll('.person')) {
                 total += parseInt(person.dataset.weight);
+                count++;
             }
-            flight.parentElement.querySelector('.total-weight').innerHTML = total.toString();
-            flight.parentElement.querySelector('.total-weight').dataset.weight = total.toString();
+            let weight_elm = document.querySelector(flight.dataset.weight_elm);
+            weight_elm.innerHTML = total.toString();
+            flight.dataset.weight = total.toString();
+            let count_elm = document.querySelector(flight.dataset.count_elm);
+            count_elm.innerHTML = count.toString();
+            flight.dataset.count = count.toString();
         }
+
     }
 
-    // calculate the flight totals
-    let total = 0;
-    for (const side of document.querySelectorAll('#flight-1 .total-weight')) {
-        total += parseInt(side.dataset.weight);
+    // update total weights & counts
+    let grand_total = 0;
+    let grand_count = 0;
+    for (const flight of document.querySelectorAll('.flight')) {
+        let total = 0;
+        let count = 0;
+        for (const side of flight.querySelectorAll('.drop-targets')) {
+            total += parseInt(side.dataset.weight);
+            count += parseInt(side.dataset.count);
+        }
+        flight.querySelector('.total-weight').innerHTML = total.toString();
+        flight.querySelector('.total-count').innerHTML = count.toString();
+        if (flight.getAttribute('id') === "flight-1") {
+            document.querySelector('.first-weight').innerHTML = total.toString();
+            document.querySelector('.first-count').innerHTML = count.toString();
+        } else {
+            document.querySelector('.second-weight').innerHTML = total.toString();
+            document.querySelector('.second-count').innerHTML = count.toString();
+
+        }
+
+        grand_total += total;
+        grand_count += count;
+
     }
-    document.querySelector('.flight-weight-1').innerHTML = total.toString();
-    total = 0;
-    for (const side of document.querySelectorAll('#flight-2 .total-weight')) {
-        total += parseInt(side.dataset.weight);
-    }
-    document.querySelector('.flight-weight-2').innerHTML = total.toString();
+
+    //update grand totals
+    document.querySelector('.grand-total-weight').innerHTML = grand_total.toString();
+    document.querySelector('.grand-total-count').innerHTML = grand_count.toString();
 
 
 }
 
 
-// flight listeners
-for (const flight_element of flight_elements) {
-    flight_element.addEventListener('dragover', dragOver);
-    flight_element.addEventListener('dragenter', dragEnter);
-    flight_element.addEventListener('dragleave', dragLeave);
-    flight_element.addEventListener('drop', dragDrop);
+/**
+ * applyPatronDropZoneHandlers: sets handlers to the drop zones for the patrons & flight
+ * sides
+ *
+ */
+function applyPatronDropZoneHandlers() {
+
+    for (const flight_element of flight_elements) {
+        flight_element.addEventListener('dragover', dragOverFlightElement);
+        flight_element.addEventListener('dragenter', dragEnterFlightElement);
+        flight_element.addEventListener('dragleave', dragLeaveFlightElement);
+        flight_element.addEventListener('drop', dragDropIntoFlightElement);
+    }
 }
 
-function switchView() {
-    upload.classList.toggle('hide');
-    main.classList.toggle('hide');
-}
-
+/**
+ * applyGroupHandlers: apply handlers for groups
+ *
+ *  1. remove any existing handlers
+ *  2. reset for drag star & dragend
+ *  3. reset touchstart
+ */
 function applyGroupHandlers() {
     group_elements = document.querySelectorAll('.group');
 
     //drop any existing group/name listeners
     for (const group_element of group_elements) {
-        group_element.removeEventListener('dragstart', dragStart);
-        group_element.removeEventListener('dragend', dragEnd);
-        group_element.removeEventListener('touchstart', touchStart);
+        group_element.removeEventListener('dragstart', dragGroupStart);
+        group_element.removeEventListener('dragend', dragGroupEnd);
+        group_element.removeEventListener('touchstart', groupElementTouchStart);
     }
 
+    group_elements = document.querySelectorAll('.group[draggable="true"]');
     // apply  group/name listeners
     for (const group_element of group_elements) {
-        group_element.addEventListener('dragstart', dragStart);
-        group_element.addEventListener('dragend', dragEnd);
-        group_element.addEventListener('touchstart', touchStart);
+        group_element.addEventListener('dragstart', dragGroupStart);
+        group_element.addEventListener('dragend', dragGroupEnd);
+        group_element.addEventListener('touchstart', groupElementTouchStart);
     }
 }
 
-document.getElementById('load').addEventListener('click', () => {
-    switchView();
-})
 
-document.getElementById('import').addEventListener('click', (e) => {
-    let files = document.getElementById('selectFiles').files;
-
-    if (files.length <= 0) {
-        return false;
-    }
-
-    let fr = new FileReader();
-
-    document.getElementById('names').classList.remove('hide');
-
-    fr.onload = function (e) {
-
-        let result = JSON.parse(e.target.result);
-        let formatted = JSON.stringify(result, null, 2);
-        // TODO check that file has right structure
-
-        switchView();
-
-
-        let names_html = "";
-        const groups = [];
-        result.forEach((value, index) => {
-            if (groups.indexOf(value.group) === -1) {
-                groups.push(value.group);
-            }
-        });
-
-
-        //sort incoming data by groups then by largest to smallest weight
-        const sorted = result.sort((a, b) => {
-            if (a.group == b.group) {
-                return a.weight > b.weight ? -1 : 1
-            } else {
-                return a.group < b.group ? -1 : 1
-            }
-        });
-        //console.log(sorted)
-
-        applyGroupHandlers();
-    }
-
-    fr.readAsText(files.item(0));
-});
-
-
+/**
+ * ReadyFunction: once DOM is complete
+ *
+ *  1. apply import handler (still needs to be hooked up to build DOM)
+ *  2. set handlers for drag start & dragend
+ *  3. set touchstart handlers for groups being moved around
+ *  4. set add patron processing
+ */
 document.onreadystatechange = function () {
     let state = document.readyState;
     if (state == 'complete') {
 
-        switchView();
-        document.getElementById('load').classList.add('hide');
+
+        // these two lines switch the view to simulate data already being loaded, would remove them eventually
+        main.classList.toggle('hide');
+        upload.classList.toggle('hide');
+
+        applyImportHandler();
+        applyPatronDropZoneHandlers();
         applyGroupHandlers();
+
+        // add patron submit processing
+        document.getElementById('add-patron').addEventListener('submit', function (e) {
+            e.preventDefault();
+            let modal = bootstrap.Modal.getInstance(myModal)
+            modal.hide();
+            addPatron(e);
+            applyGroupHandlers();
+        });
 
     }
 }
+
+
+// THINGS TO TRY:
+/*
+1. touch scroll issue: https://stackoverflow.com/questions/36596562/detect-touch-scroll-up-or-down
+2. number keypad for number input vs text
+3. drop person into group
+4. add people count to bigger group display
+4. balancing logic: hill algorithm:
+ - https://www.geeksforgeeks.org/introduction-hill-climbing-artificial-intelligence/
+ - https://www.geeksforgeeks.org/minimum-cost-to-reach-the-top-of-the-floor-by-climbing-stairs/
+ - https://www.geeksforgeeks.org/n-queen-problem-local-search-using-hill-climbing-with-random-neighbour/
+ - https://www.educba.com/hill-climbing-algorithm/
+ - https://gist.github.com/sunetos/444396
+ 7. get info from ILLYA
+ - max weight for balloons (can hard code)
+ - max weight to reserve
+ - what exact steps does it take to balance, any hints to first picks per F1-R F1-L, F2-R, F2-L
+ - example data
+ - picture of balloon for favicon
+ - link to reservation site
+ */
