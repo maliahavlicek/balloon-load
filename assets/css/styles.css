@@ -110,8 +110,6 @@ h1, h2, h3 {
     border: 1px solid black;
 }
 
-
-
 .flights-summary.counts:before {
     content: '\f0c0';
     border-top: 1px solid gray;
@@ -160,7 +158,7 @@ aside {
 
 
 .group-name {
-    font-size: 22px;
+    font-size: 1.8rem;
     margin: 0.2rem auto;
     text-align: center;
     display: block;
@@ -185,17 +183,18 @@ input[type=number] {
 }
 
 .group .weight {
-    width: 60px;
-    height: 60px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
-    font-size: 30px;
+    font-size: 22px;
     color: #fff;
-    line-height: 60px;
+    line-height: 42px;
     text-align: center;
     background: #000;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: -4px;
 }
 
 .group.person .weight {

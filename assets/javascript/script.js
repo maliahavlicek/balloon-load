@@ -131,8 +131,8 @@ function decoupleChild(moved_elem) {
     if (moved_elem.classList.contains('person')) {
         const name = moved_elem.dataset.name;
         const weight = moved_elem.dataset.weight;
-        const group_no = document.querySelectorAll('.group:not(.person)').length + 1;
-        let new_element = `<div class="group guest group-${group_no} d-flex flex-column" draggable="true" style="--translateX:0; --translateY:0;">` +
+        const group_no = moved_elem.dataset.group_number;
+        let new_element = `<div class="group group-${group_no} d-flex flex-column" draggable="true" data-group_number="${group_no}" style="--translateX:0; --translateY:0;" draggable="true" >` +
             `<div class="group-name" data-group-name="${name}">` +
             `<span class="count">1</span>` +
             `<span>-</span>` +
@@ -141,7 +141,7 @@ function decoupleChild(moved_elem) {
             `<div class="d-flex flex-row">` +
             `<div class="weight group-weight">${weight}</div>` +
             `<div class="details d-block">` +
-            `<div class="person group group-${group_no} d-flex flex-row" data-weight="${weight}" data-count="1" data-name="${name}" draggable="true" style="--translateX:0;--translateY:0;">` +
+            `<div class="person group group-${group_no} d-flex flex-row" data-weight="${weight}" data-group_number="${group_no}" data-count="1" data-name="${name}" style="--translateX:0;--translateY:0;">` +
             `<div class="weight">${weight}</div>` +
             `</div></div></div></div>`;
 
@@ -199,6 +199,7 @@ function groupElementTouchEnd(e) {
         }
 
         updateWeights();
+        applyGroupHandlers();
 
     }
 }
@@ -259,6 +260,7 @@ function dragDropIntoFlightElement(e) {
         this.insertAdjacentHTML('beforeend', new_elem);
     } else this.append(MOVING_ELEMENT.target);
     updateWeights();
+    applyGroupHandlers();
 
 }
 
@@ -283,9 +285,18 @@ function updateWeights() {
         if (group_element.childElementCount === 0) {
             group_element.parentElement.classList.add('delete-me');
         }
+        //remove empty groups
         for (el of document.querySelectorAll('.delete-me')) {
             el.remove();
         }
+        // don't allow child to be dragged if group count is 1
+        if(group_element.childElementCount === 1){
+            for(el of group_element.querySelectorAll('.person')) {
+                el.setAttribute('draggable', false);
+            }
+        }
+
+        // update count in data and display
         group_element.dataset.count = group_element.childElementCount.toString();
         group_element.parentElement.parentElement.querySelector('span.count').innerHTML = group_element.childElementCount.toString();
 
@@ -384,6 +395,7 @@ function applyGroupHandlers() {
         group_element.removeEventListener('touchstart', groupElementTouchStart);
     }
 
+    group_elements = document.querySelectorAll('.group[draggable="true"]');
     // apply  group/name listeners
     for (const group_element of group_elements) {
         group_element.addEventListener('dragstart', dragGroupStart);
