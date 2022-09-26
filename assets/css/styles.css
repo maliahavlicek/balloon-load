@@ -54,15 +54,18 @@ h1, h2, h3 {
     border: 1px solid black;
     text-align: center;
     display: grid;
-    grid-template-columns: repeat(2, minmax(4rem, 1fr));
+    grid-template-columns: repeat(2, minmax(4rem, 1fr)) 150px;
     grid-auto-rows: minmax(30px, auto);
-    background: palegoldenrod;
 }
 
 .flight-summary, .people-summary, .flights-summary {
     display: grid;
-    grid-template-columns:repeat(4, minmax(4rem, 1fr));
+    grid-template-columns:repeat(2, minmax(4rem, 1fr)) 150px;
     grid-auto-rows: minmax(30px, auto);
+}
+
+.flight .flight-summary{
+    background: palegoldenrod;
 }
 
 .flights-summary {
@@ -92,7 +95,7 @@ h1, h2, h3 {
     background: paleturquoise;
 }
 
-.flight-summary:before, .people-summary:before, .flights-summary:before {
+.flights-summary:before {
     content: '\f496';
     color: #3f3737;
     font-size: 18px;
@@ -107,15 +110,11 @@ h1, h2, h3 {
     border: 1px solid black;
 }
 
-.people-summary:before {
-    content: '\f0c0';
-    border-top: 1px solid gray;
-}
+
 
 .flights-summary.counts:before {
     content: '\f0c0';
     border-top: 1px solid gray;
-
 }
 
 .full-row {
@@ -137,14 +136,12 @@ aside {
 
 .names {
     display: grid;
-    grid-template-columns: repeat(2, 45%);
-    grid-column-gap: 0.8rem;
+    grid-auto-columns: 150px;
+    gap: 0.8rem;
+    grid-auto-rows: minmax(100px, auto);
+    grid-auto-flow: column;
 }
 
-.names .flight-label {
-    grid-column-start: 1;
-    grid-column-end: 3;
-}
 
 .hovered {
     background: #f4f4f4;
@@ -227,12 +224,12 @@ input[type=number] {
     overflow: hidden;
     -webkit-transform-style: preserve-3d;
     position: relative;
+    max-width: 150px;
 }
 
 .details .group {
     margin: 0 1.2rem;
     border-bottom: none;
-    width: calc(100% - 1.2rem);
 }
 
 .group-details .weight {
@@ -278,14 +275,7 @@ input[type=number] {
 }
 
 @media screen and (min-width: 768px) {
-    .names {
-        grid-template-columns: repeat(3, 30%);
-    }
 
-    .names .flight-label {
-        grid-column-start: 1;
-        grid-column-end: 4;
-    }
 }
 
 @media screen and (min-width: 992px) {

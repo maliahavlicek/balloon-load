@@ -23,13 +23,21 @@ function addPatron() {
     guests_added++;
 
     const weight = document.getElementById('weight').value;
-    const groups = document.querySelectorAll('.group:not(.person):not(.guest)').length;
+    const group_no = document.querySelectorAll('.group:not(.person):not(.guest)').length + parseInt(guests_added);
 
-    let new_element = `<div class="person group guest group-${parseInt(groups) +1 + parseInt(guests_added)} d-flex flex-row" id="g1-p1" data-weight="${weight}" draggable="true" style="--translateX:0; --translateY:0;">` +
+
+    let new_element = `<div class="group guest group-${group_no} d-flex flex-column" id="g${group_no}" data-weight="${weight}" draggable="true" style="--translateX:0; --translateY:0;">` +
+        `<div class="group-name" data-group-name="${name}">` +
+        `<span class="count">1</span>` +
+        `<span>-</span>` +
+        `<span class="name">${name}</span>` +
+        `</div>` +
+        `<div class="d-flex flex-row">` +
+        `<div class="weight group-weight">${weight}</div>` +
+        `<div class="details d-block">` +
+        `<div class="person group group-${group_no} d-flex flex-row" id='g${group_no}-p1' data-weight="${weight}" data-count="1" data-name="${name}" draggable="true" style="--translateX:0;--translateY:0;">` +
         `<div class="weight">${weight}</div>` +
-        `<div class="person-item">${name}</div>` +
-        `<div class="person-item"></div>` +
-        `</div>`;
+        `</div></div></div></div>`;
     document.getElementById('names').insertAdjacentHTML('beforeend', new_element);
 
     // clean up form
