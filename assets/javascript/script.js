@@ -416,12 +416,6 @@ function applyGroupHandlers() {
 document.onreadystatechange = function () {
     let state = document.readyState;
     if (state == 'complete') {
-
-
-        // these two lines switch the view to simulate data already being loaded, would remove them eventually
-        main.classList.toggle('hide');
-        upload.classList.toggle('hide');
-
         applyImportHandler();
         applyPatronDropZoneHandlers();
         applyGroupHandlers();
