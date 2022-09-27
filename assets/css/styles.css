@@ -143,7 +143,14 @@ aside {
 
 .hovered {
     background: #f4f4f4;
-    border-style: dashed;
+    border: 1px dashed blue;
+}
+
+.group.hovered{
+    padding: 0.2rem;
+    margin:0.2rem;
+    background: #f4f4f4!important;
+    border: 1px dashed blue!important;
 }
 
 .person-item {
@@ -237,6 +244,13 @@ input[type=number] {
 
 .details .group:last-child {
     border-bottom: 1px solid black;
+}
+
+.details.drop-targets{
+    background: #FFFFFF00;
+    border: none;
+    padding: 0 0;
+    margin: 0 0;
 }
 
 .group.hold {

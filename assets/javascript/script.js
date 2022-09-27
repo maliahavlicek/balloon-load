@@ -7,7 +7,7 @@ const colors = ['#eae4e9ff', '#fff1e6ff', '#fde2e4ff', '#fad2e1ff', '#e2ece9ff',
 let group_elements = [];
 let MOVING_ELEMENT = '';
 let startX, startY;
-const flight_elements = document.querySelectorAll('.drop-targets');
+const drop_elements = document.querySelectorAll('.drop-targets');
 let hovered_flight;
 
 
@@ -121,39 +121,71 @@ function groupElementTouchMove(e) {
     }
 }
 
+function cleanupDuringMove(elm) {
+    const name = elm.dataset.name;
+    const weight = elm.dataset.weight;
+    const group_no = elm.dataset.group_number;
+    let new_element = `<div class="group group-${group_no} d-flex flex-column" draggable="true" data-group_number="${group_no}" style="--translateX:0; --translateY:0;" draggable="true" >` +
+        `<div class="group-name" data-group-name="${name}">` +
+        `<span class="count">1</span>` +
+        `<span>-</span>` +
+        `<span class="name">${name}</span>` +
+        `</div>` +
+        `<div class="d-flex flex-row">` +
+        `<div class="weight group-weight">${weight}</div>` +
+        `<div class="details d-block drop-targets">` +
+        `<div class="person group group-${group_no} d-flex flex-row" data-weight="${weight}" data-group_number="${group_no}" data-count="1" data-name="${name}" style="--translateX:0;--translateY:0;">` +
+        `<div class="weight">${weight}</div>` +
+        `</div></div></div></div>`;
+
+    return new_element;
+}
+
 /**
  * decoupleChild
  *
  * if element being moved is a person vs a group, we need to restructure the HTML
  * */
-function decoupleChild(moved_elem) {
+function decoupleChild(moved_elem, destination) {
 
-    if (moved_elem.classList.contains('person')) {
-        const name = moved_elem.dataset.name;
+    if (destination.classList.contains('details') && moved_elem.classList.contains('person')) {
+        console.log('DEBUG: person into existing group');
+        // person can be dropped right into a details section
+        // ? maybe change it's group class & name
+        return false;
+    } else if (destination.classList.contains('details') && !moved_elem.classList.contains('person')) {
+        console.log('DEBUG: Group being moved into another group');
+        // Group being moved into another group
+        // need to strip off the person in the incoming details and append those to the destination
+
+        for (const person of moved_elem.querySelectorAll('.details .person')) {
+            const name = destination.parentElement.parentElement.querySelector('.group-name').dataset.name;
+            const weight = person.dataset.weight;
+            const group_no = destination.parentElement.parentElement.dataset.group_number;
+            const new_elem = `<div class="person group group-${group_no} d-flex flex-row" data-weight="${weight}" data-group_number="${group_no}" data-count="1" data-name="${name}" style="--translateX:0;--translateY:0;">` +
+                `<div class="weight">${weight}</div></div>`;
+            destination.insertAdjacentHTML('beforeend', new_elem);
+        }
+        moved_elem.classList.add('delete-me');
+        // ? maybe change its group class & name to match parent?
+
+    } else if (moved_elem.classList.contains('person')) {
+        console.log('DEBUG: person into a BRAND NEW group');
+        // person being dragged out of a group
         const weight = moved_elem.dataset.weight;
-        const group_no = moved_elem.dataset.group_number;
-        let new_element = `<div class="group group-${group_no} d-flex flex-column" draggable="true" data-group_number="${group_no}" style="--translateX:0; --translateY:0;" draggable="true" >` +
-            `<div class="group-name" data-group-name="${name}">` +
-            `<span class="count">1</span>` +
-            `<span>-</span>` +
-            `<span class="name">${name}</span>` +
-            `</div>` +
-            `<div class="d-flex flex-row">` +
-            `<div class="weight group-weight">${weight}</div>` +
-            `<div class="details d-block">` +
-            `<div class="person group group-${group_no} d-flex flex-row" data-weight="${weight}" data-group_number="${group_no}" data-count="1" data-name="${name}" style="--translateX:0;--translateY:0;">` +
-            `<div class="weight">${weight}</div>` +
-            `</div></div></div></div>`;
+        const new_element = cleanupDuringMove(moved_elem);
 
         moved_elem.dataset.weight -= parseInt(weight);
         moved_elem.dataset.count--;
         moved_elem.classList.add('delete-me');
 
-
         return new_element
 
-    } else return false;
-
+    } else {
+        console.log('DEBUG: group into a flight or names');
+        //group being dropped into a new flight
+        return false;
+    }
 
 }
 
@@ -191,7 +223,7 @@ function groupElementTouchEnd(e) {
     const destination_element = document.elementFromPoint(finishingTouch.clientX, finishingTouch.clientY);
     if (destination_element && destination_element.classList.contains('drop-targets')) {
 
-        const new_elem = decoupleChild(MOVING_ELEMENT);
+        const new_elem = decoupleChild(MOVING_ELEMENT, destination_element);
         if (new_elem) {
             destination_element.insertAdjacentHTML('beforeend', new_elem);
         } else {
@@ -255,7 +287,7 @@ function groupElementTouchStart(e) {
  */
 function dragDropIntoFlightElement(e) {
     this.classList.toggle('hovered');
-    const new_elem = decoupleChild(MOVING_ELEMENT.target);
+    const new_elem = decoupleChild(MOVING_ELEMENT.target, e.target);
     if (new_elem) {
         this.insertAdjacentHTML('beforeend', new_elem);
     } else this.append(MOVING_ELEMENT.target);
@@ -290,8 +322,8 @@ function updateWeights() {
             el.remove();
         }
         // don't allow child to be dragged if group count is 1
-        if(group_element.childElementCount === 1){
-            for(el of group_element.querySelectorAll('.person')) {
+        if (group_element.childElementCount === 1) {
+            for (el of group_element.querySelectorAll('.person')) {
                 el.setAttribute('draggable', false);
             }
         }
@@ -306,12 +338,12 @@ function updateWeights() {
             group_total += parseInt(person.dataset.weight);
         }
         group_element.parentElement.querySelector('.group-weight').innerHTML = group_total.toString();
-        group_element.parentElement.dataset.weight = group_total.toString();
+        group_element.parentElement.parentElement.dataset.weight = group_total.toString();
     }
 
     // update left-right weights & counts
-    for (const flight of flight_elements) {
-        if (!flight.classList.contains('names')) {
+    for (const flight of drop_elements) {
+        if (!flight.classList.contains('names') && !flight.classList.contains('details')) {
 
             let total = 0;
             let count = 0;
@@ -335,7 +367,7 @@ function updateWeights() {
     for (const flight of document.querySelectorAll('.flight')) {
         let total = 0;
         let count = 0;
-        for (const side of flight.querySelectorAll('.drop-targets')) {
+        for (const side of flight.querySelectorAll('.drop-targets:not(.details)')) {
             total += parseInt(side.dataset.weight);
             count += parseInt(side.dataset.count);
         }
@@ -370,7 +402,7 @@ function updateWeights() {
  */
 function applyPatronDropZoneHandlers() {
 
-    for (const flight_element of flight_elements) {
+    for (const flight_element of drop_elements) {
         flight_element.addEventListener('dragover', dragOverFlightElement);
         flight_element.addEventListener('dragenter', dragEnterFlightElement);
         flight_element.addEventListener('dragleave', dragLeaveFlightElement);
@@ -442,20 +474,15 @@ document.onreadystatechange = function () {
 // THINGS TO TRY:
 /*
 1. touch scroll issue: https://stackoverflow.com/questions/36596562/detect-touch-scroll-up-or-down
-2. number keypad for number input vs text
-3. drop person into group
-4. add people count to bigger group display
-4. balancing logic: hill algorithm:
+2. drop person into group
+3. balancing logic: hill algorithm: ? GAYLIN
  - https://www.geeksforgeeks.org/introduction-hill-climbing-artificial-intelligence/
  - https://www.geeksforgeeks.org/minimum-cost-to-reach-the-top-of-the-floor-by-climbing-stairs/
  - https://www.geeksforgeeks.org/n-queen-problem-local-search-using-hill-climbing-with-random-neighbour/
  - https://www.educba.com/hill-climbing-algorithm/
  - https://gist.github.com/sunetos/444396
  7. get info from ILLYA
- - max weight for balloons (can hard code)
- - max weight to reserve
- - what exact steps does it take to balance, any hints to first picks per F1-R F1-L, F2-R, F2-L
- - example data
+ - example data (got, need to try cvs upload for now)
  - picture of balloon for favicon
  - link to reservation site
  */
