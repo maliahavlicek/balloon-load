@@ -162,7 +162,7 @@ function decoupleChild(moved_elem, destination) {
             const name = destination.parentElement.parentElement.querySelector('.group-name').dataset.name;
             const weight = person.dataset.weight;
             const group_no = destination.parentElement.parentElement.dataset.group_number;
-            const new_elem = `<div class="person group group-${group_no} d-flex flex-row" data-weight="${weight}" data-group_number="${group_no}" data-count="1" data-name="${name}" style="--translateX:0;--translateY:0;">` +
+            const new_elem = `<div class="person group group-${group_no} d-flex flex-row" data-weight="${weight}" data-group_number="${group_no}" data-count="1" data-name="${name}" style="--translateX:0;--translateY:0; draggable="true">` +
                 `<div class="weight">${weight}</div></div>`;
             destination.insertAdjacentHTML('beforeend', new_elem);
         }

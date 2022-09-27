@@ -34,7 +34,7 @@ function addPatron() {
         `</div>` +
         `<div class="d-flex flex-row">` +
         `<div class="weight group-weight">${weight}</div>` +
-        `<div class="details d-block ">` +
+        `<div class="details d-block drop-targets">` +
         `<div class="person group group-${group_no} d-flex flex-row" draggable="true" data-weight="${weight}" data-count="1" data-group_number="${group_no}" data-name="${name}" style="--translateX:0;--translateY:0;">` +
         `<div class="weight">${weight}</div>` +
         `</div></div></div></div>`;
