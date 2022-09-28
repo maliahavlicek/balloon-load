@@ -194,10 +194,10 @@ function groupElementTouchEnd(e) {
     }
     try {
         hovered_flight.classList.remove('hovered');
-        if (MOVING_ELEMENT.parentElement.classList.contains('details')) {
-            MOVING_ELEMENT.parentElement.parentElement.parentElement.style.removeProperty('z-index');
-            MOVING_ELEMENT.parentElement.parentElement.parentElement.style.removeProperty('overflow');
-        }
+
+        MOVING_ELEMENT.parentElement.parentElement.parentElement.style.removeProperty('z-index');
+        MOVING_ELEMENT.parentElement.parentElement.parentElement.style.removeProperty('overflow');
+
     } catch {
         //do nothing timing issue might not realize hover is already off
     }
@@ -291,8 +291,8 @@ function updateWeights() {
             el.remove();
         }
         // don't allow child to be dragged if group count is 1
-        if(group_element.childElementCount === 1){
-            for(el of group_element.querySelectorAll('.person')) {
+        if (group_element.childElementCount === 1) {
+            for (el of group_element.querySelectorAll('.person')) {
                 el.setAttribute('draggable', false);
             }
         }
@@ -332,18 +332,19 @@ function updateWeights() {
 
     // update differences
     for (const elem of document.querySelectorAll('.diff-weight')) {
-       elem.innerHTML='';
-    };
+        elem.innerHTML = '';
+    }
+    ;
     const f1_diff = parseInt(document.querySelector('#f1-left').dataset.weight) - parseInt(document.querySelector('#f1-right').dataset.weight);
     const f2_diff = parseInt(document.querySelector('#f2-left').dataset.weight) - parseInt(document.querySelector('#f2-right').dataset.weight);
     if (f1_diff > 0) {
         document.querySelector('#flight-1 .left.diff-weight').innerHTML = `(${f1_diff})`;
-    } else if (f1_diff < 0){
+    } else if (f1_diff < 0) {
         document.querySelector('#flight-1 .right.diff-weight').innerHTML = `(${Math.abs(f1_diff)})`;
     }
     if (f2_diff > 0) {
         document.querySelector('#flight-2 .left.diff-weight').innerHTML = `(${f2_diff})`;
-    } else if (f2_diff < 0){
+    } else if (f2_diff < 0) {
         document.querySelector('#flight-2 .right.diff-weight').innerHTML = `(${Math.abs(f2_diff)})`;
     }
 
@@ -398,8 +399,16 @@ function applyPatronDropZoneHandlers() {
 function applyGroupHandlers() {
     group_elements = document.querySelectorAll('.group');
 
+
     //drop any existing group/name listeners
     for (const group_element of group_elements) {
+        // clean up any moving styles
+        try {
+            group_element.style.removeProperty('z-index');
+            group_element.style.removeProperty('overflow');
+        } catch {
+            //do nothing, just don't error
+        }
         group_element.removeEventListener('dragstart', dragGroupStart);
         group_element.removeEventListener('dragend', dragGroupEnd);
         group_element.removeEventListener('touchstart', groupElementTouchStart);
