@@ -147,8 +147,11 @@ aside {
 .group-name {
     font-size: 1.8rem;
     margin: 0.2rem auto;
-    text-align: center;
+    text-align: left;
     display: block;
+    height: 30px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .flight .group-name {
