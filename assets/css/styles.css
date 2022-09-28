@@ -54,13 +54,13 @@ h1, h2, h3 {
     border: 1px solid black;
     text-align: center;
     display: grid;
-    grid-template-columns: repeat(2, minmax(4rem, 1fr)) 150px;
+    grid-template-columns: repeat(2, minmax(4rem, 1fr)) 100px;
     grid-auto-rows: minmax(30px, auto);
 }
 
 .flight-summary, .people-summary, .flights-summary {
     display: grid;
-    grid-template-columns:repeat(2, minmax(4rem, 1fr)) 150px;
+    grid-template-columns:repeat(2, minmax(4rem, 1fr)) 100px;
     grid-auto-rows: minmax(30px, auto);
 }
 
@@ -69,12 +69,12 @@ h1, h2, h3 {
 }
 
 .flights-summary {
-    grid-template-columns: 150px;
+    grid-template-columns: 100px;
 }
 
 .grand-totals {
     display: grid;
-    grid-template-columns: auto 150px;
+    grid-template-columns: auto 100px;
     background: mediumturquoise;
 }
 
