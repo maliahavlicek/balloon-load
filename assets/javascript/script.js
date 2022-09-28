@@ -330,6 +330,24 @@ function updateWeights() {
 
     }
 
+    // update differences
+    for (const elem of document.querySelectorAll('.diff-weight')) {
+       elem.innerHTML='';
+    };
+    const f1_diff = parseInt(document.querySelector('#f1-left').dataset.weight) - parseInt(document.querySelector('#f1-right').dataset.weight);
+    const f2_diff = parseInt(document.querySelector('#f2-left').dataset.weight) - parseInt(document.querySelector('#f2-right').dataset.weight);
+    if (f1_diff > 0) {
+        document.querySelector('#flight-1 .left.diff-weight').innerHTML = `(${f1_diff})`;
+    } else if (f1_diff < 0){
+        document.querySelector('#flight-1 .right.diff-weight').innerHTML = `(${Math.abs(f1_diff)})`;
+    }
+    if (f2_diff > 0) {
+        document.querySelector('#flight-2 .left.diff-weight').innerHTML = `(${f2_diff})`;
+    } else if (f2_diff < 0){
+        document.querySelector('#flight-2 .right.diff-weight').innerHTML = `(${Math.abs(f2_diff)})`;
+    }
+
+
     // update total weights & counts
     let grand_total = 0;
     let grand_count = 0;
