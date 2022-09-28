@@ -342,15 +342,6 @@ function updateWeights() {
         }
         flight.querySelector('.total-weight').innerHTML = total.toString();
         flight.querySelector('.total-count').innerHTML = count.toString();
-        if (flight.getAttribute('id') === "flight-1") {
-            document.querySelector('.first-weight').innerHTML = total.toString();
-            document.querySelector('.first-count').innerHTML = count.toString();
-        } else {
-            document.querySelector('.second-weight').innerHTML = total.toString();
-            document.querySelector('.second-count').innerHTML = count.toString();
-
-        }
-
         grand_total += total;
         grand_count += count;
 
