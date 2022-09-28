@@ -77,7 +77,8 @@ h1, h2, h3 {
     grid-template-columns: auto 100px;
     background: mediumturquoise;
 }
-.diff-weight{
+
+.diff-weight {
     color: red;
 }
 
@@ -96,7 +97,7 @@ h1, h2, h3 {
     background: paleturquoise;
 }
 
-.flights .left.drop-targets, .flights .right.drop-targets{
+.flights .left.drop-targets, .flights .right.drop-targets {
     flex-wrap: wrap;
     display: flex;
     flex-direction: row;
@@ -230,12 +231,12 @@ input[type=number] {
     opacity: 0.75;
 }
 
-.group-0 {
-    background: #ffffff;
+.group-1 {
+    background: #eae4e9ff;
 }
 
 .group-2 {
-    background: #fff1e6ff;
+    background: #dfe7fdff;
 }
 
 .group-3 {
@@ -246,10 +247,69 @@ input[type=number] {
     background: #fad2e1ff;
 }
 
-/*', '#e2ece9ff', '#bee1e6ff', '#f0efebff',
-'#dfe7fdff', '#cddafdff', '#dfd7fcff', '#f8b4c4ff', '#ffedc2ff', '#60fbd2ff', '#7cd5f3ff', '#8fdbf5ff', '#3dccc7ff'
-];
-} */
+.group-5 {
+    background: #e2ece9ff;
+}
+
+.group-6 {
+    background: #cff2f7;
+}
+
+.group-7 {
+    background: #f0efebff;
+}
+
+.group-8 {
+    background: #fff1e6ff;
+}
+
+.group-9 {
+    background: #cddafd69;
+}
+
+.group-10 {
+    background: #dfd7fcff;
+}
+
+.group-11 {
+    background: #f8b4c4ff;
+}
+
+.group-12 {
+    background: #ffedc2ff;
+}
+
+.group-13 {
+    background: #60fbd2ff;
+}
+
+.group-14 {
+    background: #7cd5f3ff;
+}
+
+.group-15 {
+    background: #8fdbf5ff;
+}
+
+.group-16 {
+    background: #3dccc7ff;
+}
+
+.group-17 {
+    background: #0044f95e;
+}
+
+.group-18 {
+    background: #d400f95e;
+}
+
+.group-19 {
+    background: #ffdcbc;
+}
+
+.group-20 {
+    background: #eaffbc;
+}
 
 
 @media screen and (min-width: 768px) {

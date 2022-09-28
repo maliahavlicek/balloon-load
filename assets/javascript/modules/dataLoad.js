@@ -9,7 +9,7 @@ function createPatrons(items) {
 
         let new_group = `<div class="group guest group-${index + 1} d-flex flex-column" draggable="true" data-group_number="${index + 1}"style="--translateX:0; --translateY:0;" draggable="true" >` +
             `<div class="group-name" data-group-name="${name}">` +
-            `<span class="count">1</span>` +
+            `<span class="count">${weights.length}</span>` +
             `<span>-</span>` +
             `<span class="name">${name}</span>` +
             `</div>` +
