@@ -177,18 +177,8 @@ function groupElementTouchEnd(e) {
     MOVING_ELEMENT.style.setProperty('--translateX', '0');
     MOVING_ELEMENT.style.setProperty('--translateY', '0');
     MOVING_ELEMENT.style.removeProperty('z-index');
-    try {
-        hovered_flight.classList.remove('hovered');
-        if (MOVING_ELEMENT.parentElement.classList.contains('details')) {
-            MOVING_ELEMENT.parentElement.parentElement.parentElement.style.removeProperty('z-index');
-            MOVING_ELEMENT.parentElement.parentElement.parentElement.style.removeProperty('overflow');
-        }
-    } catch {
-        //do nothing timing issue might not realize hover is already off
-    }
-    hovered_flight = undefined;
 
-    const destination_element = document.elementFromPoint(finishingTouch.clientX, finishingTouch.clientY);
+    const destination_element = hovered_flight;
     if (destination_element && destination_element.classList.contains('drop-targets')) {
 
         const new_elem = decoupleChild(MOVING_ELEMENT);
@@ -202,6 +192,17 @@ function groupElementTouchEnd(e) {
         applyGroupHandlers();
 
     }
+    try {
+        hovered_flight.classList.remove('hovered');
+        if (MOVING_ELEMENT.parentElement.classList.contains('details')) {
+            MOVING_ELEMENT.parentElement.parentElement.parentElement.style.removeProperty('z-index');
+            MOVING_ELEMENT.parentElement.parentElement.parentElement.style.removeProperty('overflow');
+        }
+    } catch {
+        //do nothing timing issue might not realize hover is already off
+    }
+    hovered_flight = undefined;
+
 }
 
 /**
@@ -417,6 +418,7 @@ document.onreadystatechange = function () {
     let state = document.readyState;
     if (state == 'complete') {
         applyImportHandler();
+        applyManualEntryHandler();
         applyPatronDropZoneHandlers();
         applyGroupHandlers();
 

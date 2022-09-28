@@ -1,5 +1,5 @@
 const upload = document.querySelector('.upload');
-
+const error = document.querySelector('.file-error')
 
 function createPatrons(items) {
     items.forEach((group, index) => {
@@ -30,9 +30,7 @@ function createPatrons(items) {
 
     // apply group handlers
     applyGroupHandlers();
-    // these two lines switch the view to simulate data already being loaded, would remove them eventually
-    main.classList.toggle('hide');
-    upload.classList.toggle('hide');
+
 }
 
 /**
@@ -48,7 +46,7 @@ function loadData() {
 
     if (files.length <= 0) {
         const message = "Error: no file selected";
-        return {error: message};
+        return {status: 'ERROR', error: message};
     }
 
     let fr = new FileReader();
@@ -103,11 +101,11 @@ function loadData() {
 
         fr.readAsText(files.item(0));
     } catch (e) {
-        return {error: e.message};
+        return {status: 'ERROR', error: e.message};
     }
 
-    upload.classList.toggle('hide');
-    return {success: "file data successfully processed"};
+
+    return {status: 'OK', success: "file data successfully processed"};
 }
 
 /**
@@ -117,7 +115,33 @@ function loadData() {
  */
 function applyImportHandler() {
     document.getElementById('import').addEventListener('click', (e) => {
-        loadData();
+        const error = document.querySelector('.file-error')
+        error.classList.add('hide');
+        const status = loadData();
+        if ('status' in status && status.status === 'OK') {
+            error.classList.add('hide');
+            upload.classList.add('hide');
+            main.classList.remove('hide');
+        } else {
+            error.classList.toggle('hide');
+            error.innerHTML = `<div><p><strong>Error: </strong>${status.error}</p><p>Expected file format is cvs:</p>` +
+                `Name,Pax,Weights,Time,Location,Package,Phone</br>` +
+                `"Atchison, Neil",2,"275, 225 (500)",--,,2021 Join-In Flight,(563) 590-0923</br>` +
+                `"Huff, Therese",1,140 (140),--,,2021 Join-In Flight,(207) 37-5956</br></div>`
+        }
     });
 
+}
+/**
+ *  applyManualEntryHandler:
+ *
+ *  1. switch to loader view
+ *  2. show manual entry modal
+ */
+function applyManualEntryHandler(){
+    document.getElementById('manual').addEventListener('click', (e) => {
+         error.classList.add('hide');
+         upload.classList.add('hide');
+         main.classList.remove('hide');
+    });
 }
