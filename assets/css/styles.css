@@ -335,6 +335,8 @@ input[type=number] {
 a.weight-remove {
     color: darkred !important;
     cursor: pointer;
+    border-bottom: 0;
+    max-width: 100%;
 }
 
 .btn, a.btn {
@@ -354,10 +356,14 @@ input, select, textarea {
     letter-spacing: 0.3px;
     line-height: 1.8rem;
     cursor: pointer;
+    touch-action: manipulation;
 }
 
 
 @media screen and (min-width: 768px) {
+    .flight {
+        grid-template-columns: repeat(2, minmax(4rem, 1fr)) 100px;
+    }
 
 }
 
