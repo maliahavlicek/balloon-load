@@ -54,13 +54,13 @@ h1, h2, h3 {
     border: 1px solid black;
     text-align: center;
     display: grid;
-    grid-template-columns: repeat(2, minmax(4rem, 1fr)) 100px;
+    grid-template-columns: repeat(2, minmax(4rem, 1fr)) 80px;
     grid-auto-rows: minmax(30px, auto);
 }
 
 .flight-summary, .people-summary, .flights-summary {
     display: grid;
-    grid-template-columns:repeat(2, minmax(4rem, 1fr)) 100px;
+    grid-template-columns:repeat(2, minmax(4rem, 1fr)) 80px;
     grid-auto-rows: minmax(30px, auto);
 }
 
@@ -74,7 +74,7 @@ h1, h2, h3 {
 
 .grand-totals {
     display: grid;
-    grid-template-columns: auto 100px;
+    grid-template-columns: auto 80px;
     background: mediumturquoise;
 }
 
@@ -322,7 +322,7 @@ input[type=number] {
 
 #weights-html {
     display: grid;
-    grid-template-columns: 100px 40px;
+    grid-template-columns: 100px 60px;
     max-width: 80%;
 }
 
@@ -364,7 +364,12 @@ input, select, textarea {
     .flight {
         grid-template-columns: repeat(2, minmax(4rem, 1fr)) 100px;
     }
-
+    .flight-summary, .people-summary, .flights-summary {
+        grid-template-columns:repeat(2, minmax(4rem, 1fr)) 100px;
+    }
+    .grand-totals {
+        grid-template-columns: auto 100px;
+    }
 }
 
 @media screen and (min-width: 992px) {
