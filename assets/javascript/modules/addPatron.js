@@ -166,5 +166,6 @@ function addPatron() {
     document.getElementById('weight').value = '';
     document.getElementById('weights-entered').removeAttribute('value');
     document.getElementById('weights-html').innerHTML = '';
+    document.getElementById('entered-weights').classList.add('hide');
 
 }
