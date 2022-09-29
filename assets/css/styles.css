@@ -207,6 +207,7 @@ input[type=number] {
     align-text: center;
     justify-content: center;
     align-items: center;
+    min-height: 42px;
 }
 
 .group {
