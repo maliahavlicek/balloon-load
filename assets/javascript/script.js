@@ -6,10 +6,12 @@ const colors = ['#eae4e9ff', '#fff1e6ff', '#fde2e4ff', '#fad2e1ff', '#e2ece9ff',
 
 let group_elements = [];
 let MOVING_ELEMENT = '';
-let startX, startY;
+let startX, startY, previousY;
 const flight_elements = document.querySelectorAll('.drop-targets');
 let hovered_flight;
-
+let lastY;
+let currentY;
+const touchSensitivity = 7; //touch sensitivity, I found between 4 and 7 to be good values.
 
 /**
  * dragGroupStart: Handler called when dragging a "group" element begins
@@ -88,16 +90,7 @@ function groupElementTouchMove(e) {
     e.preventDefault();
     //only 1 finger action detected
     if (e.targetTouches.length == 1) {
-        const progressX = startX - e.touches[0].clientX
-        const progressY = startY - e.touches[0].clientY
-        const translationX =
-            progressX > 0
-                ? parseInt(-Math.abs(progressX))
-                : parseInt(Math.abs(progressX))
-        const translationY =
-            progressY > 0
-                ? parseInt(-Math.abs(progressY))
-                : parseInt(Math.abs(progressY))
+
 
         let els = document.elementsFromPoint(e.touches[0].clientX, e.touches[0].clientY);
         for (const el of els) {
@@ -115,8 +108,35 @@ function groupElementTouchMove(e) {
             }
         }
 
+        //get current y pos
+        const progressX = startX - e.touches[0].clientX
+        let progressY = startY - e.touches[0].clientY
+
+        if(Math.abs(e.touches[0].clientY - lastY) > touchSensitivity ) {
+            if (e.touches[0].clientY < startY) {
+                window.scrollTo(e.touches[0].clientX, e.touches[0].clientY);
+                console.log(`Touch ABOVE: touch.clientY: ${e.touches[0].clientY} startY: ${startY} window.pageYOffset: ${window.pageYOffset} window.scrollY ${window.scrollY} e.target.getBounding.top ${e.target.getBoundingClientRect().top}`)
+
+            } else if (e.touches[0].clientY > startY) {
+                window.scrollTo(e.touches[0].clientX, e.touches[0].clientY);
+                console.log("Touch BELOW viewport!")
+            }
+            // need to figure out translation
+
+        }
+
+        const translationX =
+            progressX > 0
+                ? parseInt(-Math.abs(progressX))
+                : parseInt(Math.abs(progressX))
+        const translationY =
+            progressY > 0
+                ? parseInt(-Math.abs(progressY))
+                : parseInt(Math.abs(progressY))
+
         MOVING_ELEMENT.style.setProperty('--translateX', translationX);
         MOVING_ELEMENT.style.setProperty('--translateY', translationY);
+
 
     }
 }
@@ -226,6 +246,8 @@ function groupElementTouchStart(e) {
         const touch = touches[0]
         startX = touch.clientX;
         startY = touch.clientY;
+        currentY = e.touches[0].clientY;
+        lastY = currentY;
         MOVING_ELEMENT = e.currentTarget;
         MOVING_ELEMENT.classList.add('hold');
 
