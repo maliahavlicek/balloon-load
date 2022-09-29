@@ -19,33 +19,33 @@
 
     <div class="upload">
         <div class="row mt-5">
-            <div class="col-4">
+            <div class="col-md-4">
                 <div class="mb-3">
                     <div class="fs-2">Upload A File</div>
                 </div>
                 <div class="mb-3">
-                    <label for="formFile" class="form-label">Choose a data file to upload:</label>
-                    <input class="form-control" type="file" id="selectFiles">
+                    <label for="formFile" class="form-label ">Choose a data file to upload:</label>
+                    <input class="form-control form-control-lg" type="file" id="selectFiles">
                 </div>
                 <div class="mb-3">
-                    <button class="btn btn-primary" id="import"><i class="fa-solid fa-file-import"></i> Import</button>
+                    <button class="btn btn-primary btn-lg" id="import"><i class="fa-solid fa-file-import"></i> Import</button>
                     <div class="file-error hide"></div>
                 </div>
 
             </div>
-            <div class="col-4">
+            <div class="col-md-4">
 
                 <div class="m-5">
                     <div class="mx-4 circleText">OR</div>
                 </div>
 
             </div>
-            <div class="col-4">
+            <div class="col-md-4">
                 <div class="mb-3">
                     <div class="fs-2">Manual Input</div>
                 </div>
                 <div class="mb-3">
-                    <button class="btn btn-success" id="manual" data-bs-toggle="modal"
+                    <button class="btn btn-success btn-lg" id="manual" data-bs-toggle="modal"
                             data-bs-target="#add-patron-modal"><i
                             class="fa-regular fa-hand-point-down"></i> Manual Entry
                     </button>
@@ -233,13 +233,13 @@
                 <form id="add-patron">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name">
+                        <input type="text" class="form-control form-control-lg" id="name">
                     </div>
                     <div class="mb-3">
                         <label for="weight" class="form-label">Weight</label>
                         <div class="row">
                             <div class="col-9">
-                                <input type="number" class="form-control" id="weight" aria-describedby="weightHelp"
+                                <input type="number" class="form-control form-control-lg" id="weight" aria-describedby="weightHelp"
                                        pattern="[1-9][0-9]{1,2}">
 
                                 <div id="weightHelp" class="form-text">Required. Must be a whole number between 1 and
@@ -248,8 +248,8 @@
                             </div>
                             <div class="col-3">
                                 <a tabindex=0" onclick="add_weight();" id="add-weight"
-                                   class="form-control btn btn-success">
-                                    <i class="fas fa-plus" aria-hidden="true"></i> Weight
+                                   class="btn btn-success form-control btn-lg">
+                                    <i class="fa-solid fa-user-plus"></i> Add
                                 </a>
                             </div>
                         </div>
@@ -263,7 +263,7 @@
                     </div>
 
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary btn-lg">Submit</button>
                 </form>
             </div>
 

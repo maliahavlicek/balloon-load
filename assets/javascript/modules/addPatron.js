@@ -114,7 +114,10 @@ function add_weight() {
  */
 function addPatron() {
     // get the weight and name values then create a new object
-    let name = `Guest ${parseInt(guests_added) + 1}`;
+    let name = document.getElementById('name').value;
+    if (name.length < 1) {
+        name = `Guest ${parseInt(guests_added) + 1}`;
+    }
     let weights = [];
     const new_weights = get_weights();
     if (new_weights.length > 0) {
@@ -156,10 +159,11 @@ function addPatron() {
             `</div></div></div>`;
         document.getElementById('names').insertAdjacentHTML('beforeend', new_element);
 
-        // clean up form
-        document.getElementById("name").value = '';
-        document.getElementById('weight').value = '';
-        document.getElementById('weights-entered').removeAttribute('value');
     }
+    // allow user to close window or submit without anything, no warning
+    // clean up form
+    document.getElementById("name").value = '';
+    document.getElementById('weight').value = '';
+    document.getElementById('weights-entered').removeAttribute('value');
 
 }
