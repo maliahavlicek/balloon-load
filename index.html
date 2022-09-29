@@ -16,22 +16,41 @@
     <h1>
         BALLOON LOAD CALCULATOR
     </h1>
+
     <div class="upload">
+        <div class="row mt-5">
+            <div class="col-4">
+                <div class="mb-3">
+                    <div class="fs-2">Upload A File</div>
+                </div>
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Choose a data file to upload:</label>
+                    <input class="form-control" type="file" id="selectFiles">
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary" id="import"><i class="fa-solid fa-file-import"></i> Import</button>
+                    <div class="file-error hide"></div>
+                </div>
 
-        <div class="mb-3">
-            <label for="formFile" class="form-label">Choose a data file to upload:</label>
-            <input class="form-control" type="file" id="selectFiles">
-        </div>
+            </div>
+            <div class="col-4">
 
-        <div class="mb-3">
-            <button class="btn btn-primary" id="import"><i class="fa-solid fa-file-import"></i> Import</button>
-            <div class="file-error hide"></div>
-        </div>
+                <div class="m-5">
+                    <div class="mx-4 circleText">OR</div>
+                </div>
 
-        <div class="mb-3">
-            <button class="btn btn-success" id="manual" data-bs-toggle="modal" data-bs-target="#add-patron-modal"><i
-                    class="fa-regular fa-hand-point-down"></i> Manual Entry
-            </button>
+            </div>
+            <div class="col-4">
+                <div class="mb-3">
+                    <div class="fs-2">Manual Input</div>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-success" id="manual" data-bs-toggle="modal"
+                            data-bs-target="#add-patron-modal"><i
+                            class="fa-regular fa-hand-point-down"></i> Manual Entry
+                    </button>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -161,23 +180,23 @@
             <!-- GRAND TOTALS -->
             <div class="grand-totals border my-md-2">
                 <div>
-                <!--WEIGHT SUMMARY -->
-                <div class="flights-summary weights">
-                    <!-- TOTAL WEIGHT -->
-                    <div class="d-flex flex-column flex-sm-row border justify-content-between px-3 grand-total-cell">
-                        <div class="fs-3"><i class="fa-solid fa-weight-scale"></i></div>
-                        <div class=" mx-2 fs-3 grand-total-weight">0</div>
+                    <!--WEIGHT SUMMARY -->
+                    <div class="flights-summary weights">
+                        <!-- TOTAL WEIGHT -->
+                        <div class="d-flex flex-column flex-sm-row border justify-content-between px-3 grand-total-cell">
+                            <div class="fs-3"><i class="fa-solid fa-weight-scale"></i></div>
+                            <div class=" mx-2 fs-3 grand-total-weight">0</div>
+                        </div>
+                    </div>
+                    <!-- COUNT SUMMARY -->
+                    <div class="flights-summary counts">
+                        <!-- TOTAL COUNT -->
+                        <div class="d-flex flex-column flex-sm-row border justify-content-between px-3 grand-total-cell">
+                            <div class="fs-3"><i class="fa-solid fa-users"></i></div>
+                            <div class=" mx-2 fs-3 grand-total-count">0</div>
+                        </div>
                     </div>
                 </div>
-                <!-- COUNT SUMMARY -->
-                <div class="flights-summary counts">
-                    <!-- TOTAL COUNT -->
-                    <div class="d-flex flex-column flex-sm-row border justify-content-between px-3 grand-total-cell">
-                        <div class="fs-3"><i class="fa-solid fa-users"></i></div>
-                        <div class=" mx-2 fs-3 grand-total-count">0</div>
-                    </div>
-                </div>
-                    </div>
             </div>
 
         </div>

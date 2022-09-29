@@ -172,7 +172,7 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
-.group .weight {
+.group .weight, .circleText {
     width: 42px;
     height: 42px;
     border-radius: 50%;
