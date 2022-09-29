@@ -441,6 +441,7 @@ document.onreadystatechange = function () {
         applyGroupHandlers();
 
         // add patron submit processing
+
         document.getElementById('add-patron').addEventListener('submit', function (e) {
             e.preventDefault();
             let modal = bootstrap.Modal.getInstance(myModal)
@@ -448,6 +449,7 @@ document.onreadystatechange = function () {
             addPatron(e);
             applyGroupHandlers();
         });
+
 
     }
 }

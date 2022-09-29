@@ -222,7 +222,7 @@
     </div>
 </section>
 <!-- ADD PATRON MODAL -->
-<div id="add-patron-modal" class="modal" tabindex="-1">
+<div id="add-patron-modal" class="modal" tabindex="-1" data-keyboard=false>
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -232,15 +232,37 @@
             <div class="modal-body">
                 <form id="add-patron">
                     <div class="mb-3">
-                        <label for="weight" class="form-label">Weight</label>
-                        <input type="number" class="form-control" id="weight" aria-describedby="weightHelp"
-                               pattern="[1-9][0-9]{1,2}" required>
-                        <div id="weightHelp" class="form-text">Required. Must be a whole number between 1 and 999.</div>
-                    </div>
-                    <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="name">
                     </div>
+                    <div class="mb-3">
+                        <label for="weight" class="form-label">Weight</label>
+                        <div class="row">
+                            <div class="col-9">
+                                <input type="number" class="form-control" id="weight" aria-describedby="weightHelp"
+                                       pattern="[1-9][0-9]{1,2}">
+
+                                <div id="weightHelp" class="form-text">Required. Must be a whole number between 1 and
+                                    999.
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <a tabindex=0" onclick="add_weight();" id="add-weight"
+                                   class="form-control btn btn-success">
+                                    <i class="fas fa-plus" aria-hidden="true"></i> Weight
+                                </a>
+                            </div>
+                        </div>
+                        <div class="mb-3 hide" id="entered-weights">
+                            <input type="hidden" id="weights-entered" value="">
+                            <div class="form-label"><label for="weights-html">Weights</label>
+                                <div id="weights-html" class="weights-table">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
