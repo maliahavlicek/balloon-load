@@ -142,7 +142,7 @@ function addPatron() {
 
         let persons = ``;
         for (const weight of weights) {
-            persons += `<div class="person group group-${group_no} d-flex flex-row" data-weight="${weight}" data-count="1" data-group_number="${group_no}" data-name="${name}" style="--translateX:0;--translateY:0;">` +
+            persons += `<div class="person group group-${group_no} d-flex flex-row" draggable="true" data-weight="${weight}" data-count="1" data-group_number="${group_no}" data-name="${name}" style="--translateX:0;--translateY:0;">` +
                 `<div class="weight">${weight}</div></div>`;
         }
 
