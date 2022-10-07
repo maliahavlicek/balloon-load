@@ -165,8 +165,11 @@ function loadApiData(date) {
             // all is good, we should have an array or bookings
             const data = response.json();
             console.log(data);
+            /** TODO loop through data
+             1. skip null weights
+             2. create groups with weights
+            */
             })
-        .then(json => console.log(json))
         .catch(err => console.log(err));
 
 }
