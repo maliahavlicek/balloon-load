@@ -143,7 +143,8 @@ function loadApiData(date) {
 
     const options = {
         headers: {
-            'Company': "<YOUR_COMPANY>",
+            'Authentication': `${WEIGHTS_API_KEY}`,
+            'Company': `${COMPANY}`,
             'Content-Type': "application/json;charset=UTF-8",
             'Access-Control-Allow-Methods': 'GET',
             'Access-Control-Allow-Origin': '*',
@@ -182,7 +183,9 @@ function applyAPIHandler() {
         errorMessage.classList.add('hide');
         dateInput.classList.remove('is-invalid');
         errorMessage.innerHTML = "";
-        if (dateInput.value.length > 0 && dateInput.value.match(/^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{2}$/)) {
+        if (dateInput.value.length > 0 && dateInput.value.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/)) {
+            const date_values = dateInput.value.split("-");
+            const date= date_values[1] + "-" + date_values[2] + "-" + date_values[0].substring(2,4);
             loadApiData(dateInput.value);
         } else {
             errorMessage.classList.remove('hide');

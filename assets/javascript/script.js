@@ -457,6 +457,9 @@ function applyGroupHandlers() {
 document.onreadystatechange = function () {
     let state = document.readyState;
     if (state == 'complete') {
+
+
+
         applyImportHandler();
         applyManualEntryHandler();
         applyAPIHandler();
