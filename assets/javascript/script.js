@@ -459,6 +459,7 @@ document.onreadystatechange = function () {
     if (state == 'complete') {
         applyImportHandler();
         applyManualEntryHandler();
+        applyAPIHandler();
         applyPatronDropZoneHandlers();
         applyGroupHandlers();
 

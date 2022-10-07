@@ -1,5 +1,5 @@
 const upload = document.querySelector('.upload');
-const error = document.querySelector('.file-error')
+const error = document.querySelector('.file-error');
 
 function createPatrons(items) {
     items.forEach((group, index) => {
@@ -132,16 +132,77 @@ function applyImportHandler() {
     });
 
 }
+
+
+
+/**
+ * API to get weights for a date
+ */
+function loadApiData(date) {
+    const url =  `https://api.checkin.dev.rezflow.io/check-in/weights/${date}`;
+
+    const options = {
+        headers: {
+            'Authorization': "<YOUR_CODE>"",
+            'Company': "<YOUR_COMPANY>",
+            'Content-Type': "application/json;charset=UTF-8",
+            'Access-Control-Allow-Methods': 'GET',
+            'Access-Control-Allow-Origin': '*',
+        },
+        method: 'GET',
+    };
+
+
+    fetch(url, options)
+        .then((response) => {
+            // errors
+            if ('statusCode' in response) {
+                console.log(response.statusCode);
+                if ('message' in response){
+                    console.log(response.message);
+                }
+            }
+            // all is good, we should have an array or bookings
+            const data = response.json();
+            console.log(data);
+            })
+        .then(json => console.log(json))
+        .catch(err => console.log(err));
+
+}
+
+
+function applyAPIHandler() {
+
+    document.getElementById('api_data').addEventListener('click', (e) => {
+        const errorMessage = document.querySelector('.api-error');
+        const dateInput = document.getElementById('date');
+        errorMessage.classList.add('hide');
+        dateInput.classList.remove('is-invalid');
+        errorMessage.innerHTML = "";
+        if (dateInput.value.length > 0 && dateInput.value.match(/^(1[0-2]|0[1-9])-(3[01]|[12][0-9]|0[1-9])-[0-9]{2}$/)) {
+            loadApiData(dateInput.value);
+        } else {
+            errorMessage.classList.remove('hide');
+            dateInput.classList.add('is-invalid');
+            errorMessage.innerHTML = "Please enter a date in format of MM-DD-YY";
+        }
+
+    });
+
+
+}
+
 /**
  *  applyManualEntryHandler:
  *
  *  1. switch to loader view
  *  2. show manual entry modal
  */
-function applyManualEntryHandler(){
+function applyManualEntryHandler() {
     document.getElementById('manual').addEventListener('click', (e) => {
-         error.classList.add('hide');
-         upload.classList.add('hide');
-         main.classList.remove('hide');
+        error.classList.add('hide');
+        upload.classList.add('hide');
+        main.classList.remove('hide');
     });
 }
