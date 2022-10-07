@@ -174,7 +174,10 @@ function loadApiData(date) {
 
 }
 
-
+/**
+ * function applyAPIHandler()
+ * applies listwner to submit button on date picker to kick off validation & API call
+ */
 function applyAPIHandler() {
 
     document.getElementById('api_data').addEventListener('click', (e) => {
