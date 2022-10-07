@@ -143,7 +143,6 @@ function loadApiData(date) {
 
     const options = {
         headers: {
-            'Authorization': "<YOUR_CODE>"",
             'Company': "<YOUR_COMPANY>",
             'Content-Type': "application/json;charset=UTF-8",
             'Access-Control-Allow-Methods': 'GET',
