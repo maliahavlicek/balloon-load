@@ -59,7 +59,7 @@ function loadData() {
             console.log(result);
 
             let items = [];
-            let rows = result.split(/\n/g);
+            let rows = result.split(/\n/g).filter(Boolean);
             let keys = rows.shift().split(",");
 
             rows.forEach(raw_row => {
@@ -124,7 +124,7 @@ function applyImportHandler() {
             main.classList.remove('hide');
         } else {
             error.classList.toggle('hide');
-            error.innerHTML = `<div><p><strong>Error: </strong>${status.error}</p><p>Expected file format is cvs:</p>` +
+            error.innerHTML = `<div><p><strong>Error: </strong>${status.error}</p><p>Expected file format is csv:</p>` +
                 `Name,Pax,Weights,Time,Location,Package,Phone</br>` +
                 `"Atchison, Neil",2,"275, 225 (500)",--,,2021 Join-In Flight,(563) 590-0923</br>` +
                 `"Huff, Therese",1,140 (140),--,,2021 Join-In Flight,(207) 37-5956</br></div>`
