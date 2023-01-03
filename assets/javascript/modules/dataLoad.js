@@ -1,5 +1,5 @@
 const upload = document.querySelector('.upload');
-const error = document.querySelector('.file-error')
+const error = document.querySelector('.file-error');
 
 function createPatrons(items) {
     items.forEach((group, index) => {
@@ -132,16 +132,85 @@ function applyImportHandler() {
     });
 
 }
+
+
+
+/**
+ * API to get weights for a date
+ */
+function loadApiData(date) {
+    const url =  `https://api.checkin.dev.rezflow.io/check-in/weights/${date}`;
+
+    const options = {
+        headers: {
+            'Authentication': `${WEIGHTS_API_KEY}`,
+            'Company': `${COMPANY}`,
+            'Content-Type': "application/json;charset=UTF-8",
+            'Access-Control-Allow-Methods': 'GET',
+            'Access-Control-Allow-Origin': '*',
+        },
+        method: 'GET',
+    };
+
+
+    fetch(url, options)
+        .then((response) => {
+            // errors
+            if ('statusCode' in response) {
+                console.log(response.statusCode);
+                if ('message' in response){
+                    console.log(response.message);
+                }
+            }
+            // all is good, we should have an array or bookings
+            const data = response.json();
+            console.log(data);
+            /** TODO loop through data
+             1. skip null weights
+             2. create groups with weights
+            */
+            })
+        .catch(err => console.log(err));
+
+}
+
+/**
+ * function applyAPIHandler()
+ * applies listwner to submit button on date picker to kick off validation & API call
+ */
+function applyAPIHandler() {
+
+    document.getElementById('api_data').addEventListener('click', (e) => {
+        const errorMessage = document.querySelector('.api-error');
+        const dateInput = document.getElementById('date');
+        errorMessage.classList.add('hide');
+        dateInput.classList.remove('is-invalid');
+        errorMessage.innerHTML = "";
+        if (dateInput.value.length > 0 && dateInput.value.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/)) {
+            const date_values = dateInput.value.split("-");
+            const date= date_values[1] + "-" + date_values[2] + "-" + date_values[0].substring(2,4);
+            loadApiData(dateInput.value);
+        } else {
+            errorMessage.classList.remove('hide');
+            dateInput.classList.add('is-invalid');
+            errorMessage.innerHTML = "Please enter a date in format of MM-DD-YY";
+        }
+
+    });
+
+
+}
+
 /**
  *  applyManualEntryHandler:
  *
  *  1. switch to loader view
  *  2. show manual entry modal
  */
-function applyManualEntryHandler(){
+function applyManualEntryHandler() {
     document.getElementById('manual').addEventListener('click', (e) => {
-         error.classList.add('hide');
-         upload.classList.add('hide');
-         main.classList.remove('hide');
+        error.classList.add('hide');
+        upload.classList.add('hide');
+        main.classList.remove('hide');
     });
 }
