@@ -55,7 +55,7 @@ function loadData() {
         fr.onload = e => {
             const result = JSON.parse(e.target.result.toString());
             const items = result.map(group => {
-                const Weights = group.guests.map(p => p.weight || 181);
+                const Weights = group.guests.map(p => p.weight || 180);
                 return {
                     Name: group.confirmation,
                     Weights,
