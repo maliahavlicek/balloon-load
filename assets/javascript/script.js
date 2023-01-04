@@ -445,7 +445,17 @@ function applyGroupHandlers() {
     }
 }
 
-function optimizeClick(num) {
+async function disableOptimize(bool) {
+    console.log("disable", bool);
+    for (const el of document.getElementsByClassName("optimize")) {
+        console.log("disabling", el);
+        el.disabled = bool;
+    }
+    await new Promise(r => setTimeout(r, 100));
+}
+
+async function optimizeClick(num) {
+    await disableOptimize(true);
     const pieces = [];
     const vals = [];
     for (const el of document.querySelectorAll(".group-weight")) {
@@ -463,6 +473,7 @@ function optimizeClick(num) {
     };
     optimize(targets, pieces, vals, opts);
     updateWeights();
+    disableOptimize(false);
 }
 
 
