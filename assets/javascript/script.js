@@ -445,6 +445,37 @@ function applyGroupHandlers() {
     }
 }
 
+async function disableOptimize(bool) {
+    console.log("disable", bool);
+    for (const el of document.getElementsByClassName("optimize")) {
+        console.log("disabling", el);
+        el.disabled = bool;
+    }
+    await new Promise(r => setTimeout(r, 100));
+}
+
+async function optimizeClick(num) {
+    await disableOptimize(true);
+    const pieces = [];
+    const vals = [];
+    for (const el of document.querySelectorAll(".group-weight")) {
+        pieces.push(el.parentElement.parentElement);
+        vals.push(Number(el.innerText));
+    }
+    let targets = ["f1-left", "f1-right"];
+    if (num === 2) targets.push("f2-left", "f2-right");
+    targets = targets.map(x => document.getElementById(x));
+    // const el = document.querySelectorAll(".group-weight")[0];
+    // document.querySelector("#f1-left").append(el.parentElement.parentElement);
+    const opts = {
+        balance: Number(document.querySelector("[name=balance]").value),
+        exponent: Number(document.querySelector("[name=exponent]").value),
+    };
+    optimize(targets, pieces, vals, opts);
+    updateWeights();
+    disableOptimize(false);
+}
+
 
 /**
  * ReadyFunction: once DOM is complete
@@ -457,8 +488,12 @@ function applyGroupHandlers() {
 document.onreadystatechange = function () {
     let state = document.readyState;
     if (state == 'complete') {
+
+
+
         applyImportHandler();
         applyManualEntryHandler();
+        applyAPIHandler();
         applyPatronDropZoneHandlers();
         applyGroupHandlers();
 

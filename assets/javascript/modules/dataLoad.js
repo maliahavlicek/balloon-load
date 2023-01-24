@@ -1,5 +1,5 @@
 const upload = document.querySelector('.upload');
-const error = document.querySelector('.file-error')
+const error = document.querySelector('.file-error');
 
 function createPatrons(items) {
     items.forEach((group, index) => {
@@ -42,7 +42,7 @@ function createPatrons(items) {
  *  4. TODO return status
  */
 function loadData() {
-    let files = document.getElementById('selectFiles').files;
+    const files = document.getElementById('selectFiles').files;
 
     if (files.length <= 0) {
         const message = "Error: no file selected";
@@ -52,58 +52,24 @@ function loadData() {
     let fr = new FileReader();
 
     try {
-
-        fr.onload = function (e) {
-
-            let result = e.target.result.toString();
-            console.log(result);
-
-            let items = [];
-            let rows = result.split(/\n/g);
-            let keys = rows.shift().split(",");
-
-            rows.forEach(raw_row => {
-                let row = {};
-                let columns = raw_row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-
-                columns.forEach((column, index) => {
-                    column = column.replaceAll('"', '').trim();
-                    let key = keys[index].toString().trim();
-                    if (!key) return;
-                    if (key === "Weights") {
-                        column = column.replaceAll('"', '').trim();
-                        let parts = column.split('(');
-                        if (parts.length !== 2) {
-                            const message = "Error: weights column not in expected format";
-                            return {error: message};
-                        }
-                        const weights = parts[0].split(',');
-                        const total_weight = parts[1].split(')')[0].trim();
-                        row['total_weight'] = total_weight;
-                        const new_weights = [];
-                        for (weight of weights) {
-                            new_weights.push(weight.trim());
-                        }
-                        column = new_weights;
-
-                    }
-                    row[key] = column;
-                });
-                items.push(row);
+        fr.onload = e => {
+            const result = JSON.parse(e.target.result.toString());
+            const items = result.map(group => {
+                const Weights = group.guests.map(p => p.weight || 180);
+                return {
+                    Name: group.confirmation,
+                    Weights,
+                    total_weight: Weights.reduce((acc, val) => acc + val, 0),
+                };
             });
-
             console.log(items);
             // now we can add the patrons based on this wonderful information
             createPatrons(items);
-
-
-        }
-
+        };
         fr.readAsText(files.item(0));
     } catch (e) {
         return {status: 'ERROR', error: e.message};
     }
-
 
     return {status: 'OK', success: "file data successfully processed"};
 }
@@ -118,30 +84,97 @@ function applyImportHandler() {
         const error = document.querySelector('.file-error')
         error.classList.add('hide');
         const status = loadData();
-        if ('status' in status && status.status === 'OK') {
+        if (status?.status === 'OK') {
             error.classList.add('hide');
             upload.classList.add('hide');
             main.classList.remove('hide');
         } else {
-            error.classList.toggle('hide');
-            error.innerHTML = `<div><p><strong>Error: </strong>${status.error}</p><p>Expected file format is cvs:</p>` +
-                `Name,Pax,Weights,Time,Location,Package,Phone</br>` +
-                `"Atchison, Neil",2,"275, 225 (500)",--,,2021 Join-In Flight,(563) 590-0923</br>` +
-                `"Huff, Therese",1,140 (140),--,,2021 Join-In Flight,(207) 37-5956</br></div>`
+            error.classList.remove('hide');
+            error.innerHTML = `<div><p><strong>Error: </strong>${status.error}</p><p>Expected JSON file</p>`;
         }
     });
 
 }
+
+
+/**
+ * API to get weights for a date
+ */
+function loadApiData(apiKey, company, date) {
+    const url = `https://api.checkin.dev.rezflow.io/check-in/weights/${date}`;
+
+    const options = {
+        headers: {
+            'Authorization': `Bearer ${apiKey}`,
+            'Company': company,
+            'Content-Type': "application/json;charset=UTF-8",
+            // 'Access-Control-Allow-Methods': 'GET',
+            // 'Access-Control-Allow-Origin': '*',
+        },
+        method: 'GET',
+        // credentials: 'omit',
+        // mode: 'no-cors',
+    };
+
+    fetch(url, options)
+        .then((response) => {
+            // errors
+            if ('statusCode' in response) {
+                console.log(response.statusCode);
+                if ('message' in response){
+                    console.log(response.message);
+                }
+            }
+            // all is good, we should have an array or bookings
+            const data = response.json();
+            console.log(data);
+            /** TODO loop through data
+             1. skip null weights
+             2. create groups with weights
+            */
+            })
+        .catch(err => console.log(err));
+
+}
+
+/**
+ * function applyAPIHandler()
+ * applies listwner to submit button on date picker to kick off validation & API call
+ */
+function applyAPIHandler() {
+
+    document.getElementById('api_data').addEventListener('click', () => {
+        const errorMessage = document.querySelector('.api-error');
+        const date = document.getElementById('date').value;
+        const company = document.getElementById('company').value;
+        const apiKey = document.getElementById('apiKey').value;
+        errorMessage.classList.add('hide');
+        // dateInput.classList.remove('is-invalid');
+        errorMessage.innerHTML = "";
+        if (date.length > 0 && date.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/) && company && apiKey) {
+            const [yr, mo, dy] = date.split("-");
+            loadApiData(apiKey, company, [mo, dy, yr.substring(2)].join("-"));
+        } else {
+            errorMessage.classList.remove('hide');
+            // dateInput.classList.add('is-invalid');
+            errorMessage.innerHTML = "All fields must be filled out.";
+        }
+
+    });
+
+
+}
+
 /**
  *  applyManualEntryHandler:
  *
  *  1. switch to loader view
  *  2. show manual entry modal
  */
-function applyManualEntryHandler(){
+function applyManualEntryHandler() {
     document.getElementById('manual').addEventListener('click', (e) => {
-         error.classList.add('hide');
-         upload.classList.add('hide');
-         main.classList.remove('hide');
+        error.classList.add('hide');
+        upload.classList.add('hide');
+        main.classList.remove('hide');
     });
 }

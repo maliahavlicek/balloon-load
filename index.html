@@ -19,7 +19,7 @@
 
     <div class="upload">
         <div class="row mt-5">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="mb-3">
                     <div class="fs-2">Upload A File</div>
                 </div>
@@ -33,14 +33,14 @@
                 </div>
 
             </div>
-            <div class="col-md-4">
 
+            <div class="col-md-2">
                 <div class="m-5">
                     <div class="mx-4 circleText">OR</div>
                 </div>
-
             </div>
-            <div class="col-md-4">
+
+            <div class="col-md-2">
                 <div class="mb-3">
                     <div class="fs-2">Manual Input</div>
                 </div>
@@ -49,6 +49,46 @@
                             data-bs-target="#add-patron-modal"><i
                             class="fa-regular fa-hand-point-down"></i> Manual Entry
                     </button>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="m-5">
+                    <div class="mx-4 circleText">OR</div>
+                </div>
+            </div>
+
+            <div class="col-md-3" style="opacity:30%">
+                <div class="mb-3">
+                    <div class="fs-2">Load from API</div>
+                </div>
+                <div class="mb-3">
+                    <div class="input-group date" >
+                        <input id="date" type="date" min-date="2022-10-01" value="" class="form-control">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    Company:
+                    <div class="input-group" >
+                        <select id="company" value="" class="form-control">
+                            <option value="">↓ Select</option>
+                            <option value="55072a1085b826730790f458">Lake Tahoe Balloons</option>
+                            <option value="5bcf32c09c3a3fdda3a8cfc7">Balloon Nevada</option>
+                            <option value="54ecdc7759f44829081dc807">Napa Valley Balloons</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    API key:
+                    <div class="input-group" >
+                        <input id="apiKey" type="password" value="" class="form-control">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <button class="btn btn-info btn-lg" id="api_data">
+                        <i class="fa-solid fa-cloud-arrow-down"></i> Load Data
+                    </button>
+                    <div class="api-error text-danger hide"></div>
                 </div>
             </div>
         </div>
@@ -220,6 +260,21 @@
         </div>
     </aside>
     </div>
+    <div class="row p-2"><div class="flex-row d-flex" style="justify-content:space-evenly">
+        <button class="btn btn-primary optimize" onclick="optimizeClick(1)">Optimize 1</button>
+        <div>Loss exponent:
+            <select name="exponent" style="width:10em">
+               <option value="1">1</option>
+               <option value="2">2</option>
+               <option value="0">∞ (max)</option>
+            </select>
+        </div>
+        <div>
+          Equalization factor:
+          <input type="number" name="balance" value="0.2" size="5"/>
+        </div>
+        <button class="btn btn-primary optimize" onclick="optimizeClick(2)">Optimize 2</button>
+    </div></div>
 </section>
 <!-- ADD PATRON MODAL -->
 <div id="add-patron-modal" class="modal" tabindex="-1" data-keyboard=false>
@@ -247,7 +302,7 @@
                                 </div>
                             </div>
                             <div class="col-3">
-                                <a tabindex=0" onclick="add_weight();" id="add-weight"
+                                <a tabindex="0" onclick="add_weight();" id="add-weight"
                                    class="btn btn-success form-control btn-lg">
                                     <i class="fa-solid fa-user-plus"></i> Add
                                 </a>
@@ -271,9 +326,11 @@
     </div>
 </div>
 
-<script type="text/javascript" src="assets/javascript/modules/dataLoad.js"></script>
-<script type="text/javascript" src="assets/javascript/modules/addPatron.js"></script>
-<script type="text/javascript" src="assets/javascript/script.js"></script>
+<script type="text/javascript" src="assets/javascript/modules/dataLoad.js?2"></script>
+<script type="text/javascript" src="assets/javascript/modules/addPatron.js?2"></script>
+<script type="text/javascript" src="assets/javascript/modules/optimize.js?2"></script>
+<script type="text/javascript" src="assets/javascript/script.js?1"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
         crossorigin="anonymous"></script>
